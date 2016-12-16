@@ -20,7 +20,7 @@ void readTower()
         for (size_t j = 0; j < MAP_LENGTH; ++j)
             cin >> mogicTower.mapContent[i][j];
 
-    for (size_t i = 0; i < 5; i++)
+    for (size_t i = 0; i < 5; ++i)
         cin >> mogicTower.buff[i];
 
     int monsterTypeCount;

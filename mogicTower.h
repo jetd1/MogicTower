@@ -94,10 +94,11 @@ public:
 class Monster
 {
 private:
-    int hp;     /* 血量 */
-    int atk;    /* 攻击力 */
-    int def;    /* 防御力 */
-    int spe;    /* 特效 */
+    int hp;         /* 血量 */
+    int atk;        /* 攻击 */
+    int def;        /* 防御 */
+    int spe;        /* 特效 */
+    Position pos;   /* 位置 */
 
 public:
     Monster() {}
