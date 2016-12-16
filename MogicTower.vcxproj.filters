@@ -24,6 +24,9 @@
     <ClCompile Include="search.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="init.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="damage.h">
@@ -33,6 +36,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="mogicTower.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="search.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="helpers.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="init.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

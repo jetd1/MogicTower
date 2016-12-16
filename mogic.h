@@ -13,7 +13,7 @@ using namespace std;
 #ifdef _WIN32
 #include <conio.h>
 #include <Windows.h>
-#define PAUSE system("pause");
+#define PAUSE getchar();getchar();system("pause");
 #endif
 #endif
 #else
@@ -23,6 +23,16 @@ using namespace std;
 const int MAP_WIDTH = 13;
 const int MAP_LENGTH = 13;
 const int MAX_DEPTH = 10;
+
+/* 0123:иообвСср */
+const int dx[4] = {-1,1,0,0};
+const int dy[4] = {0,0,-1,1};
+
+
+const int HP_Multiple = 5;
+const int ATK_Multiple = 4;
+const int DEF_Multiple = 7;
+const int MDEF_Multiple = 6;
 
 #include "mogicTower.h"
 

@@ -4,6 +4,7 @@
 #include "mogic.h"
 #include <iostream>
 #include <map>
+#include <vector>
 
 /* 记录地图信息的枚举结构 */
 enum MapObj
@@ -62,10 +63,12 @@ inline istream& operator >> (istream& in, MapObj& m)
 struct Position
 {
     int x, y;
+
+    Position(int _x = 0, int _y = 0): x(_x), y(_y) {}
 };
 
 /* 记录玩家信息的数据结构 */
-class Player
+class PlayerInfo
 {
 private:
     int hp;         /* 血量 */
@@ -75,12 +78,12 @@ private:
     Position pos;   /* 位置 */
 
 public:
-    Player() {}
-    Player(int _hp, int _atk, int _def, int _mdef)
+    PlayerInfo() {}
+    PlayerInfo(int _hp, int _atk, int _def, int _mdef)
     {
         hp = _hp, atk = _atk, def = _def, mdef = _mdef;
     }
-    friend istream& operator >> (istream& in, Player& m)
+    friend istream& operator >> (istream& in, PlayerInfo& m)
     {
         in >> m.hp >> m.atk >> m.def >> m.mdef >> m.pos.x >> m.pos.y;
         return in;
@@ -90,7 +93,7 @@ public:
 	int getDEF() const { return def; }
 	int getMDEF() const { return mdef; }
 	int getHP() const { return hp; }
-	Position getPos() const { return pos; }
+	const Position& getPos() const { return pos; }
 };
 
 /* 记录怪物信息的数据结构 */
@@ -138,8 +141,27 @@ struct Tower
     map<MapObj, Monster> monsterInfo;
 
     /* 记录初始玩家数据 */
-    Player initialPlayerInfo;
+    PlayerInfo initialPlayerInfo;
+};
+
+/* 魔塔重构图节点结构 */
+struct GraphNode
+{
+    bool valid;         /* 访问该节点后将valid设为false */
+    Position pos;       /* 该节点的坐标 */
+    MapObj type;        /* 该节点类型（门或怪物） */
+    vector<GraphNode*> next; /* 子节点列表 */
+    vector<MapObj> obj; /* 节点物品列表 */
+    int blockCount;     /* 该节点增加的连通块计数 */
+};
+
+/* 状态转移结构 */
+struct Status
+{
+    GraphNode* head;
+    PlayerInfo player;
 };
 
 
 #endif
+

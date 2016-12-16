@@ -1,38 +1,36 @@
 #include "mogic.h"
 #include "mogicTower.h"
+#include "search.h"
 #include <vector>
 
-
-/* 魔塔重构图节点结构 */
-struct node
-{
-    bool valid;         /* 访问该节点后将valid设为false */
-    Position pos;       /* 该节点的坐标 */
-    MapObj type;        /* 该节点类型（门或怪物） */
-    vector<node*> next; /* 子节点列表 */
-    vector<MapObj> obj; /* 节点物品列表 */
-    int blockCount;     /* 该节点增加的连通块计数 */
-};
-
-typedef node* Status;
-
-int eval(const Status& stat);
-void trans(const Status& cur, const Status& target);
-void restore();
-
+// TODO: Finish This Shit
 int search(const Status& stat, int depth)
 {
-    if (depth == MAX_DEPTH)
-        return eval(stat);
+    //if (depth == MAX_DEPTH)
+    //    return eval(stat);
 
-    size_t nodeCount = stat->next.size();
-    for (size_t i = 0; i < nodeCount; ++i)
-    {
-        Status& cur = stat->next[i];
-        trans(stat, cur);
-        search(cur, depth + 1);
-        restore();
-    }
+    //size_t nodeCount = stat->next.size();
+    //for (size_t i = 0; i < nodeCount; ++i)
+    //{
+    //    Status& cur = stat->next[i];
+    //    trans(stat, cur);
+    //    search(cur, depth + 1);
+    //    restore();
+    //}
 
+    return 0;
+}
 
+int eval(const Status& stat)
+{
+    //int tmpRank = 0;
+    //tmpRank += stat.player->getATK() * ATK_Multiple;
+    //tmpRank += stat.player->getHP() * HP_Multiple;
+    //tmpRank += stat.player->getDEF() * DEF_Multiple;
+    //tmpRank += stat.player->getMDEF() * MDEF_Multiple;
+
+    ///* TODO: 对player所在位置连通性对权值的影响 */
+    //return tmpRank;
+
+    return 0;
 }

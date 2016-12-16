@@ -117,13 +117,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="damage.cpp" />
+    <ClCompile Include="init.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="search.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="damage.h" />
+    <ClInclude Include="helpers.h" />
+    <ClInclude Include="init.h" />
     <ClInclude Include="mogic.h" />
     <ClInclude Include="mogicTower.h" />
+    <ClInclude Include="search.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
