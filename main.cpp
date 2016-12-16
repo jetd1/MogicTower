@@ -23,7 +23,7 @@ node* head = nullptr;
 void readTower()
 {
     if (freopen("input.txt", "r", stdin) == nullptr)
-        cout << "打开input.txt失败，将从stdin中读取输入";
+        cout << "打开input.txt失败，将从stdin中读取输入" << endl;
 
     int ign;;
     cin >> ign >> ign >> ign;

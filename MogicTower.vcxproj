@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClCompile Include="damage.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="search.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="damage.h" />
