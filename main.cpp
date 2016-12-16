@@ -9,13 +9,21 @@ using namespace std;
 
 Tower mogicTower;
 
+const int HP_Multiple = 5;
+const int ATK_Multiple = 4;
+const int DEF_Multiple = 7;
+const int MDEF_Multiple = 6;
+int evalCurrentStatus(const node &status);
+
 /* 魔塔重构图节点结构 */
-struct node {
+struct node 
+{
     bool valid;         /* 访问该节点后将valid设为false */
     Position pos;       /* 该节点的坐标 */
     MapObj type;        /* 该节点类型（门或怪物） */
 	vector<node*> next; /* 子节点列表 */
     vector<MapObj> obj; /* 节点物品列表 */
+	Player *player;		/* 当前节点处玩家自身状态 */
     int blockCount;     /* 该节点增加的连通块计数 */
 };
 node* head = nullptr;
@@ -69,4 +77,17 @@ int main()
     head->pos = mogicTower.initialPlayerInfo.getPos();
 	makeTree(head);
     PAUSE;
+}
+
+
+int evalCurrentStatus(const node &status)
+{
+	int tmpRank = 0;
+	tmpRank += status.player->getATK() * ATK_Multiple;
+	tmpRank += status.player->getHP() * HP_Multiple;
+	tmpRank += status.player->getDEF() * DEF_Multiple;
+	tmpRank += status.player->getMDEF() * MDEF_Multiple;
+	
+	/*to do: 对player所在位置连通性对权值的影响*/
+	return tmpRank;
 }
