@@ -6,6 +6,8 @@
 
 using namespace std;
 
+Tower mogicTower;
+
 void readTower()
 {
     if (freopen("input.txt", "r", stdin) == nullptr)
@@ -32,7 +34,6 @@ void readTower()
     }
 
     cin >> mogicTower.initialPlayerInfo;
-
 }
 
 int main()

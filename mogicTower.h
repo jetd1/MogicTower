@@ -119,7 +119,7 @@ public:
 };
 
 /*全局记录塔信息的数据结构 */
-struct
+struct Tower
 {
     /* 楼层地图大小和楼层数，当前固定为1 * 13 * 13 */
     //int height;
@@ -136,7 +136,7 @@ struct
 
     /* 记录初始玩家数据 */
     Player initialPlayerInfo;
-} mogicTower;
+};
 
 
 #endif
