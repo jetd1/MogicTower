@@ -1,36 +1,43 @@
 #define DEBUG
 
 #include <iostream>
-#include <fstream>
 #include "mogic.h"
 #include "damage.h"
 
 using namespace std;
 
-/*全局记录塔信息的数据结构*/
-struct
+void readTower()
 {
-    /*楼层地图大小和楼层数，当前固定为1 * 13 * 13 */
-    //int height;
-    //int len, wid;
-    MapObj floorMap[MAP_LENGTH][MAP_WIDTH];
+    if (freopen("input.txt", "r", stdin) == nullptr)
+        cout << "打开input.txt失败，将从stdin中读取输入";
 
-}mogicTower;
+    int ign;
+    cin >> ign >> ign >> ign;
 
+    for (size_t i = 0; i < MAP_LENGTH; ++i)
+        for (size_t j = 0; j < MAP_LENGTH; ++j)
+            cin >> mogicTower.mapContent[i][j];
+
+    for (size_t i = 0; i < 5; i++)
+        cin >> mogicTower.buff[i];
+
+    int monsterTypeCount;
+    cin >> monsterTypeCount;
+    while (monsterTypeCount--)
+    {
+        MapObj key;
+        Monster tmpMon;
+        cin >> key >> tmpMon;
+        mogicTower.monsterInfo[key] = tmpMon;
+    }
+
+    cin >> mogicTower.initialPlayerInfo;
+
+}
 
 int main()
 {
-    
+    readTower();
 
     PAUSE;
-}
-
-void readTower()
-{
-    ifstream fin("input.txt");
-    if (!fin)
-    {
-        
-
-    }
 }

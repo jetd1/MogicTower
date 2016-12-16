@@ -1,3 +1,5 @@
+#include "mogic.h"
+
 /*
 此函数计算一个怪物对勇士造成的伤害
 参数说明：
@@ -43,4 +45,9 @@ int getDamage(int h_atk, int h_def, int h_mdef, int m_hp, int m_atk, int m_def, 
     damage -= h_mdef;
 
     return damage <= 0 ? 0 : damage;
+}
+
+int getDamage(const Player& p, const Monster& m)
+{
+    return getDamage(p.getATK(), p.getDEF(), p.getMDEF, m.getHP(), m.getATK(), m.getDEF(), m.getSPE());
 }

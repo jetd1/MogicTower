@@ -29,5 +29,8 @@
     <ClInclude Include="mogic.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="mogicTower.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
