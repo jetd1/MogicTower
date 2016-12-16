@@ -87,18 +87,18 @@ public:
 	int getATK() const { return atk; }
 	int getDEF() const { return def; }
 	int getMDEF() const { return mdef; }
-    int getHP() const { return hp;; }
+	int getHP() const { return hp; }
+	Position getPOS() const { return pos; }
 };
 
 /* 记录怪物信息的数据结构 */
 class Monster
 {
 private:
-    int hp;         /* 血量 */
-    int atk;        /* 攻击 */
-    int def;        /* 防御 */
-    int spe;        /* 特效 */
-    Position pos;   /* 位置 */
+    int hp;     /* 血量 */
+    int atk;    /* 攻击力 */
+    int def;    /* 防御力 */
+    int spe;    /* 特效 */
 
 public:
     Monster() {}
