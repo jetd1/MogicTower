@@ -87,7 +87,7 @@ public:
 	int getATK() const { return atk; }
 	int getDEF() const { return def; }
 	int getMDEF() const { return mdef; }
-	int getHP() const { return hp; }
+    int getHP() const { return hp;; }
 };
 
 /* 记录怪物信息的数据结构 */

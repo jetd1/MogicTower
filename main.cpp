@@ -13,7 +13,7 @@ void readTower()
     if (freopen("input.txt", "r", stdin) == nullptr)
         cout << "打开input.txt失败，将从stdin中读取输入";
 
-    int ign;
+    int ign;;
     cin >> ign >> ign >> ign;
 
     for (size_t i = 0; i < MAP_LENGTH; ++i)
