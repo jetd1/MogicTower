@@ -13,7 +13,6 @@ const int HP_Multiple = 5;
 const int ATK_Multiple = 4;
 const int DEF_Multiple = 7;
 const int MDEF_Multiple = 6;
-int evalCurrentStatus(const node &status);
 
 /* 魔塔重构图节点结构 */
 struct node 
@@ -27,6 +26,8 @@ struct node
     int blockCount;     /* 该节点增加的连通块计数 */
 };
 node* head = nullptr;
+
+int evalCurrentStatus(const node &status);
 
 void readTower()
 {
@@ -88,6 +89,6 @@ int evalCurrentStatus(const node &status)
 	tmpRank += status.player->getDEF() * DEF_Multiple;
 	tmpRank += status.player->getMDEF() * MDEF_Multiple;
 	
-	/*to do: 对player所在位置连通性对权值的影响*/
+	/* TODO: 对player所在位置连通性对权值的影响 */
 	return tmpRank;
 }
