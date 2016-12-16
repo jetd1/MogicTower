@@ -84,10 +84,10 @@ public:
         return in;
     }
 
-	int getATK() { return atk; }
-	int getDEF() { return def; }
-	int getMDEF() { return mdef; }
-	int getHP() { return hp; }
+	int getATK() const { return atk; }
+	int getDEF() const { return def; }
+	int getMDEF() const { return mdef; }
+	int getHP() const { return hp; }
 };
 
 /* 记录怪物信息的数据结构 */
@@ -112,10 +112,10 @@ public:
         return in;
     }
 
-	int getATK() { return atk; }
-	int getDEF() { return def; }
-	int getSPE() { return spe; }
-	int getHP() { return hp; }
+	int getATK() const { return atk; }
+	int getDEF() const { return def; }
+	int getSPE() const { return spe; }
+	int getHP() const { return hp; }
 };
 
 /*全局记录塔信息的数据结构 */
