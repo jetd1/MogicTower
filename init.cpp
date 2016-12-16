@@ -132,13 +132,6 @@ static void traverseMap(const Tower& mogicTower, int been[MAP_LENGTH][MAP_WIDTH]
             }
             colorize(mogicTower, i, j, ++color, been);
         }
-
-	for (int i = 0; i < MAP_LENGTH; ++i) {
-		for (int j = 0; j < MAP_WIDTH; ++j) {
-			cout << been[i][j] << " ";
-		}
-		cout << endl;
-	}
 }
 
 static GraphNode *buildGraph(const Tower& mogicTower, const Position headpos, int been[MAP_LENGTH][MAP_WIDTH]) {
@@ -148,13 +141,13 @@ static GraphNode *buildGraph(const Tower& mogicTower, const Position headpos, in
 	auto& map = mogicTower.mapContent;
 
 	for (int i = 0; i < MAX_COLOR; ++i)
-		nodes[i] = NULL;
+		nodes[i] = nullptr;
 
 	for (int i = 0; i < MAP_LENGTH; ++i)
 		for (int j = 0; j < MAP_WIDTH; ++j) {
 			if (map[i][j] == wall)
 				continue;
-			if (nodes[been[i][j]] == NULL) { // 该颜色没有建结点
+			if (nodes[been[i][j]] == nullptr) { // 该颜色没有建结点
 				nodes[been[i][j]] = new GraphNode;
 				nodes[been[i][j]]->pos.x = i; nodes[been[i][j]]->pos.y = j;
 				nodes[been[i][j]]->blockCount = 1;
@@ -163,22 +156,21 @@ static GraphNode *buildGraph(const Tower& mogicTower, const Position headpos, in
 					nodes[been[i][j]]->type = safeblock; // road和物品都是safeblock
 				else
 					nodes[been[i][j]]->type = map[i][j]; // 门,怪物
-
 			}
-			else {
+			else
 				nodes[been[i][j]]->blockCount++;
-			}
 
-			if (isItem(mogicTower, i, j)) { // 记录结点里的物品
+			if (isItem(mogicTower, i, j)) // 记录结点里的物品
 				nodes[been[i][j]]->obj.push_back(map[i][j]);
-			}
 		}
 
 	for (int i = 0; i < MAP_LENGTH; ++i)
-		for (int j = 0; j < MAP_WIDTH; ++j) {
+		for (int j = 0; j < MAP_WIDTH; ++j) 
+		{
 			if (map[i][j] == wall)
 				continue;
-			for (int k = 0; k < 4; ++k) {
+			for (int k = 0; k < 4; ++k) 
+			{
 				int nx = i + dx[k];
 				int ny = j + dy[k];
 				if (!isInRange(nx, ny))
