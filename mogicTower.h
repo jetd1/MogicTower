@@ -4,12 +4,14 @@
 #include "mogic.h"
 #include <iostream>
 #include <map>
+#include <set>
 #include <vector>
 
 /* 记录地图信息的枚举结构 */
 enum MapObj
 {
 	player = 0,
+	safeblock,
 
     road = 10,
     wall,
@@ -150,7 +152,7 @@ struct GraphNode
     bool valid;         /* 访问该节点后将valid设为false */
     Position pos;       /* 该节点的坐标 */
     MapObj type;        /* 该节点类型（门或怪物） */
-    vector<GraphNode*> next; /* 子节点列表 */
+    set<GraphNode*> next; /* 子节点列表 */
     vector<MapObj> obj; /* 节点物品列表 */
     int blockCount;     /* 该节点增加的连通块计数 */
 };
