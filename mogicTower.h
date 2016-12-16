@@ -83,6 +83,11 @@ public:
         in >> m.hp >> m.atk >> m.def >> m.mdef >> m.pos.x >> m.pos.y;
         return in;
     }
+
+	int getATK() { return atk; }
+	int getDEF() { return def; }
+	int getMDEF() { return mdef; }
+	int getHP() { return hp; }
 };
 
 /* 记录怪物信息的数据结构 */
@@ -106,6 +111,11 @@ public:
         in >> m.hp >> m.atk >> m.def >> m.spe;
         return in;
     }
+
+	int getATK() { return atk; }
+	int getDEF() { return def; }
+	int getSPE() { return spe; }
+	int getHP() { return hp; }
 };
 
 /*全局记录塔信息的数据结构 */
