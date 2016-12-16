@@ -9,11 +9,16 @@ using namespace std;
 
 Tower mogicTower;
 
+/* 魔塔重构图节点结构 */
 struct node {
-	int x, y;
-	vector<node*> next;
+    bool valid;         /* 访问该节点后将valid设为false */
+    Position pos;       /* 该节点的坐标 */
+    MapObj type;        /* 该节点类型（门或怪物） */
+	vector<node*> next; /* 子节点列表 */
+    vector<MapObj> obj; /* 节点物品列表 */
+    int blockCount;     /* 该节点增加的连通块计数 */
 };
-node* head = NULL;
+node* head = nullptr;
 
 void readTower()
 {
@@ -61,8 +66,7 @@ int main()
 {
     readTower();
 	head = new node();
-	head->x = mogicTower.initialPlayerInfo.getPOS.x;
-	head->y = mogicTower.initialPlayerInfo.getPOS.y;
+    head->pos = mogicTower.initialPlayerInfo.getPos();
 	makeTree(head);
     PAUSE;
 }

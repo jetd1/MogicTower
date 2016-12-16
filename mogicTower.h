@@ -88,7 +88,7 @@ public:
 	int getDEF() const { return def; }
 	int getMDEF() const { return mdef; }
 	int getHP() const { return hp; }
-	Position getPOS() const { return pos; }
+	Position getPos() const { return pos; }
 };
 
 /* 记录怪物信息的数据结构 */
