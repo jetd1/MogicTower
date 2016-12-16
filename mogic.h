@@ -22,6 +22,7 @@ using namespace std;
 
 const int MAP_WIDTH = 13;
 const int MAP_LENGTH = 13;
+const int MAX_DEPTH = 10;
 
 #include "mogicTower.h"
 

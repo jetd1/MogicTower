@@ -11,11 +11,18 @@
 using namespace std;
 
 Tower mogicTower;
+
+const int HP_Multiple = 5;
+const int ATK_Multiple = 4;
+const int DEF_Multiple = 7;
+const int MDEF_Multiple = 6;
+
 /* 0123:上下左右 */
 const int dx[4] = { -1,1,0,0 };
 const int dy[4] = { 0,0,-1,1 };
 /* 魔塔重构图节点结构 */
-struct node {
+struct node 
+{
     bool valid;         /* 访问该节点后将valid设为false */
     Position pos;       /* 该节点的坐标 */
     MapObj type;        /* 该节点类型（门或怪物） */
@@ -24,11 +31,14 @@ struct node {
     int blockCount;     /* 该节点增加的连通块计数 */
 };
 node* head = nullptr;
+
+int evalCurrentStatus(const node &status);
+
 int been[MAP_LENGTH][MAP_WIDTH];
 void readTower()
 {
     if (freopen("input.txt", "r", stdin) == nullptr)
-        cout << "打开input.txt失败，将从stdin中读取输入";
+        cout << "打开input.txt失败，将从stdin中读取输入" << endl;
 
     int ign;;
     cin >> ign >> ign >> ign;
@@ -127,4 +137,17 @@ int main()
 	searchArea(head);
 	head->type = player;
     PAUSE;
+}
+
+
+int evalCurrentStatus(const node &status)
+{
+	int tmpRank = 0;
+	tmpRank += status.player->getATK() * ATK_Multiple;
+	tmpRank += status.player->getHP() * HP_Multiple;
+	tmpRank += status.player->getDEF() * DEF_Multiple;
+	tmpRank += status.player->getMDEF() * MDEF_Multiple;
+	
+	/* TODO: 对player所在位置连通性对权值的影响 */
+	return tmpRank;
 }
