@@ -8,6 +8,8 @@
 /* 记录地图信息的枚举结构 */
 enum MapObj
 {
+	player = 0,
+
     road = 10,
     wall,
 
