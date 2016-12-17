@@ -121,6 +121,7 @@
     <ClCompile Include="init.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mogicTower.cpp" />
+    <ClCompile Include="routine.cpp" />
     <ClCompile Include="search.cpp" />
     <ClCompile Include="trans.cpp" />
   </ItemGroup>
@@ -131,6 +132,7 @@
     <ClInclude Include="init.h" />
     <ClInclude Include="mogic.h" />
     <ClInclude Include="mogicTower.h" />
+    <ClInclude Include="routine.h" />
     <ClInclude Include="search.h" />
     <ClInclude Include="trans.h" />
   </ItemGroup>
