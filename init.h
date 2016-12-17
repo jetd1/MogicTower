@@ -11,4 +11,3 @@ void searchArea(const Tower& mogicTower, GraphNode* cur, int been[MAP_LENGTH][MA
 const Status& getInitialStatus(const Tower& mogicTower);
 
 #endif
-

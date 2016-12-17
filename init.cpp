@@ -33,7 +33,7 @@ const Tower& readTower()
 
     cin >> mogicTower.initialPlayerInfo;
 
-    return  mogicTower;
+    return mogicTower;
 }
 
 

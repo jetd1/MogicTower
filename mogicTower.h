@@ -166,6 +166,7 @@ struct Status
 {
     GraphNode* head;
     PlayerInfo player;
+
     int blockCount;
 
     GraphNode* nodeContainer;
