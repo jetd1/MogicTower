@@ -96,6 +96,7 @@ static GraphNode *buildGraph(const Tower& mogicTower, const Position& headpos, i
             if (nodes[colorMap[i][j]] == nullptr)
             { // 该颜色没有建结点
                 nodes[colorMap[i][j]] = nodeContainer + colorMap[i][j];
+                nodes[colorMap[i][j]]->index = colorMap[i][j];
                 nodes[colorMap[i][j]]->empty = false;
                 nodes[colorMap[i][j]]->pos.x = i; nodes[colorMap[i][j]]->pos.y = j;
                 nodes[colorMap[i][j]]->blockCount = 1;

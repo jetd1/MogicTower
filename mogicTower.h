@@ -149,6 +149,7 @@ struct Tower
 /* 魔塔重构图节点结构 */
 struct GraphNode
 {
+    int index;              /* 该节点索引值（最初被染的颜色） */
     bool empty;             /* 访问该节点后将valid设为false */
     Position pos;           /* 该节点的坐标 */
     MapObj type;            /* 该节点类型 */
