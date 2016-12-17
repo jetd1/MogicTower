@@ -12,7 +12,7 @@ static void restore(Status& stat, bool isempty, PlayerInfo backupPlayer, GraphNo
     stat.head = original_head;
 }
 
-// TODO: Finish This Shit
+// TODO: 实现Empty节点不算层数(需要记录回溯)
 int search(Status& stat, int depth, GraphNode* &bestChoice)
 {
     if (depth == MAX_DEPTH)
@@ -21,11 +21,11 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
     PlayerInfo backupPlayer = stat.player;
     GraphNode* original_head = stat.head;
     int maxVal = 0;
-    GraphNode *p;
 
     auto& next = stat.head->next;
     for (auto itr = next.begin(); itr != next.end(); ++itr)
     {
+        GraphNode *p = *itr;
         bool isempty = (*itr)->empty;
         if (trans(stat, *itr))
         {
@@ -33,7 +33,8 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
             if (maxVal < curVal)
             {
                 maxVal = curVal;
-                bestChoice = p;
+                if (depth == 0)
+                    bestChoice = p;
             }
             restore(stat, isempty, backupPlayer, original_head);
         }
