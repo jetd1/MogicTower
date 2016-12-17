@@ -95,7 +95,7 @@ public:
 	int getHP() const { return hp; }
 	const Position& getPos() const { return pos; }
     void acquire(vector<MapObj>& objList);
-    void fight(MapObj monsterType);
+    bool fight(MapObj monsterType);
 };
 
 /* 记录怪物信息的数据结构 */
