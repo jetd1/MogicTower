@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "init.h"
 #include "routine.h"
 #include "search.h"
@@ -7,26 +8,27 @@ using namespace std;
 
 Tower globalMogicTower;
 
+
 int main()
 {
     readTower(globalMogicTower);
-    Status mainStatus = getInitialStatus(globalMogicTower);
+    Status mainStatus = getStatus(globalMogicTower);
     while (!isEnd(mainStatus))
     {
 #ifdef DEBUG
         Status ori = mainStatus;
 #endif
-        GraphNode* originalNode = mainStatus.cur;
-        GraphNode* p = nullptr;
-        search(mainStatus, 0, p);
+        GraphNode* choice = nullptr;
+        int ret = search(mainStatus, 0, choice);
 #ifdef DEBUG
+        cout << ret << endl;
         dbg_compareStatus(ori, mainStatus);
 #endif
-        cout << p << endl;
-        //moveTo(p, mainStatus);
+        cout << getRoute(mainStatus, choice);
+        moveTo(choice, mainStatus);
     }
 
-    cout << "Quiting" << endl;
+    cout << endl << "Quiting" << endl;
     PAUSE;
 }
 

@@ -5,6 +5,6 @@
 
 const Tower& readTower(Tower&);
 
-const Status& getInitialStatus(const Tower& mogicTower);
+Status getStatus(const Tower& mogicTower);
 
 #endif

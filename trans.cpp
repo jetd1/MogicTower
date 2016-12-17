@@ -13,7 +13,7 @@ int trans(Status& stat, GraphNode* target)
         return -1;
     }
 
-    MapObj type = target->type;
+    MapObj type = target->getType();
 
     if (isMonster(type))
     {

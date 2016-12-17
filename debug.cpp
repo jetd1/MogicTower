@@ -8,8 +8,6 @@ void dbg_compareStatus(const Status& a, const Status& b)
     if (!(sizeA == sizeB && a.player == b.player &&
           a.blockCount == b.blockCount && a.cur == b.cur))
         throw runtime_error("Corrupted Status!");
-    //if (a.nodeContainer == b.nodeContainer)
-    //    throw runtime_error("Corrupted Status!");
 
     auto& nA = a.nodeContainer;
     auto& nB = b.nodeContainer;

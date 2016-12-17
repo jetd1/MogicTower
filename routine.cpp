@@ -1,3 +1,4 @@
+#include "mogicTower.h"
 #include "routine.h"
 #include <cassert>
 
@@ -15,7 +16,11 @@ string getRoute(const Status& stat, GraphNode* choice)
     return "w";
 }
 
-void moveTo(const GraphNode* target, Tower& mogicTower)
+void moveTo(const GraphNode* target, Status& mogicTower)
 {
-    
+    MapObj type = target->getType();
+    if (type == safeBlock)
+    {
+        
+    }
 }

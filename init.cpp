@@ -35,16 +35,16 @@ const Tower& readTower(Tower& mogicTower)
 }
 
 
-const Status& getInitialStatus(const Tower& mogicTower)
+Status getStatus(const Tower& mogicTower)
 {
     Position curPos = mogicTower.initialPlayerInfo.getPos();
 
-    static int colorMap[MAP_LENGTH][MAP_WIDTH];
+    int colorMap[MAP_LENGTH][MAP_WIDTH];
     memset(colorMap, 0, sizeof(colorMap));
 
     int colorCount = traverseMap(mogicTower, colorMap) + 1;
 
-    static Status stat;
+    Status stat;
     stat.nodeContainer.resize(colorCount);
 
     stat.cur = buildGraph(mogicTower, curPos, colorCount, colorMap, stat.nodeContainer);
@@ -52,7 +52,7 @@ const Status& getInitialStatus(const Tower& mogicTower)
 
     /* 先取走最初节点的所有物品并标记为空 */
 #ifdef DEBUG
-    assert(stat.cur->type == safeBlock);
+    assert(stat.cur->getType() == safeBlock);
 #endif
 
     stat.cur->empty = true;
