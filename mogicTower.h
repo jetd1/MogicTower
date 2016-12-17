@@ -95,7 +95,7 @@ public:
 	int getHP() const { return hp; }
     int getKeyCount(MapObj o)const { return keys[o - yellowKey]; }
 	const Position& getPos() const { return pos; }
-    void acquire(vector<MapObj>& objList);
+    void acquire(const vector<MapObj>& objList);
     bool fight(MapObj monsterType);
 };
 

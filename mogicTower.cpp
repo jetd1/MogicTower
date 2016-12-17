@@ -5,12 +5,12 @@
 
 extern Tower globalMogicTower;
 
-void PlayerInfo::acquire(vector<MapObj>& objList)
+void PlayerInfo::acquire(const vector<MapObj>& objList)
 {
-    while (!objList.empty())
+    size_t objCount = objList.size();
+    for (size_t i = 0; i < objCount; ++i)
     {
-        MapObj cur = objList.back();
-        objList.pop_back();
+        MapObj cur = objList[i];
 
         switch (cur)
         {
