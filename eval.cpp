@@ -1,7 +1,7 @@
 #include "eval.h"
 
 struct door_key
-{	//È«¾ÖĞÔµÄÔ¿³×ºÍÃÅ
+{	//å…¨å±€æ€§çš„é’¥åŒ™å’Œé—¨
     int ykey, bkey, rkey;
     int ydoor, bdoor, rdoor;
     door_key()
@@ -46,7 +46,7 @@ int eval(const Status& stat)
     door_key *dk = new door_key();
 
     //int yellow_door = stat.
-    /*Õâ²¿·ÖÊÇÊ£ÏÂµÄÈıÖÖÃÅÓëÔ¿³×µÄ²îÖµ£¬ÕâÈı¸ö²îÖµÒ²ÊÇ²ÎÊı*/
+    /*è¿™éƒ¨åˆ†æ˜¯å‰©ä¸‹çš„ä¸‰ç§é—¨ä¸é’¥åŒ™çš„å·®å€¼ï¼Œè¿™ä¸‰ä¸ªå·®å€¼ä¹Ÿæ˜¯å‚æ•°*/
 
     //result += blood;
     result += attack * 10;

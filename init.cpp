@@ -3,6 +3,8 @@
 #include "graph.h"
 #include <queue>
 #include <fstream>
+#include <cstdlib>
+#include <cstring>
 #include <cassert>
 
 const Tower& readTower(Tower& mogicTower)
@@ -10,7 +12,7 @@ const Tower& readTower(Tower& mogicTower)
     ifstream fin("input.txt");
     if (!fin)
     {
-        cout << "´ò¿ªinput.txtÊ§°Ü£¬ÍË³öÖÐ..." << endl;
+        cout << "æ— æ³•æ‰“å¼€input.txtï¼Œæ­£åœ¨é€€å‡º..." << endl;
         exit(-1);
     }
 
@@ -55,7 +57,6 @@ Status getStatus(const Tower& mogicTower)
     stat.cur = buildGraph(mogicTower, curPos, colorCount, colorMap, stat.nodeContainer);
     stat.player = mogicTower.player;
 
-    /* ÏÈÈ¡×ß×î³õ½ÚµãµÄËùÓÐÎïÆ·²¢±ê¼ÇÎª¿Õ */
 #ifdef DEBUG
     assert(stat.cur->getType() == safeBlock);
 #endif

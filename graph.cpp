@@ -59,19 +59,19 @@ GraphNode *buildGraph(const Tower& mogicTower, const Position& curPos, int color
             if (map[i][j] == wall)
                 continue;
             if (nodes[colorMap[i][j]] == nullptr)
-            { // ¸ÃÑÕÉ«Ã»ÓÐ½¨½áµã
+            { // è¯¥é¢œè‰²æ²¡æœ‰å»ºç»“ç‚¹
                 MapObj type;
                 if (map[i][j] == road || isItem(mogicTower, i, j))
-                    type = safeBlock; // roadºÍÎïÆ·¶¼ÊÇsafeBlock
+                    type = safeBlock; // roadå’Œç‰©å“éƒ½æ˜¯safeBlock
                 else
-                    type = map[i][j]; // ÃÅ,¹ÖÎï
+                    type = map[i][j]; // é—¨,æ€ªç‰©
                 nodeContainer[colorMap[i][j]] = GraphNode(colorMap[i][j], i, j, type);
                 nodes[colorMap[i][j]] = &nodeContainer[colorMap[i][j]];
             }
             else
                 nodes[colorMap[i][j]]->blockCount++;
 
-            if (isItem(mogicTower, i, j)) // ¼ÇÂ¼½áµãÀïµÄÎïÆ·
+            if (isItem(mogicTower, i, j)) // è®°å½•ç»“ç‚¹é‡Œçš„ç‰©å“
                 nodes[colorMap[i][j]]->obj.push_back(map[i][j]);
         }
 

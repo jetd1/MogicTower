@@ -19,11 +19,11 @@ void dbg_compareStatus(const Status& a, const Status& b)
 
 void dbg_printSize()
 {
-    cout << "sizeof MapObj " << sizeof MapObj << endl;
-    cout << "sizeof Position " << sizeof Position << endl;
-    cout << "sizeof PlayerInfo " << sizeof PlayerInfo << endl;
-    cout << "sizeof Monster " << sizeof Monster << endl;
-    cout << "sizeof Tower " << sizeof Tower << endl;
-    cout << "sizeof GraphNode " << sizeof GraphNode << endl;
-    cout << "sizeof Status " << sizeof Status << endl;
+    cout << "sizeof MapObj " << sizeof(MapObj) << endl;
+    cout << "sizeof Position " << sizeof(Position) << endl;
+    cout << "sizeof PlayerInfo " << sizeof(PlayerInfo) << endl;
+    cout << "sizeof Monster " << sizeof(Monster) << endl;
+    cout << "sizeof Tower " << sizeof(Tower) << endl;
+    cout << "sizeof GraphNode " << sizeof(GraphNode) << endl;
+    cout << "sizeof Status " << sizeof(Status) << endl;
 }

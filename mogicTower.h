@@ -7,7 +7,7 @@
 #include <set>
 #include <vector>
 
-/* ¼ÇÂ¼µØÍ¼ĞÅÏ¢µÄÃ¶¾Ù½á¹¹ */
+/* è®°å½•åœ°å›¾ä¿¡æ¯çš„æšä¸¾ç»“æ„ */
 enum MapObj
 {
     safeBlock = 0,
@@ -52,7 +52,7 @@ enum MapObj
     boss = 99
 };
 
-/* ·½±ãÖ±½Ó¶ÁÈëÃ¶¾ÙÖµµÄº¯Êı */
+/* æ–¹ä¾¿ç›´æ¥è¯»å…¥æšä¸¾å€¼çš„å‡½æ•° */
 inline istream& operator >> (istream& in, MapObj& m)
 {
     int tmp;
@@ -69,18 +69,18 @@ struct Position
     bool operator==(const Position& o)const { return x == o.x && y == o.y; }
 };
 
-/* ¼ÇÂ¼Íæ¼ÒĞÅÏ¢µÄÊı¾İ½á¹¹ */
+/* è®°å½•ç©å®¶ä¿¡æ¯çš„æ•°æ®ç»“æ„ */
 struct PlayerInfo
 {
 private:
-    int hp;         /* ÑªÁ¿ */
-    int atk;        /* ¹¥»÷ */
-    int def;        /* ·ÀÓù */
-    int mdef;       /* Ä§·À */
+    int hp;         /* è¡€é‡ */
+    int atk;        /* æ”»å‡» */
+    int def;        /* é˜²å¾¡ */
+    int mdef;       /* é­”é˜² */
 
-    int keys[3];    /* ¸÷Ô¿³×ÊıÄ¿ */
+    int keys[3];    /* å„é’¥åŒ™æ•°ç›® */
 
-    Position pos;   /* Î»ÖÃ */
+    Position pos;   /* ä½ç½® */
 
 public:
     PlayerInfo() { hp = atk = def = mdef = keys[0] = keys[1] = keys[2] = pos.x = pos.y = 0; }
@@ -102,14 +102,14 @@ public:
     void moveTo(const Position& _pos) { pos = _pos; }
 };
 
-/* ¼ÇÂ¼¹ÖÎïĞÅÏ¢µÄÊı¾İ½á¹¹ */
+/* è®°å½•æ€ªç‰©ä¿¡æ¯çš„æ•°æ®ç»“æ„ */
 class Monster
 {
 private:
-    int hp;     /* ÑªÁ¿ */
-    int atk;    /* ¹¥»÷Á¦ */
-    int def;    /* ·ÀÓùÁ¦ */
-    int spe;    /* ÌØĞ§ */
+    int hp;     /* è¡€é‡ */
+    int atk;    /* æ”»å‡»åŠ› */
+    int def;    /* é˜²å¾¡åŠ› */
+    int spe;    /* ç‰¹æ•ˆ */
 
 public:
     Monster() {}
@@ -130,39 +130,39 @@ public:
     int getHP() const { return hp; }
 };
 
-/*È«¾Ö¼ÇÂ¼ËşĞÅÏ¢µÄÊı¾İ½á¹¹ */
+/*å…¨å±€è®°å½•å¡”ä¿¡æ¯çš„æ•°æ®ç»“æ„ */
 struct Tower
 {
-    /* Â¥²ãµØÍ¼´óĞ¡ºÍÂ¥²ãÊı£¬µ±Ç°¹Ì¶¨Îª1 * 13 * 13 */
+    /* æ¥¼å±‚åœ°å›¾å¤§å°å’Œæ¥¼å±‚æ•°ï¼Œå½“å‰å›ºå®šä¸º1 * 13 * 13 */
     //int height;
     //int len, wid;
 
-    /* ÓÃÃ¶¾Ù¼ÇÂ¼µØÍ¼ÄÚÈİ */
+    /* ç”¨æšä¸¾è®°å½•åœ°å›¾å†…å®¹ */
     MapObj mapContent[MAP_LENGTH][MAP_WIDTH];
 
-    /* ¼ÇÂ¼¸÷¼Ó³ÉÖµ */
+    /* è®°å½•å„åŠ æˆå€¼ */
     int buff[5];
 
-    /* ¼ÇÂ¼¹ÖÎïÊı¾İ */
+    /* è®°å½•æ€ªç‰©æ•°æ® */
     map<MapObj, Monster> monsterInfo;
 
-    /* ¼ÇÂ¼³õÊ¼Íæ¼ÒÊı¾İ */
+    /* è®°å½•åˆå§‹ç©å®¶æ•°æ® */
     PlayerInfo player;
 };
 
-/* Ä§ËşÖØ¹¹Í¼½Úµã½á¹¹ */
+/* é­”å¡”é‡æ„å›¾èŠ‚ç‚¹ç»“æ„ */
 class GraphNode
 {
 private:
-    int index;              /* ¸Ã½ÚµãË÷ÒıÖµ£¨×î³õ±»È¾µÄÑÕÉ«£© */
-    Position pos;           /* ¸Ã½ÚµãµÄ×ø±ê */
-    MapObj type;            /* ¸Ã½ÚµãÀàĞÍ */
+    int index;              /* è¯¥èŠ‚ç‚¹ç´¢å¼•å€¼ï¼ˆæœ€åˆè¢«æŸ“çš„é¢œè‰²ï¼‰ */
+    Position pos;           /* è¯¥èŠ‚ç‚¹çš„åæ ‡ */
+    MapObj type;            /* è¯¥èŠ‚ç‚¹ç±»å‹ */
     
 public:
-    bool empty;             /* ·ÃÎÊ¸Ã½Úµãºó½«emptyÉèÎªtrue */
-    int blockCount;         /* ¸Ã½ÚµãÔö¼ÓµÄÁ¬Í¨¿é¼ÆÊı */
-    set<GraphNode*> next;   /* ÁÚ½Ó½ÚµãÁĞ±í */
-    vector<MapObj> obj;     /* ½ÚµãÎïÆ·ÁĞ±í */
+    bool empty;             /* è®¿é—®è¯¥èŠ‚ç‚¹åå°†emptyè®¾ä¸ºtrue */
+    int blockCount;         /* è¯¥èŠ‚ç‚¹å¢åŠ çš„è¿é€šå—è®¡æ•° */
+    set<GraphNode*> next;   /* é‚»æ¥èŠ‚ç‚¹åˆ—è¡¨ */
+    vector<MapObj> obj;     /* èŠ‚ç‚¹ç‰©å“åˆ—è¡¨ */
 
     GraphNode() { empty = true; }
     GraphNode(int _idx, int _x, int _y, MapObj _type):
@@ -172,7 +172,7 @@ public:
     bool operator==(const GraphNode& o)const;
 };
 
-/* ×´Ì¬×ªÒÆ½á¹¹ */
+/* çŠ¶æ€è½¬ç§»ç»“æ„ */
 struct Status
 {
     GraphNode* cur;

@@ -12,7 +12,7 @@ static void restore(Status& stat, bool isEmpty, PlayerInfo backupPlayer, GraphNo
     stat.cur = originalPos;
 }
 
-// TODO: ÊµÏÖEmpty½Úµã²»Ëã²ãÊı(ĞèÒª¼ÇÂ¼»ØËİ)
+// TODO: å®ç°EmptyèŠ‚ç‚¹ä¸ç®—å±‚æ•°(éœ€è¦è®°å½•å›æº¯)
 int search(Status& stat, int depth, GraphNode* &bestChoice)
 {
     if (depth == MAX_DEPTH)
