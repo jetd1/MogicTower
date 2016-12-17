@@ -1,5 +1,3 @@
-#define DEBUG
-
 #include <iostream>
 #include <queue>
 #include "mogic.h"
@@ -8,11 +6,14 @@
 
 using namespace std;
 
+Tower globalMogicTower;
+
 int main()
 {
-    const Tower & mogicTower = readTower();
-    const Status& initialStatus = getInitialStatus(mogicTower);
+    globalMogicTower = readTower();
+    const Status& initialStatus = getInitialStatus(globalMogicTower);
 
+    cout << "Quiting" << endl;
     PAUSE;
 }
 

@@ -24,5 +24,7 @@ m_spe: ¹ÖÎïÌØĞ§
 */
 int getDamage(int h_atk, int h_def, int h_mdef, int m_hp, int m_atk, int m_def, int m_spe);
 
+int getDamage(const PlayerInfo& p, const Monster& m);
+
 #endif
 

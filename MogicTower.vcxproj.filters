@@ -27,6 +27,12 @@
     <ClCompile Include="init.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="trans.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="mogicTower.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="damage.h">

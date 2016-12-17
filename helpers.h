@@ -1,23 +1,38 @@
 #ifndef __HELPERS_H
 #define __HELPERS_H
 
+inline bool isMonster(MapObj type)
+{
+    return (type >= monster51 &&
+            type <= monster70) ||
+        type == boss;
+}
+
 inline bool isMonster(const Tower& mogicTower, int x, int y)
 {
-    return (mogicTower.mapContent[x][y] >= monster51 &&
-            mogicTower.mapContent[x][y] <= monster70) ||
-        mogicTower.mapContent[x][y] == boss;
+    return isMonster(mogicTower.mapContent[x][y]);
+}
+
+inline bool isDoor(MapObj type)
+{
+    return type >= yellowDoor &&
+        type <= redDoor;
 }
 
 inline bool isDoor(const Tower& mogicTower, int x, int y)
 {
-    return mogicTower.mapContent[x][y] >= yellowDoor &&
-        mogicTower.mapContent[x][y] <= redDoor;
+    return isDoor(mogicTower.mapContent[x][y]);
+}
+
+inline bool isItem(MapObj type)
+{
+    return type >= yellowKey &&
+        type <= largeBottle;
 }
 
 inline bool isItem(const Tower& mogicTower, int x, int y)
 {
-    return mogicTower.mapContent[x][y] >= yellowKey &&
-        mogicTower.mapContent[x][y] <= largeBottle;
+    return isItem(mogicTower.mapContent[x][y]);
 }
 
 inline bool isInRange(int x, int y)

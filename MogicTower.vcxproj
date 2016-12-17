@@ -119,7 +119,9 @@
     <ClCompile Include="damage.cpp" />
     <ClCompile Include="init.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mogicTower.cpp" />
     <ClCompile Include="search.cpp" />
+    <ClCompile Include="trans.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="damage.h" />
