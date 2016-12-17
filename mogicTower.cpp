@@ -38,11 +38,16 @@ void PlayerInfo::acquire(vector<MapObj>& objList)
     }
 }
 
-void PlayerInfo::fight(MapObj monsterType)
+bool PlayerInfo::fight(MapObj monsterType)
 {
 #ifdef DEBUG
     assert(isMonster(monsterType));
 #endif
-    int dmg = getDamage(*this, globalMogicTower.monsterInfo.at(monster51));
-    hp -= dmg;
+    int dmg = getDamage(*this, globalMogicTower.monsterInfo.at(monsterType));
+    if (hp > 0)
+    {
+        hp -= dmg;
+        return true;
+    }
+    return false;
 }
