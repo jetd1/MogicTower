@@ -14,10 +14,6 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
     if (depth == MAX_DEPTH)
         return eval(stat);
 
-	bool isempty = stat.head->empty;
-	
-
-
 	PlayerInfo backupPlayer = stat.player;
     GraphNode* original_head = stat.head;
 	int maxVal = 0;
@@ -25,6 +21,7 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
 
     auto& next = stat.head->next;
 	for (auto itr = next.begin(); itr != next.end(); ++itr) {
+        bool isempty = (*itr)->empty;
 		if (trans(stat, *itr)) {
 			int curVal = search(stat, depth + 1, p);
 			if (maxVal < curVal) {
