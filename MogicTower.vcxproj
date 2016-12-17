@@ -117,6 +117,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="damage.cpp" />
+    <ClCompile Include="debug.cpp" />
     <ClCompile Include="eval.cpp" />
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="init.cpp" />
@@ -128,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="damage.h" />
+    <ClInclude Include="debug.h" />
     <ClInclude Include="eval.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="helpers.h" />

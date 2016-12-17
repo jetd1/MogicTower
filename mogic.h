@@ -1,6 +1,8 @@
 #ifndef __MOGIC_H
 #define __MOGIC_H
 
+#define DEBUG
+
 #include <cstdio>
 #include <iostream>
 using namespace std;
@@ -13,7 +15,7 @@ using namespace std;
 #ifdef _WIN32
 #include <conio.h>
 #include <Windows.h>
-#define PAUSE getchar();getchar();system("pause");
+#define PAUSE system("pause");
 #endif
 #endif
 #else
@@ -28,8 +30,9 @@ const int MAX_DEPTH = 10;
 const int dx[4] = {-1,1,0,0};
 const int dy[4] = {0,0,-1,1};
 
-#include "mogicTower.h"
-
+#ifdef DEBUG
+#include "debug.h"
+#endif
 
 #endif
 

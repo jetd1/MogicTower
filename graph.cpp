@@ -45,7 +45,7 @@ int traverseMap(const Tower& mogicTower, int colorMap[MAP_LENGTH][MAP_WIDTH])
     return color;
 }
 
-GraphNode *buildGraph(const Tower& mogicTower, const Position& headpos, int colorCount, int colorMap[MAP_LENGTH][MAP_WIDTH], vector<GraphNode>& nodeContainer)
+GraphNode *buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount, int colorMap[MAP_LENGTH][MAP_WIDTH], vector<GraphNode>& nodeContainer)
 {
     static vector<GraphNode *> nodes(colorCount);
     auto& map = mogicTower.mapContent;
@@ -97,5 +97,5 @@ GraphNode *buildGraph(const Tower& mogicTower, const Position& headpos, int colo
 
             }
         }
-    return nodes[colorMap[headpos.x][headpos.y]];
+    return nodes[colorMap[curPos.x][curPos.y]];
 }

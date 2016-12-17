@@ -5,11 +5,11 @@
 #include "eval.h"
 
 
-static void restore(Status& stat, bool isempty, PlayerInfo backupPlayer, GraphNode* original_head)
+static void restore(Status& stat, bool isEmpty, PlayerInfo backupPlayer, GraphNode* originalPos)
 {
     stat.player = backupPlayer;
-    stat.head->empty = isempty;
-    stat.head = original_head;
+    stat.cur->empty = isEmpty;
+    stat.cur = originalPos;
 }
 
 // TODO: 实现Empty节点不算层数(需要记录回溯)
@@ -19,14 +19,14 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
         return eval(stat);
 
     PlayerInfo backupPlayer = stat.player;
-    GraphNode* original_head = stat.head;
+    GraphNode* originalPos = stat.cur;
     int maxVal = 0;
 
-    auto& next = stat.head->next;
+    auto& next = stat.cur->next;
     for (auto itr = next.begin(); itr != next.end(); ++itr)
     {
         GraphNode *p = *itr;
-        bool isempty = (*itr)->empty;
+        bool isEmpty = (*itr)->empty;
         if (trans(stat, *itr))
         {
             int curVal = search(stat, depth + 1, p);
@@ -36,7 +36,7 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
                 if (depth == 0)
                     bestChoice = p;
             }
-            restore(stat, isempty, backupPlayer, original_head);
+            restore(stat, isEmpty, backupPlayer, originalPos);
         }
 
     }

@@ -1,5 +1,14 @@
 #include "mogicTower.h"
 #include "damage.h"
+#include <cassert>
+#include "helpers.h"
+
+bool PlayerInfo::operator==(const PlayerInfo& o) const
+{
+    return hp == o.hp && atk == o.atk && def == o.def &&
+        mdef == o.mdef && keys[0] == o.keys[0] &&
+        keys[1] == o.keys[1] && pos == o.pos;
+}
 
 void PlayerInfo::acquire(const vector<MapObj>& objList)
 {
@@ -46,4 +55,9 @@ bool PlayerInfo::fight(MapObj monsterType)
         return true;
     }
     return false;
+}
+
+bool GraphNode::operator==(const GraphNode& o) const
+{
+    return index == o.index && empty == o.empty;
 }

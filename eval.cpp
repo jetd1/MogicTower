@@ -39,12 +39,12 @@ int eval(const Status& stat)
     int attack = stat.player.getATK();
     int defend = stat.player.getDEF();
     int defend_m = stat.player.getMDEF();
-    int blockDelta = stat.head->blockCount;
+    int blockDelta = stat.cur->blockCount;
     int yellow_key = stat.player.getKeyCount(yellowKey);
     int blue_key = stat.player.getKeyCount(blueKey);
     int red_key = stat.player.getKeyCount(redKey);
     door_key *dk = new door_key();
-    int all;
+
     //int yellow_door = stat.
     /*这部分是剩下的三种门与钥匙的差值，这三个差值也是参数*/
 

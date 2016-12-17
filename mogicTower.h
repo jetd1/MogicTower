@@ -66,10 +66,11 @@ struct Position
     int x, y;
 
     Position(int _x = 0, int _y = 0): x(_x), y(_y) {}
+    bool operator==(const Position& o)const { return x == o.x && y == o.y; }
 };
 
 /* 记录玩家信息的数据结构 */
-class PlayerInfo
+struct PlayerInfo
 {
 private:
     int hp;         /* 血量 */
@@ -88,6 +89,7 @@ public:
         in >> m.hp >> m.atk >> m.def >> m.mdef >> m.pos.x >> m.pos.y;
         return in;
     }
+    bool operator==(const PlayerInfo& o)const;
 
     int getATK() const { return atk; }
     int getDEF() const { return def; }
@@ -157,12 +159,14 @@ struct GraphNode
     set<GraphNode*> next;   /* 邻接节点列表 */
     vector<MapObj> obj;     /* 节点物品列表 */
     int blockCount;         /* 该节点增加的连通块计数 */
+
+    bool operator==(const GraphNode& o)const;
 };
 
 /* 状态转移结构 */
 struct Status
 {
-    GraphNode* head;
+    GraphNode* cur;
     PlayerInfo player;
 
     int blockCount;

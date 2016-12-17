@@ -5,11 +5,11 @@
 int trans(Status& stat, GraphNode* target)
 {
 #ifdef DEBUG
-    assert(stat.head == target || stat.head->next.find(target) == stat.head->next.end());
+    assert(stat.cur == target || stat.cur->next.find(target) != stat.cur->next.end());
 #endif
     if (target->empty)
     {
-        stat.head = target;
+        stat.cur = target;
         return -1;
     }
 
@@ -19,7 +19,7 @@ int trans(Status& stat, GraphNode* target)
     {
         if (!stat.player.fight(type))
             return 0;
-        stat.head = target;
+        stat.cur = target;
         stat.player.acquire(target->obj);
         target->empty = true;
         return 1;
@@ -29,7 +29,7 @@ int trans(Status& stat, GraphNode* target)
     {
         if (!stat.player.getKeyCount(doorType(type)))
             return 0;
-        stat.head = target;
+        stat.cur = target;
         stat.player.acquire(target->obj);
         target->empty = true;
         return 2;
@@ -39,7 +39,7 @@ int trans(Status& stat, GraphNode* target)
     assert(type == safeBlock);
 #endif
 
-    stat.head = target;
+    stat.cur = target;
     stat.player.acquire(target->obj);
     target->empty = true;
     return 3;

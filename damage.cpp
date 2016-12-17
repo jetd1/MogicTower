@@ -1,4 +1,4 @@
-#include "mogic.h"
+#include "mogicTower.h"
 
 /*
 此函数计算一个怪物对勇士造成的伤害

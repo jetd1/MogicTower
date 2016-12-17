@@ -4,18 +4,18 @@
 
 bool isEnd(const Status &stat)
 {
-	return true;
+	return false;
 }
 
-string getRoute(const Status& stat, const GraphNode* choice)
+string getRoute(const Status& stat, GraphNode* choice)
 {
 #ifdef DEBUG
-    assert(stat.head->next.find(choice) != stat.head->next.end());
+    assert(stat.cur->next.find(choice) != stat.cur->next.end());
 #endif
     return "w";
 }
 
-void moveTo(const GraphNode, Tower& mogicTower)
+void moveTo(const GraphNode* target, Tower& mogicTower)
 {
     
 }

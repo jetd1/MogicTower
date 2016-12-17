@@ -4,15 +4,13 @@
 #include <queue>
 #include <cassert>
 
-const Tower& readTower()
+const Tower& readTower(Tower& mogicTower)
 {
     if (freopen("input.txt", "r", stdin) == nullptr)
         cout << "打开input.txt失败，将从stdin中读取输入" << endl;
 
     int ign;
     cin >> ign >> ign >> ign;
-
-    static Tower mogicTower;
 
     for (size_t i = 0; i < MAP_LENGTH; ++i)
         for (size_t j = 0; j < MAP_LENGTH; ++j)
@@ -39,7 +37,7 @@ const Tower& readTower()
 
 const Status& getInitialStatus(const Tower& mogicTower)
 {
-    Position headpos = mogicTower.initialPlayerInfo.getPos();
+    Position curPos = mogicTower.initialPlayerInfo.getPos();
 
     static int colorMap[MAP_LENGTH][MAP_WIDTH];
     memset(colorMap, 0, sizeof(colorMap));
@@ -49,17 +47,17 @@ const Status& getInitialStatus(const Tower& mogicTower)
     static Status stat;
     stat.nodeContainer.resize(colorCount);
 
-    stat.head = buildGraph(mogicTower, headpos, colorCount, colorMap, stat.nodeContainer);
+    stat.cur = buildGraph(mogicTower, curPos, colorCount, colorMap, stat.nodeContainer);
     stat.player = mogicTower.initialPlayerInfo;
 
     /* 先取走最初节点的所有物品并标记为空 */
 #ifdef DEBUG
-    assert(stat.head->type == safeBlock);
+    assert(stat.cur->type == safeBlock);
 #endif
 
-    stat.head->empty = true;
-    stat.blockCount += stat.head->blockCount;
-    stat.player.acquire(stat.head->obj);
+    stat.cur->empty = true;
+    stat.blockCount += stat.cur->blockCount;
+    stat.player.acquire(stat.cur->obj);
 
     return stat;
 }
