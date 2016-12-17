@@ -4,7 +4,7 @@
 #include "mogicTower.h"
 
 
-int eval(const Status& stat);
+int search(Status& stat, int depth, GraphNode* &bestChoice);
 
 #endif
 

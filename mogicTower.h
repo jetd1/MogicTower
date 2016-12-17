@@ -10,7 +10,7 @@
 /* 记录地图信息的枚举结构 */
 enum MapObj
 {
-	safeBlock = 0,
+    safeBlock = 0,
 
     road = 10,
     wall,
@@ -41,7 +41,7 @@ enum MapObj
     monster61,
     monster62,
     monster63,
-    monster64, 
+    monster64,
     monster65,
     monster66,
     monster67,
@@ -89,12 +89,12 @@ public:
         return in;
     }
 
-	int getATK() const { return atk; }
-	int getDEF() const { return def; }
-	int getMDEF() const { return mdef; }
-	int getHP() const { return hp; }
+    int getATK() const { return atk; }
+    int getDEF() const { return def; }
+    int getMDEF() const { return mdef; }
+    int getHP() const { return hp; }
     int getKeyCount(MapObj o)const { return keys[o - yellowKey]; }
-	const Position& getPos() const { return pos; }
+    const Position& getPos() const { return pos; }
     void acquire(const vector<MapObj>& objList);
     bool fight(MapObj monsterType);
 };
@@ -121,10 +121,10 @@ public:
         return in;
     }
 
-	int getATK() const { return atk; }
-	int getDEF() const { return def; }
-	int getSPE() const { return spe; }
-	int getHP() const { return hp; }
+    int getATK() const { return atk; }
+    int getDEF() const { return def; }
+    int getSPE() const { return spe; }
+    int getHP() const { return hp; }
 };
 
 /*全局记录塔信息的数据结构 */
@@ -171,6 +171,8 @@ struct Status
     GraphNode* nodeBackUp;
 };
 
+
+extern Tower globalMogicTower;
 
 #endif
 

@@ -33,6 +33,9 @@
     <ClCompile Include="mogicTower.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="eval.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="damage.h">
@@ -54,6 +57,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="trans.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="eval.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

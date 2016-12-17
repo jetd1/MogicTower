@@ -1,6 +1,8 @@
 #ifndef __HELPERS_H
 #define __HELPERS_H
 
+#include "mogicTower.h"
+
 inline bool isMonster(MapObj type)
 {
     return (type >= monster51 &&

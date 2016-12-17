@@ -1,9 +1,5 @@
 #include "mogicTower.h"
-#include "helpers.h"
-#include <cassert>
 #include "damage.h"
-
-extern Tower globalMogicTower;
 
 void PlayerInfo::acquire(const vector<MapObj>& objList)
 {

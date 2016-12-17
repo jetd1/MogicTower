@@ -1,7 +1,4 @@
 #include <iostream>
-#include <queue>
-#include "mogic.h"
-#include "damage.h"
 #include "init.h"
 
 using namespace std;
