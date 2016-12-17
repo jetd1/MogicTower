@@ -8,6 +8,14 @@
 extern Tower globalMogicTower;
 
 
+void restore(Status& stat, bool isempty, PlayerInfo backupPlayer, GraphNode* original_head) {
+	stat.player = backupPlayer;
+	stat.head->empty = isempty;
+	stat.head = original_head;
+
+}
+
+
 // TODO: Finish This Shit
 int search(Status& stat, int depth, GraphNode* &bestChoice)
 {
@@ -21,7 +29,7 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
 
     auto& next = stat.head->next;
 	for (auto itr = next.begin(); itr != next.end(); ++itr) {
-        bool isempty = (*itr)->empty;
+		bool isempty = (*itr)->empty;
 		if (trans(stat, *itr)) {
 			int curVal = search(stat, depth + 1, p);
 			if (maxVal < curVal) {
