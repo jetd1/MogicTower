@@ -93,6 +93,9 @@ public:
 	int getDEF() const { return def; }
 	int getMDEF() const { return mdef; }
 	int getHP() const { return hp; }
+	int getY_KEY() const { return keys[0]; }
+	int getB_KEY() const { return keys[1]; }
+	int getR_KEY() const { return keys[2]; }
 	const Position& getPos() const { return pos; }
     void acquire(vector<MapObj>& objList);
     void fight(MapObj monsterType);
@@ -149,7 +152,7 @@ struct Tower
 /* 魔塔重构图节点结构 */
 struct GraphNode
 {
-    bool empty;             /* 访问该节点后将valid设为false */
+    bool empty;             /* 访问该节点后将valid设为true */
     Position pos;           /* 该节点的坐标 */
     MapObj type;            /* 该节点类型 */
     set<GraphNode*> next;   /* 邻接节点列表 */

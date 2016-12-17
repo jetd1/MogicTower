@@ -25,8 +25,8 @@ const int MAP_LENGTH = 13;
 const int MAX_DEPTH = 10;
 
 /* 0123:иообвСср */
-const int dx[4] = {-1,1,0,0};
-const int dy[4] = {0,0,-1,1};
+const int dx[4] = { -1,1,0,0 };
+const int dy[4] = { 0,0,-1,1 };
 
 
 const int HP_Multiple = 5;

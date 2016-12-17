@@ -21,16 +21,44 @@ int search(const Status& stat, int depth)
     return 0;
 }
 
+struct door_key {	//全局有
+	int ykey, bkey, rkey;
+	int ydoor, bdoor, rdoor;
+	init
+};
+int getYellowDoor() {
+	for(int )
+}
+int getBlueDoor() {
+
+}
+int getRedDoor() {
+
+}
+int getYellowKey() {
+
+}
+int getBlueKey() {
+
+}
+int getRedKey() {
+
+}
+
 int eval(const Status& stat)
 {
-    //int tmpRank = 0;
-    //tmpRank += stat.player->getATK() * ATK_Multiple;
-    //tmpRank += stat.player->getHP() * HP_Multiple;
-    //tmpRank += stat.player->getDEF() * DEF_Multiple;
-    //tmpRank += stat.player->getMDEF() * MDEF_Multiple;
+	int result = 0;
 
-    ///* TODO: 对player所在位置连通性对权值的影响 */
-    //return tmpRank;
+	int blood = stat.player.getHP();
+	int attack = stat.player.getATK();
+	int defend = stat.player.getDEF();
+	int defend_m = stat.player.getMDEF();
+	int blockDelta = stat.head->blockCount;
+	int yellow_key = stat.player.getY_KEY();
+	int blue_key = stat.player.getB_KEY();
+	int red_key = stat.player.getR_KEY();
 
-    return 0;
+
+
+    return result;
 }
