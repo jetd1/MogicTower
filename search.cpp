@@ -3,6 +3,7 @@
 #include "search.h"
 #include "trans.h"
 #include <vector>
+#include "trans.h"
 
 extern Tower globalMogicTower;
 
@@ -18,6 +19,7 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
 
 
 	PlayerInfo backupPlayer = stat.player;
+    GraphNode* original_head = stat.head;
 	int maxVal = 0;
 	GraphNode *p;
 
@@ -29,7 +31,7 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
 				maxVal = curVal;
 				bestChoice = p;
 			}
-			restore(stat, isempty, backupPlayer);
+			restore(stat, isempty, backupPlayer, original_head);
 		}
         
     }
