@@ -4,22 +4,31 @@
 #include <vector>
 
 // TODO: Finish This Shit
-int search(const Status& stat, int depth)
+int search(const Status& stat, int depth, GraphNode* &bestChoice)
 {
     if (depth == MAX_DEPTH)
         return eval(stat);
 
 	bool isempty = stat.head->empty;
+	PlayerInfo backupPlayer = stat.player;
+	int maxVal = 0;
+	GraphNode *p;
 
     auto& next = stat.head->next;
-    size_t nextCount = next.size();
 	for (auto itr = next.begin(); itr != next.end(); ++itr) {
-		if (trans(stat, ))
+		if (trans(stat, *itr)) {
+			int curVal = search(stat, depth + 1, p);
+			if (maxVal < curVal) {
+				maxVal = curVal;
+				bestChoice = p;
+			}
+			restore(stat, isempty, backupPlayer);
+		}
 
 	}
     
 
-    return 0;
+    return maxVal;
 }
 
 struct door_key {	//È«¾ÖÓÐ
