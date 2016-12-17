@@ -53,5 +53,8 @@
     <ClInclude Include="init.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="trans.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
