@@ -93,6 +93,9 @@ public:
 	int getDEF() const { return def; }
 	int getMDEF() const { return mdef; }
 	int getHP() const { return hp; }
+	int getY_KEY() const { return keys[0]; }
+	int getB_KEY() const { return keys[1]; }
+	int getR_KEY() const { return keys[2]; }
 	const Position& getPos() const { return pos; }
     void acquire(vector<MapObj>& objList);
     void fight(MapObj monsterType);
