@@ -40,7 +40,7 @@ bool PlayerInfo::fight(MapObj monsterType)
     assert(isMonster(monsterType));
 #endif
     int dmg = getDamage(*this, globalMogicTower.monsterInfo.at(monsterType));
-    if (hp > 0)
+    if (hp > dmg)
     {
         hp -= dmg;
         return true;

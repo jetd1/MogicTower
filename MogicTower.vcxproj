@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClCompile Include="damage.cpp" />
     <ClCompile Include="eval.cpp" />
+    <ClCompile Include="graph.cpp" />
     <ClCompile Include="init.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mogicTower.cpp" />
@@ -128,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="damage.h" />
     <ClInclude Include="eval.h" />
+    <ClInclude Include="graph.h" />
     <ClInclude Include="helpers.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="mogic.h" />

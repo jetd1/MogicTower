@@ -167,8 +167,7 @@ struct Status
 
     int blockCount;
 
-    GraphNode* nodeContainer;
-    GraphNode* nodeBackUp;
+    vector<GraphNode> nodeContainer;
 };
 
 
