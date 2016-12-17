@@ -12,6 +12,9 @@ Tower globalMogicTower;
 int main()
 {
     readTower(globalMogicTower);
+#ifdef DEBUG
+    dbg_printSize();
+#endif
     Status mainStatus = getStatus(globalMogicTower);
     while (!isEnd(mainStatus))
     {
@@ -26,6 +29,7 @@ int main()
 #endif
         cout << getRoute(mainStatus, choice);
         moveTo(choice, mainStatus);
+        PAUSE;
     }
 
     cout << endl << "Quiting" << endl;

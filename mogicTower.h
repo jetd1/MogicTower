@@ -99,6 +99,7 @@ public:
     const Position& getPos() const { return pos; }
     void acquire(const vector<MapObj>& objList);
     bool fight(MapObj monsterType);
+    void moveTo(const Position& _pos) { pos = _pos; }
 };
 
 /* 记录怪物信息的数据结构 */
@@ -146,7 +147,7 @@ struct Tower
     map<MapObj, Monster> monsterInfo;
 
     /* 记录初始玩家数据 */
-    PlayerInfo initialPlayerInfo;
+    PlayerInfo player;
 };
 
 /* 魔塔重构图节点结构 */
@@ -167,6 +168,7 @@ public:
     GraphNode(int _idx, int _x, int _y, MapObj _type):
     index(_idx),  pos(_x, _y), type(_type), empty(false), blockCount(1) {}
     MapObj getType()const { return type; }
+    const Position& getPos()const { return pos; }
     bool operator==(const GraphNode& o)const;
 };
 
