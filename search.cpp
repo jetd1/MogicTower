@@ -6,17 +6,16 @@
 // TODO: Finish This Shit
 int search(const Status& stat, int depth)
 {
-    //if (depth == MAX_DEPTH)
-    //    return eval(stat);
+    if (depth == MAX_DEPTH)
+        return eval(stat);
 
-    //size_t nodeCount = stat->next.size();
-    //for (size_t i = 0; i < nodeCount; ++i)
-    //{
-    //    Status& cur = stat->next[i];
-    //    trans(stat, cur);
-    //    search(cur, depth + 1);
-    //    restore();
-    //}
+    auto& next = stat.head->next;
+    size_t nextCount = next.size();
+    for (size_t i = 0; i < nextCount; ++i)
+    {
+        
+    }
+    
 
     return 0;
 }

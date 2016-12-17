@@ -150,7 +150,7 @@ struct Tower
 struct GraphNode
 {
     int index;              /* 该节点索引值（最初被染的颜色） */
-    bool empty;             /* 访问该节点后将valid设为false */
+    bool empty;             /* 访问该节点后将empty设为true */
     Position pos;           /* 该节点的坐标 */
     MapObj type;            /* 该节点类型 */
     set<GraphNode*> next;   /* 邻接节点列表 */
