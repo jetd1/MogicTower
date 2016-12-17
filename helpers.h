@@ -30,6 +30,16 @@ inline bool isItem(MapObj type)
         type <= largeBottle;
 }
 
+inline MapObj doorType(MapObj keyType)
+{
+    return  MapObj(MapObj(keyType) + 10);
+}
+
+inline MapObj keyType(MapObj doorType)
+{
+    return  MapObj(MapObj(doorType) - 10);
+}
+
 inline bool isItem(const Tower& mogicTower, int x, int y)
 {
     return isItem(mogicTower.mapContent[x][y]);

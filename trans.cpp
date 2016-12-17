@@ -27,16 +27,20 @@ int trans(Status& stat, GraphNode* target)
 
     if (isDoor(type))
     {
+        if (!stat.player.getKeyCount(doorType(type)))
+            return 0;
+        stat.head = target;
+        stat.player.acquire(target->obj);
+        target->empty = true;
+        return 2;
     }
 
-    switch(type)
-    {
-        case safeblock:
-            stat.head = target;
-            stat.player.acquire(target->obj);
-            target->empty = true;
-            return 1;
-        default:
-            throw exception("Invalid Transfer Target Type");
-    }
+#ifdef DEBUG
+    assert(type == safeBlock);
+#endif
+
+    stat.head = target;
+    stat.player.acquire(target->obj);
+    target->empty = true;
+    return 3;
 }

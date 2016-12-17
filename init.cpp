@@ -102,7 +102,7 @@ static GraphNode *buildGraph(const Tower& mogicTower, const Position& headpos, i
                 nodes[colorMap[i][j]]->blockCount = 1;
 
                 if (map[i][j] == road || isItem(mogicTower, i, j))
-                    nodes[colorMap[i][j]]->type = safeblock; // road和物品都是safeblock
+                    nodes[colorMap[i][j]]->type = safeBlock; // road和物品都是safeblock
                 else
                     nodes[colorMap[i][j]]->type = map[i][j]; // 门,怪物
             }
@@ -154,7 +154,7 @@ const Status& getInitialStatus(const Tower& mogicTower)
 
     /* 先取走最初节点的所有物品并标记为空 */
 #ifdef DEBUG
-    assert(stat.head->type == safeblock);
+    assert(stat.head->type == safeBlock);
 #endif
 
     stat.head->empty = true;
