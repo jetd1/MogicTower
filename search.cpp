@@ -1,17 +1,22 @@
 #include "mogic.h"
 #include "mogicTower.h"
 #include "search.h"
+#include "trans.h"
 #include <vector>
 
 extern Tower globalMogicTower;
 
+
 // TODO: Finish This Shit
-int search(const Status& stat, int depth, GraphNode* &bestChoice)
+int search(Status& stat, int depth, GraphNode* &bestChoice)
 {
     if (depth == MAX_DEPTH)
         return eval(stat);
 
 	bool isempty = stat.head->empty;
+	
+
+
 	PlayerInfo backupPlayer = stat.player;
 	int maxVal = 0;
 	GraphNode *p;
@@ -29,7 +34,6 @@ int search(const Status& stat, int depth, GraphNode* &bestChoice)
         
     }
     
-
     return maxVal;
 }
 
