@@ -3,7 +3,6 @@
 #include "search.h"
 #include "trans.h"
 #include <vector>
-#include "trans.h"
 
 extern Tower globalMogicTower;
 
@@ -44,34 +43,35 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
     return maxVal;
 }
 
-struct door_key {	//全局性的钥匙和门
-	int ykey, bkey, rkey;
-	int ydoor, bdoor, rdoor;
-	door_key() {
-		ykey = bkey = rkey = 0;
-		ydoor = bdoor = rdoor = 0;
-		auto map = globalMogicTower.mapContent;
-		for (int i = 0; i < MAP_LENGTH; i++) {
-			for (int j = 0; j < MAP_WIDTH; j++) {
-				switch (map[i][j]) {
-				case yellowDoor:
-					++ydoor; break;
-				case blueDoor:
-					++bdoor; break;
-				case redDoor:
-					++rdoor; break;
-				case yellowKey:
-					++ykey; break;
-				case blueKey:
-					++bkey; break;
-				case redKey:
-					++rkey; break;
-				default:
-					break;
-}
-}
-}
-}
+struct door_key
+{	//全局性的钥匙和门
+    int ykey, bkey, rkey;
+    int ydoor, bdoor, rdoor;
+    door_key()
+    {
+        ykey = bkey = rkey = 0;
+        ydoor = bdoor = rdoor = 0;
+        auto map = globalMogicTower.mapContent;
+        for (int i = 0; i < MAP_LENGTH; i++)
+            for (int j = 0; j < MAP_WIDTH; j++)
+                switch (map[i][j])
+                {
+                    case yellowDoor:
+                        ++ydoor; break;
+                    case blueDoor:
+                        ++bdoor; break;
+                    case redDoor:
+                        ++rdoor; break;
+                    case yellowKey:
+                        ++ykey; break;
+                    case blueKey:
+                        ++bkey; break;
+                    case redKey:
+                        ++rkey; break;
+                    default:
+                        break;
+                }
+    }
 };
 
 int eval(const Status& stat)
@@ -87,7 +87,7 @@ int eval(const Status& stat)
 	int blue_key = stat.player.getKeyCount(blueKey);
 	int red_key = stat.player.getKeyCount(redKey);
 	door_key *dk = new door_key();
-	int all
+    int all;
 
 
     return result;
