@@ -6,20 +6,31 @@
 extern Tower globalMogicTower;
 
 // TODO: Finish This Shit
-int search(const Status& stat, int depth)
+int search(const Status& stat, int depth, GraphNode* &bestChoice)
 {
     if (depth == MAX_DEPTH)
         return eval(stat);
 
+	bool isempty = stat.head->empty;
+	PlayerInfo backupPlayer = stat.player;
+	int maxVal = 0;
+	GraphNode *p;
+
     auto& next = stat.head->next;
-    size_t nextCount = next.size();
-    for (size_t i = 0; i < nextCount; ++i)
-    {
+	for (auto itr = next.begin(); itr != next.end(); ++itr) {
+		if (trans(stat, *itr)) {
+			int curVal = search(stat, depth + 1, p);
+			if (maxVal < curVal) {
+				maxVal = curVal;
+				bestChoice = p;
+			}
+			restore(stat, isempty, backupPlayer);
+		}
         
     }
     
 
-    return 0;
+    return maxVal;
 }
 
 struct door_key {	//全局性的钥匙和门
@@ -46,10 +57,10 @@ struct door_key {	//全局性的钥匙和门
 					++rkey; break;
 				default:
 					break;
-				}
-			}
-		}
-	}
+}
+}
+}
+}
 };
 
 int eval(const Status& stat)
@@ -61,9 +72,9 @@ int eval(const Status& stat)
 	int defend = stat.player.getDEF();
 	int defend_m = stat.player.getMDEF();
 	int blockDelta = stat.head->blockCount;
-	int yellow_key = stat.player.getY_KEY();
-	int blue_key = stat.player.getB_KEY();
-	int red_key = stat.player.getR_KEY();
+	int yellow_key = stat.player.getKeyCount(yellowKey);
+	int blue_key = stat.player.getKeyCount(blueKey);
+	int red_key = stat.player.getKeyCount(redKey);
 	door_key *dk = new door_key();
 	int all
 
