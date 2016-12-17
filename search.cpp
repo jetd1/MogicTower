@@ -9,12 +9,14 @@ int search(const Status& stat, int depth)
     if (depth == MAX_DEPTH)
         return eval(stat);
 
+	bool isempty = stat.head->empty;
+
     auto& next = stat.head->next;
     size_t nextCount = next.size();
-    for (size_t i = 0; i < nextCount; ++i)
-    {
-        
-    }
+	for (auto itr = next.begin(); itr != next.end(); ++itr) {
+		if (trans(stat, ))
+
+	}
     
 
     return 0;
