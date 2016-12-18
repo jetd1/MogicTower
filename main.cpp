@@ -35,7 +35,6 @@ int main()
         dbg_compareStatus(ori, mainStatus);
 #endif
 
-
         cout << getRoute(mainStatus, choice);
         moveTo(choiceIdx, mainStatus);
 
