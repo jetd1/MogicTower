@@ -3,6 +3,8 @@
 #include "search.h"
 #include "trans.h"
 #include "eval.h"
+#include "routine.h"
+#include <climits>
 #include "trans.h"
 #include <vector>
 
