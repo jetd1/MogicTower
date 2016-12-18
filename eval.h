@@ -1,9 +1,9 @@
-#ifndef __EVAL_H
+ï»¿#ifndef __EVAL_H
 #define __EVAL_H
 
 #include "mogicTower.h"
 
-//ºËĞÄ¹ÀÖµº¯Êı£¬Ö±½ÓÓÃÓÚÆÀÅĞ¾ÖÃæ
+//æ ¸å¿ƒä¼°å€¼å‡½æ•°ï¼Œç›´æ¥ç”¨äºè¯„åˆ¤å±€é¢
 int eval(const Status& stat);
 
 #endif

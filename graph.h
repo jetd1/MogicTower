@@ -1,12 +1,12 @@
-#ifndef __GRAPH_H
+ï»¿#ifndef __GRAPH_H
 #define __GRAPH_H
 
 #include "mogicTower.h"
 
-//±éÀúÍ¼²¢È¾É«
+//éå†å›¾å¹¶æŸ“è‰²
 int traverseMap(Tower& mogicTower);
 
-//½«µØÍ¼×ª»»³ÉÍ¼£¬Ìí¼Ó½ÚµãµÄ±ØÒªĞÅÏ¢
+//å°†åœ°å›¾è½¬æ¢æˆå›¾ï¼Œæ·»åŠ èŠ‚ç‚¹çš„å¿…è¦ä¿¡æ¯
 int buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount,
                       Status* statp);
 

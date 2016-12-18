@@ -1,4 +1,4 @@
-#ifndef __ROUTINE_H
+ï»¿#ifndef __ROUTINE_H
 #define __ROUTINE_H
 
 #include "mogicTower.h"
@@ -6,10 +6,10 @@
 
 bool isEnd(const Status& stat);
 
-//µãµ½µã
+//ç‚¹åˆ°ç‚¹
 string getRouteFromSrcToDest(Position src, Position dest);
 
-//¼ÆËãµ¥Á¬Í¨¿éÄÚ±éÀúÂ·¾¶
+//è®¡ç®—å•è¿é€šå—å†…éå†è·¯å¾„
 string getRoute(Status& stat, int idx);
 
 void moveTo(int targetIdx, Status& stat, bool update = true);
