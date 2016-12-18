@@ -18,6 +18,8 @@ int main()
     Status mainStatus = initStatus(globalMogicTower);
 
     ofstream fout("output.txt");
+    if (!fout)
+        throw runtime_error("Cannot create output.txt");
 
     while (!isEnd(mainStatus))
     {
@@ -52,7 +54,7 @@ int main()
 
 //        PAUSE;
     }
-
+    fout << endl;
     cout << endl << "Quiting" << endl;
     PAUSE;
 }
