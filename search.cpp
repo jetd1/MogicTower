@@ -9,12 +9,12 @@
 #include <vector>
 
 
-static void restore(Status& stat, bool isEmpty, PlayerInfo backupPlayer, int originalIdx)
-{
-    stat.player = backupPlayer;
-    stat.getNodePtr()->empty = isEmpty;
-    stat.curIdx = originalIdx;
-}
+//static void restore(Status& stat, bool isEmpty, PlayerInfo backupPlayer, int originalIdx)
+//{
+//    stat.player = backupPlayer;
+//    stat.getNodePtr()->empty = isEmpty;
+//    stat.curIdx = originalIdx;
+//}
 
 
 int search(Status& stat, int depth, int &bestChoice)

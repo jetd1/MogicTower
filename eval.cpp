@@ -1,6 +1,8 @@
 #include "eval.h"
 #include "helpers.h"
 #include "damage.h"
+#include <climits>
+
 extern Tower globalMogicTower;
 inline int cmpMonster(const Status& stat) {
 	auto map = globalMogicTower.mapContent;

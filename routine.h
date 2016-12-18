@@ -6,9 +6,9 @@
 
 bool isEnd(const Status& stat);
 
-string getRouteFromSrcToDest(const Position* src, const Position* dest);
+string getRouteFromSrcToDest(Position src, Position dest);
 
-string getRoute(const Status& stat, int idx);
+string getRoute(Status& stat, int idx);
 
 void moveTo(int targetIdx, Status& stat, bool update = true);
 

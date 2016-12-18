@@ -55,6 +55,12 @@ Status getStatus(Tower& mogicTower)
     stat.nodeContainer.resize(colorCount);
 
     stat.curIdx = buildGraph(mogicTower, curPos, colorCount, &stat);
+    for (int i = 0; i < colorCount; i++)
+        if (stat.nodeContainer[i].getType() == boss)
+        {
+            stat.bossIdx = i;
+            continue;
+        }
     stat.player = mogicTower.player;
 
 #ifdef DEBUG

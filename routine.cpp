@@ -10,7 +10,7 @@
 
 bool isEnd(const Status &stat)
 {
-	auto adj = stat.getNode().adj;
+	auto& adj = stat.getNode().adj;
 	for (auto itr = adj.begin(); itr != adj.end(); ++itr)
 	{
 		MapObj type = stat.getNode(*itr).getType();
@@ -26,7 +26,7 @@ bool isEnd(const Status &stat)
 	return true;
 }
 
-string getRouteFromSrcToDest(const Position* src, const Position* dest) { // 返回从src到dest的路径
+string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到dest的路径
 	const int dx[4] = { 0,-1,1,0 };
 	const int dy[4] = { 1,0,0,-1 };
 	const char dir[4] = { 'd', 'w', 's', 'a' };
@@ -35,16 +35,16 @@ string getRouteFromSrcToDest(const Position* src, const Position* dest) { // 返
 	map<Position, int> preDir; // [pos, k] k是到达pos的最后一步所走的方向
 	queue<Position> q;
 
-	int colorSrc = globalMogicTower.colorMap[src->x][src->y];
-	int colorDest = globalMogicTower.colorMap[dest->x][dest->y];
+	int colorSrc = globalMogicTower.colorMap[src.x][src.y];
+	int colorDest = globalMogicTower.colorMap[dest.x][dest.y];
 
-	q.push(*src);
+	q.push(src);
 
 	while (!q.empty()) {
 		Position cur = q.front();
 		q.pop();
-		if (cur == *dest) { // cur是目标位置，根据preDir回溯出路径
-			while (!(cur == *src)) {
+		if (cur == dest) { // cur是目标位置，根据preDir回溯出路径
+			while (!(cur == src)) {
 				int k = preDir.find(cur)->second;
 				route = dir[k] + route;
 				cur = Position(cur.x - dx[k], cur.y - dy[k]);
@@ -70,7 +70,7 @@ string getRouteFromSrcToDest(const Position* src, const Position* dest) { // 返
 
 
 
-string getRoute(const Status& stat, int idx) // 返回遍历连通块、到达choice的路径
+string getRoute(Status& stat, int idx) // 返回遍历连通块、到达choice的路径
 {
 #ifdef DEBUG
 	assert(stat.getNode().adj.find(idx) != stat.getNode().adj.end());
@@ -78,16 +78,18 @@ string getRoute(const Status& stat, int idx) // 返回遍历连通块、到达ch
 
 	string route = "";
 
-	//	auto &obj = stat.getNode(stat.curIdx).obj;
-	//	int objCount = obj.size();
-	//	Position playerPos = stat.player.getPos();
+	Position playerPos = stat.player.getPos();
+	int curColor = globalMogicTower.colorMap[playerPos.x][playerPos.y];
 
-	//	for (int i = 0; i < objCount; ++i) {
-	//		route = getRouteFromSrcToDest(&playerPos, &obj[i].pos) + route; // TODO: vector<MapObj> 加上物品的位置信息，否则需要查找物品的位置
-	//		playerPos = obj[i].pos;
-	//	}
+	for (int i = 0; i < MAP_LENGTH; ++i) 
+		for (int j = 0; j < MAP_WIDTH; ++j) 
+			if (globalMogicTower.colorMap[i][j] == curColor) {
+				Position tmpPos(i, j);
+				route = getRouteFromSrcToDest(playerPos, tmpPos) + route; 
+				playerPos = tmpPos;
+			}
 
-	//	route = getRouteFromSrcToDest(&playerPos, &choice->getPos()) + route;
+	route = getRouteFromSrcToDest(playerPos, stat.getNodePtr(idx)->getPos()) + route;
 
 	return route;
 }
