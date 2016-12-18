@@ -37,12 +37,12 @@ int eval(const Status& stat)
 	int remain_yellow_key = stat.getRemainKeyCount(yellowKey);
 	int remain_blue_key = stat.getRemainKeyCount(blueKey);
 	int remain_red_key = stat.getRemainKeyCount(redKey);
-	result -= cmpMonster(stat) * 100 / blood;
-	result -= (remain_yellow_door - (remain_yellow_key / 2 + yellow_key)) * 500;
-	result -= (remain_blue_door - (remain_blue_key / 2 + blue_key)) * 1000;
-	result -= (remain_red_door - (remain_red_key / 2 + red_key)) * 1500;
-	result += defend_m * 1000;
-	result += defend * 800;
-	result += attack * 300;
+	result -= cmpMonster(stat) * 1000 / blood;
+	result -= (remain_yellow_door - (remain_yellow_key / 2 + yellow_key)) * 5000;
+	result -= (remain_blue_door - (remain_blue_key / 2 + blue_key)) * 10000;
+	result -= (remain_red_door - (remain_red_key / 2 + red_key)) * 15000;
+	result += defend_m * 2000;
+	result += defend * 2500;
+	result += attack * 1500;
     return result;
 }
