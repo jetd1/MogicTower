@@ -25,9 +25,9 @@ int main()
         int choiceIdx = 0;
         int ret = search(mainStatus, 0, choiceIdx);
 
-
 #ifdef DEBUG
-        assert(choiceIdx != 0);
+        if (choiceIdx == 0)
+            throw runtime_error("Search returns no choice!");
         auto choice = mainStatus.getNodePtr(choiceIdx);
         cout << "choice: " << choice->getPos().x <<
             " " << choice->getPos().y << endl;
@@ -40,10 +40,10 @@ int main()
         moveTo(choiceIdx, mainStatus);
 
 #ifdef DEBUG
-        globalMogicTower.dbg_print();
+        //globalMogicTower.dbg_print();
 #endif
 
-        PAUSE;
+        //PAUSE;
     }
 
     cout << endl << "Quiting" << endl;

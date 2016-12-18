@@ -21,7 +21,7 @@ int search(Status& stat, int depth, int &bestChoice)
 
     //PlayerInfo backupPlayer = stat.player;
     //GraphNode* originalPos = stat.cur;
-    int maxVal = 0;
+    int maxVal = INT_MIN;
 
     const Tower backUpTower = globalMogicTower;
     const Status backUpStatus = stat;

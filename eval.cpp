@@ -48,14 +48,14 @@ int eval(const Status& stat)
     //int yellow_door = stat.
     /*这部分是剩下的三种门与钥匙的差值，这三个差值也是参数*/
 
-    //result += blood;
-    result += attack * 10;
-    result += defend * 8;
-    result += defend_m * 8;
-    result += blockDelta;
-    result += yellow_key * 20;
-    result += blue_key * 20;
-    result += red_key * 20;
+    result += blood;
+    //result += attack * 10;
+    //result += defend * 8;
+    //result += defend_m * 8;
+    //result += blockDelta;
+    //result += yellow_key * 20;
+    //result += blue_key * 20;
+    //result += red_key * 20;
 
     return result;
 }
