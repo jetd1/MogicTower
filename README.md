@@ -43,43 +43,21 @@
 
 ```cpp
 /* 魔塔重构图节点结构 */
-class GraphNode
+struct GraphNode
 {
-private:
-    int index;              /* 该节点索引值（最初被染的颜色） */
-    Position pos;           /* 该节点的坐标 */
-    MapObj type;            /* 该节点类型 */
-    
-public:
-    bool empty;             /* 访问该节点后将empty设为true */
-    int blockCount;         /* 该节点增加的连通块计数 */
-    set<int> adj;           /* 邻接节点索引列表 */
-    vector<MapObj> obj;     /* 节点物品列表 */
-    Status* fatherStat;
-
-    //GraphNode() { empty = true; }
-    GraphNode(Status* father = nullptr): empty(true), fatherStat(father) {}
-    GraphNode(Status* father, int _idx, int _x, int _y, MapObj _type):
-    fatherStat(father), index(_idx),  pos(_x, _y), type(_type), empty(false), blockCount(1) {}
-    MapObj getType()const { return type; }
-    int getIndex()const { return index; }
-    const Position& getPos()const { return pos; }
-    bool operator==(const GraphNode& o)const;
+    bool valid;         /* 访问该节点后将valid设为false */
+    Position pos;       /* 该节点的坐标 */
+    MapObj type;        /* 该节点类型（门或怪物） */
+    vector<GraphNode*> next; /* 子节点列表 */
+    vector<MapObj> obj; /* 节点物品列表 */
+    int blockCount;     /* 该节点增加的连通块计数 */
 };
+
 /* 状态转移结构 */
 struct Status
 {
-    int curIdx;
+    GraphNode* head;
     PlayerInfo player;
-
-    vector<GraphNode> nodeContainer;
-
-    Status(): curIdx(0), player(), nodeContainer() {}
-    Status(const Status& other);
-    const Status& operator=(const Status& other);
-    GraphNode& getNode(int index = 0) { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
-    const GraphNode& getNode(int index = 0)const { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
-    GraphNode* getNodePtr(int index = 0) { return index ? &nodeContainer[index] : &nodeContainer[curIdx]; }
 };
 ```
 
@@ -173,7 +151,61 @@ for(every_next_status)
 }
 ```
 
+在我们进行上述构造并搜索时，在可接受的时间范围内对第一个输入大概只能搜索到4-5层，虽然这样可以解决前3个例子，但是最终只能达到4-5层并不是一个非常好的深度。为了找到代码中最为耗时的部分，我们使用`Visual Studio`的调试工具对代码进行了性能分析，最终发现`backup`与`restore`部分占用了过多的时间，究其原因，我们推测是在复制的时候对于指针的处理过于复杂。
 
+为了能够让搜索算法的效果有质的提升，必须要对指针复制中大量的资源占用做出优化，我们无奈之中只能对整个图节点结构进行重构，重构的目的是优化指针操作，我们改用记录`index`值的方式，并因此修改了几乎整个项目，这次重构是整个过程中最为耗时的部分。
+
+```cpp
+/* 魔塔重构图节点结构 */
+class GraphNode
+{
+private:
+    int index;              /* 该节点索引值（最初被染的颜色） */
+    Position pos;           /* 该节点的坐标 */
+    MapObj type;            /* 该节点类型 */
+    
+public:
+    bool empty;             /* 访问该节点后将empty设为true */
+    int blockCount;         /* 该节点增加的连通块计数 */
+    set<int> adj;           /* 邻接节点索引列表 */
+    vector<MapObj> obj;     /* 节点物品列表 */
+    Status* fatherStat;
+
+    //GraphNode() { empty = true; }
+    GraphNode(Status* father = nullptr): empty(true), fatherStat(father) {}
+    GraphNode(Status* father, int _idx, int _x, int _y, MapObj _type):
+    fatherStat(father), index(_idx),  pos(_x, _y), type(_type), empty(false), blockCount(1) {}
+    MapObj getType()const { return type; }
+    int getIndex()const { return index; }
+    const Position& getPos()const { return pos; }
+    bool operator==(const GraphNode& o)const;
+};
+/* 状态转移结构 */
+struct Status
+{
+    int curIdx;
+    PlayerInfo player;
+
+    vector<GraphNode> nodeContainer;
+
+    Status(): curIdx(0), player(), nodeContainer() {}
+    Status(const Status& other);
+    const Status& operator=(const Status& other);
+    GraphNode& getNode(int index = 0) { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
+    const GraphNode& getNode(int index = 0)const { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
+    GraphNode* getNodePtr(int index = 0) { return index ? &nodeContainer[index] : &nodeContainer[curIdx]; }
+};
+```
+
+重构后性能有了巨大的提升，若以第一个输入为例，每次搜索8层可以在1秒内出解，达到了预期要求。
+
+
+
+
+
+最终我们主函数逻辑可作如下图，从图来看还是很错综复杂的，应该有优化的空间：
+
+![code map](./sources/codemap.png)
 
 
 
@@ -181,7 +213,17 @@ for(every_next_status)
 
 ### 状态的表达与快速操作
 
-在一开始构建`status`类的目的是用来完整的等价表达当前的状态，以期能够在尽量减少图的重构操作的同时保证搜索的有效与准确
+在一开始构建`status`类的目的是用来完整的等价表达当前的状态，以期能够在尽量减少图的重构操作的同时保证搜索的有效与准确，该如何完整的表达状态是我们遇到的第一个问题。本质上来说，这跟上学期程序设计实习中提到的深拷贝与浅拷贝有类似之处。经过了上述的思考与讨论过程，我们最终选用了存`index`的方案，达到了速度与检索方便程度的统一。
+
+### 评估函数与终止判断
+
+评估函数是对抗类AI设计的核心内容，也是竞争力的体现，我们对于每一个独立的`status`进行了评估，评估考虑的对象以当前状态的人物为主，考虑了包括生命值、攻击力、防御力、钥匙等在内的许多元素。计划中加入一些能表达此处连通情况的权值，但是不能保证一定能对估值有正影响，所以暂时没有考虑加入进来。
+
+每次判断是否结束时，我们当前采用的方案是判断在当前连通分支中，是否有可以继续占据的怪物或者门，但是这样的判断是有问题的。最关键的问题是，如果当前可以通过占据一个怪物来拓展连通分支，并且这一条新的连通分支背后可能意味着更多的收益，从而使得最终收益增大，这是无法通过判断结束来解决的。同时，判断是否结束的函数是每一层搜索的每一步都需要调用一次，所以时间消耗不允许过大。最终我们仅仅在其中实现遍历所有邻接节点，速度有所提升。
+
+### 记录并输出路径
+
+这一部分的调试也占用了很多时间，原因在于在某一连通块之中如何进行遍历，因为我们所记录的信息并不足以进行一次有序的遍历。对于每个`status`，我们只记录了与其连通的门或者怪物，而对于连通区域内部所有增益效果块均可以无损益获取。所以我们先写了一个求两点之间路径的函数，通过宽搜实现，接着枚举连通块内增益点，按距离长短依次访问，并标记，最终得到一条路径。
 
 ## AI设计过程中的亮点
 
@@ -189,7 +231,7 @@ for(every_next_status)
 
 AI设计大作业的完成是一项相互合作，各取所长的过程，同时由于客观时间原因，不太可能抽出很多时间大家坐在一起同时完成某项功能，只能讲其按模块分开完成，这对各部分与接口之间的统一性提出了要求。我们先对整体的几个表达图与搜索过程的关键定义与函数进行了讨论，得出了较为统一的意见，在后来的实现过程中尽量减少对其的更改，在无法避免的情况下再进行大型重构。
 
-为了便于版本控制与协作，我们利用了[github](https://github.com)作为同步与版本控制工具，下图是某个集中开发的周末的`commit`的记录截图：
+为了便于版本控制与协作，我们利用了[Github](https://github.com)作为同步与版本控制工具，下图是某个集中开发的周末的`commit`的记录截图：
 
 ![commits by team on github](./sources/github.png)
 
@@ -206,7 +248,6 @@ AI设计大作业的完成是一项相互合作，各取所长的过程，同时
 ### 对高效的C++特性的利用
 
 我们也力图通过尝试`C++`的特性来实现部分内容的简化。尽管这些内容可能在课堂上不会作为要点教授，但是我们觉得这些的学习与使用，才是本门课程中**实习**二字的意义所在。
-
 
 
 ### 严谨的调试
