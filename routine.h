@@ -6,7 +6,9 @@
 
 bool isEnd(const Status& stat);
 
-string getRoute(const Status& stat, GraphNode* choice);
+string getRouteFromSrcToDest(Position src, Position dest);
+
+string getRoute(Status& stat, int idx);
 
 void moveTo(int targetIdx, Status& stat, bool update = true);
 

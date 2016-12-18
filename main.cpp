@@ -35,14 +35,14 @@ int main()
         dbg_compareStatus(ori, mainStatus);
 #endif
 
-        cout << getRoute(mainStatus, choice);
+        cout << getRoute(mainStatus, choiceIdx);
         moveTo(choiceIdx, mainStatus);
 
 #ifdef DEBUG
         //globalMogicTower.dbg_print();
 #endif
 
-        //PAUSE;
+        PAUSE;
     }
 
     cout << endl << "Quiting" << endl;
