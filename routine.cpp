@@ -5,6 +5,7 @@
 #include "helpers.h"
 #include "damage.h"
 #include <queue>
+#include <unordered_map>
 
 
 bool isEnd(const Status &stat)

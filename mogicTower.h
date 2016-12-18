@@ -70,6 +70,7 @@ struct Position
 
     Position(int _x = 0, int _y = 0): x(_x), y(_y) {}
     bool operator==(const Position& o)const { return x == o.x && y == o.y; }
+	bool operator<(const Position& o)const { return x == o.x ? y < o.y : x < o.x; }
 };
 
 /* 记录玩家信息的数据结构 */
