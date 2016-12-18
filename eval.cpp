@@ -19,8 +19,8 @@ inline int cmpMonster(const Status& stat) {
 }
 int eval(const Status& stat)
 {
-	if (stat.bossDead())
-		return INT_MAX;
+	//if (stat.bossDead())
+		//return INT_MAX;
     int result = 0;
     int blood = stat.player.getHP();
     int attack = stat.player.getATK();
@@ -32,6 +32,6 @@ int eval(const Status& stat)
 	result -= cmpMonster(stat) * 100 / blood;
 	result += defend_m * 500;
 	result += defend * 300;
-	result += attack * 250;
+	result += attack * 300;
     return result;
 }
