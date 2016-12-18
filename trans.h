@@ -4,7 +4,9 @@
 #include "mogicTower.h"
 
 
-int trans(Status& stat, GraphNode* target);
+int trans(Status& stat, int targetIdx);
+
+bool canTrans(const Status& stat, int targetIdx);
 
 #endif
 

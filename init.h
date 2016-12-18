@@ -3,8 +3,10 @@
 
 #include "mogicTower.h"
 
-const Tower& readTower();
+const Tower& readTower(Tower&);
 
-const Status& getInitialStatus(const Tower& mogicTower);
+Status getStatus(Tower& mogicTower);
+
+Status initStatus(Tower& mogicTower);
 
 #endif

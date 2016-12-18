@@ -1,169 +1,74 @@
 #include "helpers.h"
 #include "init.h"
+#include "graph.h"
 #include <queue>
+#include <fstream>
+#include <cstdlib>
+#include <cstring>
 #include <cassert>
+#include "routine.h"
 
-const Tower& readTower()
+const Tower& readTower(Tower& mogicTower)
 {
-    if (freopen("input.txt", "r", stdin) == nullptr)
-        cout << "´ò¿ªinput.txtÊ§°Ü£¬½«´ÓstdinÖÐ¶ÁÈ¡ÊäÈë" << endl;
+    ifstream fin("input.txt");
+    if (!fin)
+    {
+        cout << "æ— æ³•æ‰“å¼€input.txtï¼Œæ­£åœ¨é€€å‡º..." << endl;
+        exit(-1);
+    }
 
     int ign;
-    cin >> ign >> ign >> ign;
-
-    static Tower mogicTower;
+    fin >> ign >> ign >> ign;
 
     for (size_t i = 0; i < MAP_LENGTH; ++i)
         for (size_t j = 0; j < MAP_LENGTH; ++j)
-            cin >> mogicTower.mapContent[i][j];
+            fin >> mogicTower.mapContent[i][j];
 
     for (size_t i = 0; i < 5; i++)
-        cin >> mogicTower.buff[i];
+        fin >> mogicTower.buff[i];
 
     int monsterTypeCount;
-    cin >> monsterTypeCount;
+    fin >> monsterTypeCount;
     while (monsterTypeCount--)
     {
         MapObj key;
         Monster tmpMon;
-        cin >> key >> tmpMon;
+        fin >> key >> tmpMon;
         mogicTower.monsterInfo[key] = tmpMon;
     }
 
-    cin >> mogicTower.initialPlayerInfo;
+    fin >> mogicTower.player;
 
     return mogicTower;
 }
 
 
-static void colorize(const Tower& mogicTower, int x, int y, const int color, int colorMap[MAP_LENGTH][MAP_WIDTH])
+Status getStatus(Tower& mogicTower)
 {
-    if (colorMap[x][y] != 0)
-        return;
-    auto& map = mogicTower.mapContent;
-    colorMap[x][y] = color;
-    for (int i = 0; i < 4; i++)
-    {
-        int nx = x + dx[i];
-        int ny = y + dy[i];
-        if (!isInRange(nx, ny))
-            continue;
-        if (map[nx][ny] == wall)
-            continue;
-        if (isMonster(mogicTower, nx, ny))
-            continue;
-        if (isDoor(mogicTower, nx, ny))
-            continue;
-        colorize(mogicTower, nx, ny, color, colorMap);
-    }
-}
+    Position curPos = mogicTower.player.getPos();
 
-static int traverseMap(const Tower& mogicTower, int colorMap[MAP_LENGTH][MAP_WIDTH])
-{
-    int color = 0;
-    auto& map = mogicTower.mapContent;
-    for (int i = 0; i < MAP_LENGTH; ++i)
-        for (int j = 0; j < MAP_WIDTH; ++j)
-        {
-            if (map[i][j] == wall)
-                continue;
-            if (colorMap[i][j] != 0)
-                continue;
-            if (isMonster(mogicTower, i, j) || isDoor(mogicTower, i, j))
-            {
-                colorMap[i][j] = ++color;
-                continue;
-            }
-            colorize(mogicTower, i, j, ++color, colorMap);
-        }
-    return color;
-}
-
-static GraphNode *buildGraph(const Tower& mogicTower, const Position& headpos, int colorCount, int colorMap[MAP_LENGTH][MAP_WIDTH], GraphNode* nodeContainer)
-{
-    static vector<GraphNode *> nodes(colorCount);
-    auto& map = mogicTower.mapContent;
-
-    for (int i = 0; i < colorCount; ++i)
-        nodes[i] = nullptr;
-
-    for (int i = 0; i < MAP_LENGTH; ++i)
-        for (int j = 0; j < MAP_WIDTH; ++j)
-        {
-            if (map[i][j] == wall)
-                continue;
-            if (nodes[colorMap[i][j]] == nullptr)
-            { // ¸ÃÑÕÉ«Ã»ÓÐ½¨½áµã
-                nodes[colorMap[i][j]] = nodeContainer + colorMap[i][j];
-                nodes[colorMap[i][j]]->index = colorMap[i][j];
-                nodes[colorMap[i][j]]->empty = false;
-                nodes[colorMap[i][j]]->pos.x = i; nodes[colorMap[i][j]]->pos.y = j;
-                nodes[colorMap[i][j]]->blockCount = 1;
-
-                if (map[i][j] == road || isItem(mogicTower, i, j))
-                    nodes[colorMap[i][j]]->type = safeBlock; // roadºÍÎïÆ·¶¼ÊÇsafeblock
-                else
-                    nodes[colorMap[i][j]]->type = map[i][j]; // ÃÅ,¹ÖÎï
-            }
-            else
-                nodes[colorMap[i][j]]->blockCount++;
-
-            if (isItem(mogicTower, i, j)) // ¼ÇÂ¼½áµãÀïµÄÎïÆ·
-                nodes[colorMap[i][j]]->obj.push_back(map[i][j]);
-        }
-
-    for (int i = 0; i < MAP_LENGTH; ++i)
-        for (int j = 0; j < MAP_WIDTH; ++j)
-        {
-            if (map[i][j] == wall)
-                continue;
-            for (int k = 0; k < 4; ++k)
-            {
-                int nx = i + dx[k];
-                int ny = j + dy[k];
-                if (!isInRange(nx, ny))
-                    continue;
-                if (map[nx][ny] == wall)
-                    continue;
-                if (colorMap[i][j] != colorMap[nx][ny])
-                    if (nodes[colorMap[i][j]]->next.find(nodes[colorMap[nx][ny]]) == nodes[colorMap[i][j]]->next.end())
-                        nodes[colorMap[i][j]]->next.insert(nodes[colorMap[nx][ny]]);
-
-            }
-        }
-    return nodes[colorMap[headpos.x][headpos.y]];
-}
-
-
-const Status& getInitialStatus(const Tower& mogicTower)
-{
-    Position headpos = mogicTower.initialPlayerInfo.getPos();
-
-    static int colorMap[MAP_LENGTH][MAP_WIDTH];
+    auto& colorMap = mogicTower.colorMap;
     memset(colorMap, 0, sizeof(colorMap));
+    int colorCount = traverseMap(mogicTower) + 1;
 
-    int colorCount = traverseMap(mogicTower, colorMap) + 1;
+    Status stat;
+    stat.nodeContainer.resize(colorCount);
 
-    static Status stat;
-    stat.nodeContainer = new GraphNode[colorCount];
-    stat.nodeBackUp = new GraphNode[colorCount];
+    stat.curIdx = buildGraph(mogicTower, curPos, colorCount, &stat);
+    stat.player = mogicTower.player;
 
-    stat.head = buildGraph(mogicTower, headpos, colorCount, colorMap, stat.nodeContainer);
-    stat.player = mogicTower.initialPlayerInfo;
-
-    /* ÏÈÈ¡×ß×î³õ½ÚµãµÄËùÓÐÎïÆ·²¢±ê¼ÇÎª¿Õ */
 #ifdef DEBUG
-    assert(stat.head->type == safeBlock);
+    assert(stat.getNodePtr()->getType() == safeBlock);
 #endif
 
-    stat.head->empty = true;
-    stat.blockCount += stat.head->blockCount;
-    stat.player.acquire(stat.head->obj);
+    return stat;
+}
 
-
-    /* ±¸·Ý½Úµã±í£¨Í¼£© */
-    for (int i = 0; i < colorCount; ++i)
-        stat.nodeBackUp[i] = stat.nodeContainer[i];
+Status initStatus(Tower& mogicTower)
+{
+    Status&& stat = getStatus(mogicTower);
+    stat.player.blockCount = 0;
+    moveTo(stat.curIdx, stat);
 
     return stat;
 }

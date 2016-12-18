@@ -6,37 +6,53 @@
 #include "trans.h"
 #include <vector>
 
-void restore(Status& stat, bool isempty, PlayerInfo backupPlayer, GraphNode* original_head) {
-	stat.player = backupPlayer;
-	stat.head->empty = isempty;
-	stat.head = original_head;
 
+static void restore(Status& stat, bool isEmpty, PlayerInfo backupPlayer, int originalIdx)
+{
+    stat.player = backupPlayer;
+    stat.getNodePtr()->empty = isEmpty;
+    stat.curIdx = originalIdx;
 }
 
-// TODO: Finish This Shit
-int search(Status& stat, int depth, GraphNode* &bestChoice)
+
+int search(Status& stat, int depth, int &bestChoice)
 {
-    if (depth == MAX_DEPTH)
+    if (depth == MAX_DEPTH || isEnd(stat))
         return eval(stat);
 
-	PlayerInfo backupPlayer = stat.player;
-    GraphNode* original_head = stat.head;
-	int maxVal = 0;
-	GraphNode *p;
+    //PlayerInfo backupPlayer = stat.player;
+    //GraphNode* originalPos = stat.cur;
+    int maxVal = INT_MIN;
 
-    auto& next = stat.head->next;
-	for (auto itr = next.begin(); itr != next.end(); ++itr) {
-		bool isempty = (*itr)->empty;
-		if (trans(stat, *itr)) {
-			int curVal = search(stat, depth + 1, p);
+    const Tower backUpTower = globalMogicTower;
+    const Status backUpStatus = stat;
+
+    auto& adj = stat.getNodePtr()->adj;
+    vector<int> adjVector;
+    for (auto itr = adj.begin(); itr != adj.end(); ++itr)
+        adjVector.push_back(*itr);
+    size_t adjCount = adjVector.size();
+
+    for (size_t i = 0; i < adjCount; ++i)
+    {
+        int p = adjVector[i];
+        //bool isEmpty = (*itr)->empty;
+
+        if (canTrans(stat, p))
+        {
+            moveTo(p, stat);
+            int curVal = search(stat, depth + 1, p);
 			if (maxVal < curVal) {
-				maxVal = curVal;
-				bestChoice = p;
-			}
-			restore(stat, isempty, backupPlayer, original_head);
-		}
-        
+                maxVal = curVal;
+                if (depth == 0)
+                bestChoice = p;
+            }
+            globalMogicTower = backUpTower;
+            stat = backUpStatus;
+            //restore(stat, isEmpty, backupPlayer, originalPos);
+        }
+
     }
-    
+
     return maxVal;
 }

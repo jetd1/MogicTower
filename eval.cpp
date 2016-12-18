@@ -2,7 +2,7 @@
 #include "helpers.h"
 #include "damage.h"
 extern Tower globalMogicTower;
-/*Ó¦¸ÃÃ»É¶ÓÃ¡£¡£ÒòÎªÊÇ¾²Ì¬µÄ£¬ÎÒĞèÒª¶¯Ì¬µÄ*/
+/*åº”è¯¥æ²¡å•¥ç”¨ã€‚ã€‚å› ä¸ºæ˜¯é™æ€çš„ï¼Œæˆ‘éœ€è¦åŠ¨æ€çš„*/
 /*struct door_key	
 {
     int ykey, bkey, rkey;
@@ -34,7 +34,7 @@ extern Tower globalMogicTower;
     }
 };*/
 
-inline long long cmpMonster(const Status& stat) {	//µ±Ç°×´Ì¬Íæ¼ÒÓëËùÓĞ¹ÖÎï½»Õ½µÄÉËº¦×ÜºÍ£¨²»¹ÜÕâ¸ö¹ÖÎï´òÃ»´ò¹ı£©
+inline long long cmpMonster(const Status& stat) {	//å½“å‰çŠ¶æ€ç©å®¶ä¸æ‰€æœ‰æ€ªç‰©äº¤æˆ˜çš„ä¼¤å®³æ€»å’Œï¼ˆä¸ç®¡è¿™ä¸ªæ€ªç‰©æ‰“æ²¡æ‰“è¿‡ï¼‰
 	auto map = globalMogicTower.mapContent;
 	long long sumDamage = 0;
 	for (int i = 0; i < MAP_LENGTH; i++) {
@@ -52,22 +52,22 @@ inline long long cmpMonster(const Status& stat) {	//µ±Ç°×´Ì¬Íæ¼ÒÓëËùÓĞ¹ÖÎï½»Õ½µÄ
 
 int eval(const Status& stat)
 {
-	int result = 0;
-	/* Ö¸µ¼Ë¼Ïë£ºÄ§·À>Îï·À>Îï¹¥>Ô¿³×>HP */
-	int blood = stat.player.getHP();
-	int attack = stat.player.getATK();
-	int defend = stat.player.getDEF();
-	int defend_m = stat.player.getMDEF();
-	int yellow_key = stat.player.getKeyCount(yellowKey);
-	int blue_key = stat.player.getKeyCount(blueKey);
-	int red_key = stat.player.getKeyCount(redKey);
+    int result = 0;
+	/* æŒ‡å¯¼æ€æƒ³ï¼šé­”é˜²>ç‰©é˜²>ç‰©æ”»>é’¥åŒ™>HP */
+    int blood = stat.player.getHP();
+    int attack = stat.player.getATK();
+    int defend = stat.player.getDEF();
+    int defend_m = stat.player.getMDEF();
+    int yellow_key = stat.player.getKeyCount(yellowKey);
+    int blue_key = stat.player.getKeyCount(blueKey);
+    int red_key = stat.player.getKeyCount(redKey);
 	//int yellow_door =
-	/*Î´Íê³ÉµÄÕâ²¿·ÖÊÇÊ£ÏÂµÄÈıÖÖÃÅÓëÔ¿³×µÄ²îÖµ£¬ÕâÈı¸ö²îÖµÒ²ÊÇ²ÎÊı*/
-	/*£¨Èç¹ûÄÜ¶¯Ì¬Î¬»¤»¹Ê£¶àÉÙÃÅµÄÇé¿öÏÂ£©*/
-	result -= cmpMonster(stat) * 100 / blood;	//Ã»ÓĞ²âÊÔ£¬ÏÖÔÚ²»ÖªµÀÕâ¸öÊıÊÇ²»ÊÇÎÈ¶¨ÔÚÒ»¸öÁ¿¼¶ÉÏ£¬ÔÙµ÷
+	/*æœªå®Œæˆçš„è¿™éƒ¨åˆ†æ˜¯å‰©ä¸‹çš„ä¸‰ç§é—¨ä¸é’¥åŒ™çš„å·®å€¼ï¼Œè¿™ä¸‰ä¸ªå·®å€¼ä¹Ÿæ˜¯å‚æ•°*/
+	/*ï¼ˆå¦‚æœèƒ½åŠ¨æ€ç»´æŠ¤è¿˜å‰©å¤šå°‘é—¨çš„æƒ…å†µä¸‹ï¼‰*/
+	result -= cmpMonster(stat) * 100 / blood;	//æ²¡æœ‰æµ‹è¯•ï¼Œç°åœ¨ä¸çŸ¥é“è¿™ä¸ªæ•°æ˜¯ä¸æ˜¯ç¨³å®šåœ¨ä¸€ä¸ªé‡çº§ä¸Šï¼Œå†è°ƒ
 	result += defend_m * 500;
 	result += defend * 300;
 	result += attack * 250;
-	/*ÔİÊ±Ğ´µ½Õâ£¬ÏëÔö¼ÓÄÚÈİÎª¹ØÓÚÔ¿³×ÓëÊ£ÏÂµÄÃÅÖ®¼äµÄ±ÈÂÊ»»ËãµÄÈ¨ÖØ*/
-	return result;
+	/*æš‚æ—¶å†™åˆ°è¿™ï¼Œæƒ³å¢åŠ å†…å®¹ä¸ºå…³äºé’¥åŒ™ä¸å‰©ä¸‹çš„é—¨ä¹‹é—´çš„æ¯”ç‡æ¢ç®—çš„æƒé‡*/
+    return result;
 }
