@@ -93,8 +93,8 @@ GraphNode *buildGraph(const Tower& mogicTower, const Position& curPos, int color
                 if (map[nx][ny] == wall)
                     continue;
                 if (colorMap[i][j] != colorMap[nx][ny])
-                    if (nodes[colorMap[i][j]]->next.find(nodes[colorMap[nx][ny]]) == nodes[colorMap[i][j]]->next.end())
-                        nodes[colorMap[i][j]]->next.insert(nodes[colorMap[nx][ny]]);
+                    if (nodes[colorMap[i][j]]->adj.find(colorMap[nx][ny]) == nodes[colorMap[i][j]]->adj.end())
+                        nodes[colorMap[i][j]]->adj.insert(colorMap[nx][ny]);
 
             }
         }

@@ -173,7 +173,7 @@ private:
 public:
     bool empty;             /* 访问该节点后将empty设为true */
     int blockCount;         /* 该节点增加的连通块计数 */
-    set<GraphNode*> next;   /* 邻接节点列表 */
+    set<int> adj;           /* 邻接节点索引列表 */
     vector<MapObj> obj;     /* 节点物品列表 */
     Status* fatherStat;
 
@@ -198,6 +198,9 @@ struct Status
     Status(): cur(nullptr), player(), nodeContainer() {}
     Status(const Status& other);
     const Status& operator=(const Status& other);
+    GraphNode& getNode(int index) { return nodeContainer[index]; }
+    const GraphNode& getNode(int index)const { return nodeContainer[index]; }
+    GraphNode* getNodePtr(int index) { return &nodeContainer[index]; }
 };
 
 

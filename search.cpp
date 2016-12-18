@@ -13,7 +13,7 @@ static void restore(Status& stat, bool isEmpty, PlayerInfo backupPlayer, GraphNo
 }
 
 // TODO: 实现Empty节点不算层数(需要记录回溯)
-int search(Status& stat, int depth, GraphNode* &bestChoice)
+int search(Status& stat, int depth, int &bestChoice)
 {
     if (depth == MAX_DEPTH)
         return eval(stat);
@@ -22,10 +22,10 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
     //GraphNode* originalPos = stat.cur;
     int maxVal = 0;
 
-    auto& next = stat.cur->next;
-    for (auto itr = next.begin(); itr != next.end(); ++itr)
+    auto& adj = stat.cur->adj;
+    for (auto itr = adj.begin(); itr != adj.end(); ++itr)
     {
-        GraphNode *p = *itr;
+        int p = *itr;
         //bool isEmpty = (*itr)->empty;
         const Tower backUpTower = globalMogicTower;
         const Status backUpStatus = stat;

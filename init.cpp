@@ -68,7 +68,7 @@ Status initStatus(Tower& mogicTower)
 {
     Status&& stat = getStatus(mogicTower);
     stat.player.blockCount = 0;
-    moveTo(stat.cur, stat);
+    moveTo(stat.cur->getIndex(), stat);
 
     return stat;
 }

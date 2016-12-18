@@ -9,23 +9,24 @@
 bool isEnd(const Status &stat) //判断结束，在搜索完之后调用
 {
 	//有boss且boss已被访问或再也不能访问任何一个邻接怪或邻接门
-	auto next = stat.cur->next;
-	for(auto itr = next.begin(); itr != next.end(); ++itr)
+	auto adj = stat.cur->adj;
+	for(auto itr = adj.begin(); itr != adj.end(); ++itr)
 	{
 		//if((*itr)->getType() == boss && (*itr)->empty)
 		//{
 		//	ret = true;
 		//	break;
 		//}
-		if(isMonster((*itr)->getType()))
+        MapObj type = stat.getNode(*itr).getType();
+        if (isMonster(type))
 		{
-			int damage = getDamage(stat.player, globalMogicTower.monsterInfo[(*itr)->getType()]);
+			int damage = getDamage(stat.player, globalMogicTower.monsterInfo[type]);
 			if (damage != 999999999 && damage > 0)
 				return false;
 		}
-		if(isKey((*itr)->getType()))
+		if(isKey(type))
 		{
-			if (stat.player.getKeyCount((*itr)->getType()) > 0)
+			if (stat.player.getKeyCount(type) > 0)
 				return false;
 		}
 	}
@@ -35,23 +36,24 @@ bool isEnd(const Status &stat) //判断结束，在搜索完之后调用
 string getRoute(const Status& stat, GraphNode* choice)
 {
 #ifdef DEBUG
-    assert(stat.cur->next.find(choice) != stat.cur->next.end());
+    assert(stat.cur->adj.find(choice->getIndex()) != stat.cur->adj.end());
 #endif
     return "w";
 }
 
-void moveTo(const GraphNode* target, Status& stat, bool update)
+void moveTo(int targetIdx, Status& stat, bool update)
 {
+    GraphNode& target = stat.getNode(targetIdx);
 #ifdef DEBUG
-    assert(!target->empty);
+    assert(!target.empty);
 #endif
 
-    MapObj type = target->getType();
+    MapObj type = target.getType();
     if (type == safeBlock)
     {
         auto& player = globalMogicTower.player;
-        Position tPos = target->getPos();
-        player.acquire(target->obj);
+        Position tPos = target.getPos();
+        player.acquire(target.obj);
         player.moveTo(tPos);
 
         auto& colorMap = globalMogicTower.colorMap;
@@ -65,23 +67,23 @@ void moveTo(const GraphNode* target, Status& stat, bool update)
     else if (isMonster(type))
     {
         auto& player = globalMogicTower.player;
-        Position tPos = target->getPos();
+        Position tPos = target.getPos();
         assert(player.fight(type));
         player.moveTo(tPos);
         globalMogicTower.mapContent[tPos.x][tPos.y] = road;
-        for (auto itr = target->next.begin(); itr != target->next.end(); ++itr)
-            if ((*itr)->getType() == safeBlock && !target->empty)
+        for (auto itr = target.adj.begin(); itr != target.adj.end(); ++itr)
+            if (stat.getNode(*itr).getType() == safeBlock && !target.empty)
                 moveTo(*itr, stat, false);
     }
     else if (isDoor(type))
     {
         auto& player = globalMogicTower.player;
-        Position tPos = target->getPos();
+        Position tPos = target.getPos();
         player.useKey(keyType(type));
         player.moveTo(tPos);
         globalMogicTower.mapContent[tPos.x][tPos.y] = road;
-        for (auto itr = target->next.begin(); itr != target->next.end(); ++itr)
-            if ((*itr)->getType() == safeBlock && !target->empty)
+        for (auto itr = target.adj.begin(); itr != target.adj.end(); ++itr)
+            if (stat.getNode(*itr).getType() == safeBlock && !target.empty)
                 moveTo(*itr, stat, false);
     }
     else

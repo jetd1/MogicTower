@@ -22,13 +22,13 @@ int main()
         Status ori = mainStatus;
 #endif
 
-
-        GraphNode* choice = nullptr;
-        int ret = search(mainStatus, 0, choice);
+        int choiceIdx = 0;
+        int ret = search(mainStatus, 0, choiceIdx);
 
 
 #ifdef DEBUG
-        assert(choice != nullptr);
+        assert(choiceIdx != 0);
+        auto choice = mainStatus.getNodePtr(choiceIdx);
         cout << "choice: " << choice->getPos().x <<
             " " << choice->getPos().y << endl;
         cout << "eval: " << ret << endl;
@@ -37,7 +37,7 @@ int main()
 
 
         cout << getRoute(mainStatus, choice);
-        moveTo(choice, mainStatus);
+        moveTo(choiceIdx, mainStatus);
 
 #ifdef DEBUG
         globalMogicTower.dbg_print();

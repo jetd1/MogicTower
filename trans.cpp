@@ -2,28 +2,29 @@
 #include <cassert>
 #include "helpers.h"
 
-int trans(Status& stat, GraphNode* target)
+int trans(Status& stat, int targetIdx)
 {
 #ifdef DEBUG
-    assert(stat.cur == target || stat.cur->next.find(target) != stat.cur->next.end());
+    assert(stat.cur->getIndex() == targetIdx || stat.cur->adj.find(targetIdx) != stat.cur->adj.end());
 #endif
-    if (target->empty)
+    GraphNode& target = stat.getNode(targetIdx);
+    if (target.empty)
     {
-        stat.cur = target;
+        stat.cur = stat.getNodePtr(targetIdx);
         return -1;
     }
 
-    MapObj type = target->getType();
+    MapObj type = target.getType();
 
     if (isMonster(type))
     {
         if (!stat.player.fight(type))
             return 0;
 
-        stat.cur = target;
+        stat.cur = stat.getNodePtr(targetIdx);
         stat.player.blockCount++;
-        stat.player.moveTo(target->getPos());
-        target->empty = true;
+        stat.player.moveTo(target.getPos());
+        target.empty = true;
         
         return 1;
     }
@@ -33,10 +34,10 @@ int trans(Status& stat, GraphNode* target)
         if (!stat.player.getKeyCount(keyType(type)))
             return 0;
         stat.player.useKey(keyType(type));
-        stat.cur = target;
+        stat.cur = stat.getNodePtr(targetIdx);
         stat.player.blockCount++;
-        stat.player.moveTo(target->getPos());
-        target->empty = true;
+        stat.player.moveTo(target.getPos());
+        target.empty = true;
 
         return 2;
     }
@@ -45,10 +46,10 @@ int trans(Status& stat, GraphNode* target)
     assert(type == safeBlock);
 #endif
 
-    stat.cur = target;
-    stat.player.acquire(target->obj);
-    stat.player.blockCount += target->blockCount;
-    stat.player.moveTo(target->getPos());
-    target->empty = true;
+    stat.cur = stat.getNodePtr(targetIdx);
+    stat.player.acquire(target.obj);
+    stat.player.blockCount += target.blockCount;
+    stat.player.moveTo(target.getPos());
+    target.empty = true;
     return 3;
 }
