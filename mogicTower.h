@@ -205,6 +205,8 @@ struct Status
     const GraphNode& getNode(int index = 0)const { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
     GraphNode* getNodePtr(int index = 0) { return index ? &nodeContainer[index] : &nodeContainer[curIdx]; }
     bool bossDead()const;
+    int getRemainDoorCount(MapObj doorType)const;
+    int getRemainKeyCount(MapObj keyType)const;
 };
 
 
