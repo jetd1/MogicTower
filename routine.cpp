@@ -27,6 +27,7 @@ bool isEnd(const Status &stat)
 	return true;
 }
 
+int vis[MAP_LENGTH][MAP_WIDTH];
 string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到dest的路径
 	const int dx[4] = { 0,-1,1,0 };
 	const int dy[4] = { 1,0,0,-1 };
@@ -53,6 +54,7 @@ string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到de
 			}
 
 			while (!(cur == src)) {
+				vis[cur.x][cur.y] = 1;
 				int k = preDir.find(cur)->second;
 				route = dir[k] + route;
 				cur = Position(cur.x - dx[k], cur.y - dy[k]);
@@ -91,7 +93,7 @@ string getRoute(Status& stat, int idx) // 返回遍历连通块、到达choice�
 
 	for (int i = 0; i < MAP_LENGTH; ++i) 
 		for (int j = 0; j < MAP_WIDTH; ++j) 
-			if (globalMogicTower.colorMap[i][j] == curColor) {
+			if (globalMogicTower.colorMap[i][j] == curColor && !vis[i][j]) {
 				Position tmpPos(i, j);
 				route += getRouteFromSrcToDest(playerPos, tmpPos); 
 				playerPos = tmpPos;
