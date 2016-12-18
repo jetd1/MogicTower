@@ -97,7 +97,6 @@ string getRoute(Status& stat, int idx) // 返回遍历连通块、到达choice�
 				playerPos = tmpPos;
 			}
 
-	;
 
 	route += getRouteFromSrcToDest(playerPos, stat.getNodePtr(idx)->getPos());
 
