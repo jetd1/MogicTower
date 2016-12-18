@@ -1,4 +1,4 @@
-#include "mogicTower.h"
+﻿#include "mogicTower.h"
 #include "routine.h"
 #include <cassert>
 #include "init.h"
@@ -6,9 +6,9 @@
 #include "damage.h"
 
 
-bool isEnd(const Status &stat) //判断结束，在搜索完之后调�?
+bool isEnd(const Status &stat) //判断结束，在搜索完之后调用
 {
-	//有boss且boss已被访问或再也不能访问任何一个邻接怪或邻接�?
+	//有boss且boss已被访问或再也不能访问任何一个邻接怪或邻接门
 	auto adj = stat.getNode().adj;
 	for(auto itr = adj.begin(); itr != adj.end(); ++itr)
 	{
@@ -17,7 +17,7 @@ bool isEnd(const Status &stat) //判断结束，在搜索完之后调�?
 		//	ret = true;
 		//	break;
 		//}
-        MapObj type = stat.getNode(*itr).getType();
+        auto type = stat.getNode(*itr).getType();
         if (isMonster(type))
 		{
 			int damage = getDamage(stat.player, globalMogicTower.monsterInfo[type]);
