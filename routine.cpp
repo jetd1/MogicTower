@@ -1,4 +1,4 @@
-#include "mogicTower.h"
+ï»¿#include "mogicTower.h"
 #include "routine.h"
 #include <cassert>
 #include "init.h"
@@ -26,13 +26,13 @@ bool isEnd(const Status &stat)
 	return true;
 }
 
-string getRouteFromSrcToDest(const Position* src, const Position* dest) { // ·µ»Ø´Ósrcµ½destµÄÂ·¾¶
+string getRouteFromSrcToDest(const Position* src, const Position* dest) { // è¿”å›ä»srcåˆ°destçš„è·¯å¾„
 	const int dx[4] = { 0,-1,1,0 };
 	const int dy[4] = { 1,0,0,-1 };
 	const char dir[4] = { 'd', 'w', 's', 'a' };
 
 	string route = "";
-	map<Position, int> preDir; // [pos, k] kÊÇµ½´ïposµÄ×îºóÒ»²½Ëù×ßµÄ·½Ïò
+	map<Position, int> preDir; // [pos, k] kæ˜¯åˆ°è¾¾posçš„æœ€åä¸€æ­¥æ‰€èµ°çš„æ–¹å‘
 	queue<Position> q;
 
 	int colorSrc = globalMogicTower.colorMap[src->x][src->y];
@@ -43,7 +43,7 @@ string getRouteFromSrcToDest(const Position* src, const Position* dest) { // ·µ»
 	while (!q.empty()) {
 		Position cur = q.front();
 		q.pop();
-		if (cur == *dest) { // curÊÇÄ¿±êÎ»ÖÃ£¬¸ù¾İpreDir»ØËİ³öÂ·¾¶
+		if (cur == *dest) { // curæ˜¯ç›®æ ‡ä½ç½®ï¼Œæ ¹æ®preDirå›æº¯å‡ºè·¯å¾„
 			while (!(cur == *src)) {
 				int k = preDir.find(cur)->second;
 				route = dir[k] + route;
@@ -70,7 +70,7 @@ string getRouteFromSrcToDest(const Position* src, const Position* dest) { // ·µ»
 
 
 
-string getRoute(const Status& stat, int idx) // ·µ»Ø±éÀúÁ¬Í¨¿é¡¢µ½´ïchoiceµÄÂ·¾¶
+string getRoute(const Status& stat, int idx) // è¿”å›éå†è¿é€šå—ã€åˆ°è¾¾choiceçš„è·¯å¾„
 {
 #ifdef DEBUG
 	assert(stat.getNode().adj.find(idx) != stat.getNode().adj.end());
@@ -83,7 +83,7 @@ string getRoute(const Status& stat, int idx) // ·µ»Ø±éÀúÁ¬Í¨¿é¡¢µ½´ïchoiceµÄÂ·¾¶
 	//	Position playerPos = stat.player.getPos();
 
 	//	for (int i = 0; i < objCount; ++i) {
-	//		route = getRouteFromSrcToDest(&playerPos, &obj[i].pos) + route; // TODO: vector<MapObj> ¼ÓÉÏÎïÆ·µÄÎ»ÖÃĞÅÏ¢£¬·ñÔòĞèÒª²éÕÒÎïÆ·µÄÎ»ÖÃ
+	//		route = getRouteFromSrcToDest(&playerPos, &obj[i].pos) + route; // TODO: vector<MapObj> åŠ ä¸Šç‰©å“çš„ä½ç½®ä¿¡æ¯ï¼Œå¦åˆ™éœ€è¦æŸ¥æ‰¾ç‰©å“çš„ä½ç½®
 	//		playerPos = obj[i].pos;
 	//	}
 
