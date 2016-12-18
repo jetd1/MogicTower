@@ -77,6 +77,7 @@ Status initStatus(Tower& mogicTower)
     Position originalPositon =stat.player.getPos();
     moveTo(stat.curIdx, stat);
     stat.player.moveTo(originalPositon);
+	stat.getNode().pos = originalPositon;
 
     return stat;
 }
