@@ -6,29 +6,20 @@
 #include "damage.h"
 
 
-bool isEnd(const Status &stat) //判断结束，在搜索完之后调用
+bool isEnd(const Status &stat)
 {
-	//有boss且boss已被访问或再也不能访问任何一个邻接怪或邻接门
 	auto adj = stat.getNode().adj;
 	for (auto itr = adj.begin(); itr != adj.end(); ++itr)
 	{
-		//if((*itr)->getType() == boss && (*itr)->empty)
-		//{
-		//	ret = true;
-		//	break;
-		//}
-		auto type = stat.getNode(*itr).getType();
+		MapObj type = stat.getNode(*itr).getType();
+		assert(type != safeBlock);
 		if (isMonster(type))
-		{
-			int damage = getDamage(stat.player, globalMogicTower.monsterInfo[type]);
-			if (damage != 999999999 && damage > 0)
+			if (stat.player.canBeat(type))
 				return false;
-		}
-		if (isKey(type))
-		{
-			if (stat.player.getKeyCount(type) > 0)
+
+		if (isDoor(type))
+			if (stat.player.getKeyCount(keyType(type)) > 0)
 				return false;
-		}
 	}
 	return true;
 }
