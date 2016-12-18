@@ -4,6 +4,7 @@
 #include "routine.h"
 #include "search.h"
 #include <cassert>
+#include <fstream>
 
 using namespace std;
 
@@ -15,6 +16,8 @@ int main()
     readTower(globalMogicTower);
 
     Status mainStatus = initStatus(globalMogicTower);
+
+    ofstream fout("output.txt");
 
     while (!isEnd(mainStatus))
     {
@@ -34,15 +37,20 @@ int main()
         cout << "eval: " << ret << endl;
         dbg_compareStatus(ori, mainStatus);
 #endif
+        string s = getRoute(mainStatus, choiceIdx);
 
-        cout << getRoute(mainStatus, choiceIdx);
+#ifdef DEBUG
+        cout << s << endl;
+#endif
+        fout << s;
+
         moveTo(choiceIdx, mainStatus);
 
 #ifdef DEBUG
         //globalMogicTower.dbg_print();
 #endif
 
-        PAUSE;
+//        PAUSE;
     }
 
     cout << endl << "Quiting" << endl;
