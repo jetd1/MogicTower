@@ -145,7 +145,7 @@ int Status::getRemainDoorCount(MapObj doorType) const
     int cnt = 0;
     size_t nodeCount = nodeContainer.size();
     for (size_t i = 1; i < nodeCount; ++i)
-        cnt += nodeContainer.[i].getType() == doorType;
+        cnt += nodeContainer[i].getType() == doorType;
     return cnt;
 }
 
@@ -157,6 +157,6 @@ int Status::getRemainKeyCount(MapObj keyType) const
     int cnt = 0;
     size_t nodeCount = nodeContainer.size();
     for (size_t i = 1; i < nodeCount; ++i)
-        cnt += nodeContainer.[i].getType() == keyType;
+        cnt += nodeContainer[i].getType() == keyType;
     return cnt;
 }
