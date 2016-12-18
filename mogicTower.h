@@ -102,7 +102,7 @@ public:
     int getHP() const { return hp; }
     const Position& getPos() const { return pos; }
     int getKeyCount(MapObj o) const;
-    bool PlayerInfo::fight(MapObj monster);
+    bool fight(MapObj monster);
     //bool PlayerInfo::fight1(const GraphNode* monster);
     void acquire(const vector<MapObj>& objList);
     void moveTo(const Position& _pos) { pos = _pos; }

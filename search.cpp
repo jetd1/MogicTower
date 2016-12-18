@@ -23,13 +23,17 @@ int search(Status& stat, int depth, int &bestChoice)
     int maxVal = 0;
 
     auto& adj = stat.cur->adj;
+    vector<int> adjVector;
     for (auto itr = adj.begin(); itr != adj.end(); ++itr)
+        adjVector.push_back(*itr);
+    size_t adjCount = adjVector.size();
+    for (size_t i = 0; i < adjCount; ++i)
     {
-        int p = *itr;
+        int p = adjVector[i];
         //bool isEmpty = (*itr)->empty;
         const Tower backUpTower = globalMogicTower;
         const Status backUpStatus = stat;
-        if (trans(stat, *itr))
+        if (trans(stat, p))
         {
             int curVal = search(stat, depth + 1, p);
             if (maxVal < curVal)

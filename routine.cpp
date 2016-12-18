@@ -6,9 +6,9 @@
 #include "damage.h"
 
 
-bool isEnd(const Status &stat) //ÅĞ¶Ï½áÊø£¬ÔÚËÑË÷ÍêÖ®ºóµ÷ÓÃ
+bool isEnd(const Status &stat) //åˆ¤æ–­ç»“æŸï¼Œåœ¨æœç´¢å®Œä¹‹åè°ƒç”¨
 {
-	//ÓĞbossÇÒbossÒÑ±»·ÃÎÊ»òÔÙÒ²²»ÄÜ·ÃÎÊÈÎºÎÒ»¸öÁÚ½Ó¹Ö»òÁÚ½ÓÃÅ
+	//æœ‰bossä¸”bosså·²è¢«è®¿é—®æˆ–å†ä¹Ÿä¸èƒ½è®¿é—®ä»»ä½•ä¸€ä¸ªé‚»æ¥æ€ªæˆ–é‚»æ¥é—¨
 	auto adj = stat.cur->adj;
 	for(auto itr = adj.begin(); itr != adj.end(); ++itr)
 	{

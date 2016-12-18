@@ -103,6 +103,9 @@ Status::Status(const Status& other)
     player = other.player;
     nodeContainer = other.nodeContainer;
     cur = &nodeContainer[other.cur->getIndex()];
+    size_t nodeCount = nodeContainer.size();
+    for (size_t i = 0; i < nodeCount; ++i)
+        nodeContainer[i].fatherStat = this;
 }
 
 const Status& Status::operator=(const Status& other)
@@ -111,6 +114,9 @@ const Status& Status::operator=(const Status& other)
     player = other.player;
     nodeContainer = other.nodeContainer;
     cur = &nodeContainer[other.cur->getIndex()];
+    size_t nodeCount = nodeContainer.size();
+    for (size_t i = 0; i < nodeCount; ++i)
+        nodeContainer[i].fatherStat = this;
 
     return *this;
 }
