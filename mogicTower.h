@@ -164,6 +164,27 @@ struct Tower
 #endif
 };
 
+
+/* 状态转移结构 */
+struct Status
+{
+	int curIdx;
+	int bossIdx;
+	PlayerInfo player;
+
+	vector<GraphNode> nodeContainer;
+
+	Status() : curIdx(0), bossIdx(0), player(), nodeContainer() {}
+	Status(const Status& other);
+	const Status& operator=(const Status& other);
+	GraphNode& getNode(int index = 0) { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
+	const GraphNode& getNode(int index = 0)const { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
+	GraphNode* getNodePtr(int index = 0) { return index ? &nodeContainer[index] : &nodeContainer[curIdx]; }
+	bool bossDead()const;
+	int getRemainDoorCount(MapObj doorType)const;
+	int getRemainKeyCount(MapObj keyType)const;
+};
+
 /* 魔塔重构图节点结构 */
 class GraphNode
 {
@@ -187,27 +208,10 @@ public:
     int getIndex()const { return index; }
     const Position& getPos()const { return pos; }
     bool operator==(const GraphNode& o)const;
+	friend Status initStatus(Tower& mogicTower);
 };
 
-/* 状态转移结构 */
-struct Status
-{
-    int curIdx;
-    int bossIdx;
-    PlayerInfo player;
 
-    vector<GraphNode> nodeContainer;
-
-    Status(): curIdx(0), bossIdx(0), player(), nodeContainer() {}
-    Status(const Status& other);
-    const Status& operator=(const Status& other);
-    GraphNode& getNode(int index = 0) { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
-    const GraphNode& getNode(int index = 0)const { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
-    GraphNode* getNodePtr(int index = 0) { return index ? &nodeContainer[index] : &nodeContainer[curIdx]; }
-    bool bossDead()const;
-    int getRemainDoorCount(MapObj doorType)const;
-    int getRemainKeyCount(MapObj keyType)const;
-};
 
 
 extern Tower globalMogicTower;

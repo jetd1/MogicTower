@@ -1,7 +1,7 @@
 #ifndef __MOGIC_H
 #define __MOGIC_H
 
-#define DEBUG
+//#define DEBUG
 
 #include <cstdio>
 #include <iostream>
