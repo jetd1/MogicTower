@@ -6,6 +6,7 @@
 #include "damage.h"
 #include <queue>
 #include <unordered_map>
+#include <string>
 
 
 bool isEnd(const Status &stat)
@@ -34,6 +35,7 @@ string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到de
 	string route = "";
 	map<Position, int> preDir; // [pos, k] k是到达pos的最后一步所走的方向
 	queue<Position> q;
+	Position cur;
 
 	int colorSrc = globalMogicTower.colorMap[src.x][src.y];
 	int colorDest = globalMogicTower.colorMap[dest.x][dest.y];
@@ -41,9 +43,15 @@ string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到de
 	q.push(src);
 
 	while (!q.empty()) {
-		Position cur = q.front();
+		cur = q.front();
 		q.pop();
 		if (cur == dest) { // cur是目标位置，根据preDir回溯出路径
+//			if (globalMogicTower.mapContent)
+			if (isMonster(globalMogicTower.mapContent[dest.x][dest.y])) {
+				int k = preDir.find(cur)->second;
+				route = dir[k] + route;
+			}
+
 			while (!(cur == src)) {
 				int k = preDir.find(cur)->second;
 				route = dir[k] + route;
@@ -85,11 +93,13 @@ string getRoute(Status& stat, int idx) // 返回遍历连通块、到达choice�
 		for (int j = 0; j < MAP_WIDTH; ++j) 
 			if (globalMogicTower.colorMap[i][j] == curColor) {
 				Position tmpPos(i, j);
-				route = getRouteFromSrcToDest(playerPos, tmpPos) + route; 
+				route += getRouteFromSrcToDest(playerPos, tmpPos); 
 				playerPos = tmpPos;
 			}
 
-	route = getRouteFromSrcToDest(playerPos, stat.getNodePtr(idx)->getPos()) + route;
+	;
+
+	route += getRouteFromSrcToDest(playerPos, stat.getNodePtr(idx)->getPos());
 
 	return route;
 }
