@@ -5,12 +5,12 @@
 int trans(Status& stat, int targetIdx)
 {
 #ifdef DEBUG
-    assert(stat.cur->getIndex() == targetIdx || stat.cur->adj.find(targetIdx) != stat.cur->adj.end());
+    assert(stat.getNodePtr()->adj.find(targetIdx) != stat.getNodePtr()->adj.end());
 #endif
     GraphNode& target = stat.getNode(targetIdx);
     if (target.empty)
     {
-        stat.cur = stat.getNodePtr(targetIdx);
+        stat.curIdx = targetIdx;
         return -1;
     }
 
@@ -21,7 +21,7 @@ int trans(Status& stat, int targetIdx)
         if (!stat.player.fight(type))
             return 0;
 
-        stat.cur = stat.getNodePtr(targetIdx);
+        stat.curIdx = targetIdx;
         stat.player.blockCount++;
         stat.player.moveTo(target.getPos());
         target.empty = true;
@@ -34,7 +34,7 @@ int trans(Status& stat, int targetIdx)
         if (!stat.player.getKeyCount(keyType(type)))
             return 0;
         stat.player.useKey(keyType(type));
-        stat.cur = stat.getNodePtr(targetIdx);
+        stat.curIdx = targetIdx;
         stat.player.blockCount++;
         stat.player.moveTo(target.getPos());
         target.empty = true;
@@ -46,10 +46,34 @@ int trans(Status& stat, int targetIdx)
     assert(type == safeBlock);
 #endif
 
-    stat.cur = stat.getNodePtr(targetIdx);
+    stat.curIdx = targetIdx;
     stat.player.acquire(target.obj);
     stat.player.blockCount += target.blockCount;
     stat.player.moveTo(target.getPos());
     target.empty = true;
     return 3;
+}
+
+bool canTrans(const Status& stat, int targetIdx)
+{
+#ifdef DEBUG
+    assert(!stat.getNode(targetIdx).empty);
+    assert(stat.getNode().adj.find(targetIdx) != stat.getNode().adj.end());
+#endif
+    const GraphNode& target = stat.getNode(targetIdx);
+
+    MapObj type = target.getType();
+
+    if (isMonster(type))
+        return stat.player.canBeat(type);
+
+    if (isDoor(type))
+        return stat.player.getKeyCount(keyType(type)) > 0;
+           
+
+#ifdef DEBUG
+    assert(type == safeBlock);
+#endif
+
+    return true;
 }

@@ -3,38 +3,43 @@
 #include "search.h"
 #include "trans.h"
 #include "eval.h"
+#include "routine.h"
 
 
-static void restore(Status& stat, bool isEmpty, PlayerInfo backupPlayer, GraphNode* originalPos)
+static void restore(Status& stat, bool isEmpty, PlayerInfo backupPlayer, int originalIdx)
 {
     stat.player = backupPlayer;
-    stat.cur->empty = isEmpty;
-    stat.cur = originalPos;
+    stat.getNodePtr()->empty = isEmpty;
+    stat.curIdx = originalIdx;
 }
 
-// TODO: 实现Empty节点不算层数(需要记录回溯)
+
 int search(Status& stat, int depth, int &bestChoice)
 {
-    if (depth == MAX_DEPTH)
+    if (depth == MAX_DEPTH || isEnd(stat))
         return eval(stat);
 
     //PlayerInfo backupPlayer = stat.player;
     //GraphNode* originalPos = stat.cur;
     int maxVal = 0;
 
-    auto& adj = stat.cur->adj;
+    const Tower backUpTower = globalMogicTower;
+    const Status backUpStatus = stat;
+
+    auto& adj = stat.getNodePtr()->adj;
     vector<int> adjVector;
     for (auto itr = adj.begin(); itr != adj.end(); ++itr)
         adjVector.push_back(*itr);
     size_t adjCount = adjVector.size();
+
     for (size_t i = 0; i < adjCount; ++i)
     {
         int p = adjVector[i];
         //bool isEmpty = (*itr)->empty;
-        const Tower backUpTower = globalMogicTower;
-        const Status backUpStatus = stat;
-        if (trans(stat, p))
+
+        if (canTrans(stat, p))
         {
+            moveTo(p, stat);
             int curVal = search(stat, depth + 1, p);
             if (maxVal < curVal)
             {

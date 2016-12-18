@@ -103,6 +103,7 @@ public:
     const Position& getPos() const { return pos; }
     int getKeyCount(MapObj o) const;
     bool fight(MapObj monster);
+    bool canBeat(MapObj monster)const;
     //bool PlayerInfo::fight1(const GraphNode* monster);
     void acquire(const vector<MapObj>& objList);
     void moveTo(const Position& _pos) { pos = _pos; }
@@ -190,17 +191,17 @@ public:
 /* 状态转移结构 */
 struct Status
 {
-    GraphNode* cur;
+    int curIdx;
     PlayerInfo player;
 
     vector<GraphNode> nodeContainer;
 
-    Status(): cur(nullptr), player(), nodeContainer() {}
+    Status(): curIdx(0), player(), nodeContainer() {}
     Status(const Status& other);
     const Status& operator=(const Status& other);
-    GraphNode& getNode(int index) { return nodeContainer[index]; }
-    const GraphNode& getNode(int index)const { return nodeContainer[index]; }
-    GraphNode* getNodePtr(int index) { return &nodeContainer[index]; }
+    GraphNode& getNode(int index = 0) { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
+    const GraphNode& getNode(int index = 0)const { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
+    GraphNode* getNodePtr(int index = 0) { return index ? &nodeContainer[index] : &nodeContainer[curIdx]; }
 };
 
 

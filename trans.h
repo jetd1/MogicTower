@@ -6,5 +6,7 @@
 
 int trans(Status& stat, int targetIdx);
 
+bool canTrans(const Status& stat, int targetIdx);
+
 #endif
 

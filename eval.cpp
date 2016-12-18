@@ -39,7 +39,7 @@ int eval(const Status& stat)
     int attack = stat.player.getATK();
     int defend = stat.player.getDEF();
     int defend_m = stat.player.getMDEF();
-    int blockDelta = stat.cur->blockCount;
+    int blockDelta = stat.getNode().blockCount;
     int yellow_key = stat.player.getKeyCount(yellowKey);
     int blue_key = stat.player.getKeyCount(blueKey);
     int red_key = stat.player.getKeyCount(redKey);

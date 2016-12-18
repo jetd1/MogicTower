@@ -92,6 +92,15 @@ bool PlayerInfo::fight(MapObj monster)
     return false;
 }
 
+bool PlayerInfo::canBeat(MapObj monster)const
+{
+#ifdef DEBUG
+    assert(isMonster(monster));
+#endif
+    int dmg = getDamage(*this, globalMogicTower.monsterInfo.at(monster));
+    return hp > dmg;
+}
+
 bool GraphNode::operator==(const GraphNode& o) const
 {
     return index == o.index && empty == o.empty;
@@ -102,7 +111,7 @@ Status::Status(const Status& other)
     //assert(false);
     player = other.player;
     nodeContainer = other.nodeContainer;
-    cur = &nodeContainer[other.cur->getIndex()];
+    curIdx = other.curIdx;
     size_t nodeCount = nodeContainer.size();
     for (size_t i = 0; i < nodeCount; ++i)
         nodeContainer[i].fatherStat = this;
@@ -113,7 +122,7 @@ const Status& Status::operator=(const Status& other)
     //assert(false);
     player = other.player;
     nodeContainer = other.nodeContainer;
-    cur = &nodeContainer[other.cur->getIndex()];
+    curIdx = other.curIdx;
     size_t nodeCount = nodeContainer.size();
     for (size_t i = 0; i < nodeCount; ++i)
         nodeContainer[i].fatherStat = this;

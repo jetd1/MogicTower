@@ -6,10 +6,10 @@
 #include "damage.h"
 
 
-bool isEnd(const Status &stat) //判断结束，在搜索完之后调用
+bool isEnd(const Status &stat) //判断结束，在搜索完之后调�?
 {
-	//有boss且boss已被访问或再也不能访问任何一个邻接怪或邻接门
-	auto adj = stat.cur->adj;
+	//有boss且boss已被访问或再也不能访问任何一个邻接怪或邻接�?
+	auto adj = stat.getNode().adj;
 	for(auto itr = adj.begin(); itr != adj.end(); ++itr)
 	{
 		//if((*itr)->getType() == boss && (*itr)->empty)
@@ -36,7 +36,7 @@ bool isEnd(const Status &stat) //判断结束，在搜索完之后调用
 string getRoute(const Status& stat, GraphNode* choice)
 {
 #ifdef DEBUG
-    assert(stat.cur->adj.find(choice->getIndex()) != stat.cur->adj.end());
+    assert(stat.getNode().adj.find(choice->getIndex()) != stat.getNode().adj.end());
 #endif
     return "w";
 }

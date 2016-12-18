@@ -5,7 +5,7 @@
 
 int traverseMap(Tower& mogicTower);
 
-GraphNode *buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount,
+int buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount,
                       Status* statp);
 
 
