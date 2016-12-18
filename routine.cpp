@@ -69,10 +69,10 @@ string getRouteFromSrcToDest(const Position* src, const Position* dest) { // ·µ»
 
 
 
-string getRoute(const Status& stat, GraphNode* choice) // ·µ»Ø±éÀúÁ¬Í¨¿é¡¢µ½´ïchoiceµÄÂ·¾¶
+string getRoute(const Status& stat, int idx) // ·µ»Ø±éÀúÁ¬Í¨¿é¡¢µ½´ïchoiceµÄÂ·¾¶
 {
 #ifdef DEBUG
-	assert(stat.cur->next.find(choice) != stat.cur->next.end());
+	assert(stat.getNode().adj.find(idx) != stat.getNode().adj.end());
 #endif
 
 	string route = "";
