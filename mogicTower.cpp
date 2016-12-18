@@ -96,3 +96,21 @@ bool GraphNode::operator==(const GraphNode& o) const
 {
     return index == o.index && empty == o.empty;
 }
+
+Status::Status(const Status& other)
+{
+    //assert(false);
+    player = other.player;
+    nodeContainer = other.nodeContainer;
+    cur = &nodeContainer[other.cur->getIndex()];
+}
+
+const Status& Status::operator=(const Status& other)
+{
+    //assert(false);
+    player = other.player;
+    nodeContainer = other.nodeContainer;
+    cur = &nodeContainer[other.cur->getIndex()];
+
+    return *this;
+}

@@ -18,15 +18,17 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
     if (depth == MAX_DEPTH)
         return eval(stat);
 
-    PlayerInfo backupPlayer = stat.player;
-    GraphNode* originalPos = stat.cur;
+    //PlayerInfo backupPlayer = stat.player;
+    //GraphNode* originalPos = stat.cur;
     int maxVal = 0;
 
     auto& next = stat.cur->next;
     for (auto itr = next.begin(); itr != next.end(); ++itr)
     {
         GraphNode *p = *itr;
-        bool isEmpty = (*itr)->empty;
+        //bool isEmpty = (*itr)->empty;
+        const Tower backUpTower = globalMogicTower;
+        const Status backUpStatus = stat;
         if (trans(stat, *itr))
         {
             int curVal = search(stat, depth + 1, p);
@@ -36,7 +38,9 @@ int search(Status& stat, int depth, GraphNode* &bestChoice)
                 if (depth == 0)
                     bestChoice = p;
             }
-            restore(stat, isEmpty, backupPlayer, originalPos);
+            globalMogicTower = backUpTower;
+            stat = backUpStatus;
+            //restore(stat, isEmpty, backupPlayer, originalPos);
         }
 
     }

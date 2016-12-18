@@ -47,11 +47,12 @@ int traverseMap(Tower& mogicTower)
     return color;
 }
 
-GraphNode *buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount, vector<GraphNode>& nodeContainer)
+GraphNode *buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount, Status* statp)
 {
     vector<GraphNode *> nodes(colorCount);
     auto& map = mogicTower.mapContent;
     auto& colorMap = mogicTower.colorMap;
+    auto& container = statp->nodeContainer;
 
     for (int i = 0; i < colorCount; ++i)
         nodes[i] = nullptr;
@@ -68,8 +69,8 @@ GraphNode *buildGraph(const Tower& mogicTower, const Position& curPos, int color
                     type = safeBlock; // road和物品都是safeBlock
                 else
                     type = map[i][j]; // 门,怪物
-                nodeContainer[colorMap[i][j]] = GraphNode(colorMap[i][j], i, j, type);
-                nodes[colorMap[i][j]] = &nodeContainer[colorMap[i][j]];
+                container[colorMap[i][j]] = GraphNode(statp, colorMap[i][j], i, j, type);
+                nodes[colorMap[i][j]] = &container[colorMap[i][j]];
             }
             else
                 nodes[colorMap[i][j]]->blockCount++;

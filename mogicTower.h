@@ -155,7 +155,7 @@ struct Tower
     /* 记录怪物数据 */
     map<MapObj, Monster> monsterInfo;
 
-    /* 记录初始玩家数据 */
+    /* 记录玩家数据 */
     PlayerInfo player;
 #ifdef DEBUG
     void dbg_print();
@@ -175,11 +175,14 @@ public:
     int blockCount;         /* 该节点增加的连通块计数 */
     set<GraphNode*> next;   /* 邻接节点列表 */
     vector<MapObj> obj;     /* 节点物品列表 */
+    Status* fatherStat;
 
-    GraphNode() { empty = true; }
-    GraphNode(int _idx, int _x, int _y, MapObj _type):
-    index(_idx),  pos(_x, _y), type(_type), empty(false), blockCount(1) {}
+    //GraphNode() { empty = true; }
+    GraphNode(Status* father = nullptr): empty(true), fatherStat(father) {}
+    GraphNode(Status* father, int _idx, int _x, int _y, MapObj _type):
+    fatherStat(father), index(_idx),  pos(_x, _y), type(_type), empty(false), blockCount(1) {}
     MapObj getType()const { return type; }
+    int getIndex()const { return index; }
     const Position& getPos()const { return pos; }
     bool operator==(const GraphNode& o)const;
 };
@@ -191,6 +194,10 @@ struct Status
     PlayerInfo player;
 
     vector<GraphNode> nodeContainer;
+
+    Status(): cur(nullptr), player(), nodeContainer() {}
+    Status(const Status& other);
+    const Status& operator=(const Status& other);
 };
 
 

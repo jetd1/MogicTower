@@ -54,7 +54,7 @@ Status getStatus(Tower& mogicTower)
     Status stat;
     stat.nodeContainer.resize(colorCount);
 
-    stat.cur = buildGraph(mogicTower, curPos, colorCount, stat.nodeContainer);
+    stat.cur = buildGraph(mogicTower, curPos, colorCount, &stat);
     stat.player = mogicTower.player;
 
 #ifdef DEBUG
@@ -66,7 +66,7 @@ Status getStatus(Tower& mogicTower)
 
 Status initStatus(Tower& mogicTower)
 {
-    Status stat = getStatus(mogicTower);
+    Status&& stat = getStatus(mogicTower);
     stat.player.blockCount = 0;
     moveTo(stat.cur, stat);
 
