@@ -27,7 +27,7 @@ bool isEnd(const Status &stat)
 	return true;
 }
 
-int vis[MAP_LENGTH][MAP_WIDTH];
+static int vis[MAP_LENGTH][MAP_WIDTH];
 string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到dest的路径
 	const int dx[4] = { 0,-1,1,0 };
 	const int dy[4] = { 1,0,0,-1 };
