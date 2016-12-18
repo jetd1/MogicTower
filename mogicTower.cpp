@@ -112,6 +112,7 @@ Status::Status(const Status& other)
     player = other.player;
     nodeContainer = other.nodeContainer;
     curIdx = other.curIdx;
+    bossIdx = other.bossIdx;
     size_t nodeCount = nodeContainer.size();
     for (size_t i = 0; i < nodeCount; ++i)
         nodeContainer[i].fatherStat = this;
@@ -123,9 +124,15 @@ const Status& Status::operator=(const Status& other)
     player = other.player;
     nodeContainer = other.nodeContainer;
     curIdx = other.curIdx;
+    bossIdx = other.bossIdx;
     size_t nodeCount = nodeContainer.size();
     for (size_t i = 0; i < nodeCount; ++i)
         nodeContainer[i].fatherStat = this;
 
     return *this;
+}
+
+bool Status::bossDead()const
+{
+    return bossIdx == 0;
 }

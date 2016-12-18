@@ -193,16 +193,18 @@ public:
 struct Status
 {
     int curIdx;
+    int bossIdx;
     PlayerInfo player;
 
     vector<GraphNode> nodeContainer;
 
-    Status(): curIdx(0), player(), nodeContainer() {}
+    Status(): curIdx(0), bossIdx(0), player(), nodeContainer() {}
     Status(const Status& other);
     const Status& operator=(const Status& other);
     GraphNode& getNode(int index = 0) { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
     const GraphNode& getNode(int index = 0)const { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
     GraphNode* getNodePtr(int index = 0) { return index ? &nodeContainer[index] : &nodeContainer[curIdx]; }
+    bool bossDead()const;
 };
 
 

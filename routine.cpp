@@ -10,7 +10,7 @@
 
 bool isEnd(const Status &stat)
 {
-	auto adj = stat.getNode().adj;
+	auto& adj = stat.getNode().adj;
 	for (auto itr = adj.begin(); itr != adj.end(); ++itr)
 	{
 		MapObj type = stat.getNode(*itr).getType();
