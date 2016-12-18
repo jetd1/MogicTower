@@ -42,7 +42,7 @@ int main()
         //globalMogicTower.dbg_print();
 #endif
 
-        //PAUSE;
+        PAUSE;
     }
 
     cout << endl << "Quiting" << endl;
