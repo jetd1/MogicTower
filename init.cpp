@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cassert>
+#include "routine.h"
 
 const Tower& readTower(Tower& mogicTower)
 {
@@ -42,28 +43,32 @@ const Tower& readTower(Tower& mogicTower)
 }
 
 
-Status getStatus(const Tower& mogicTower)
+Status getStatus(Tower& mogicTower)
 {
     Position curPos = mogicTower.player.getPos();
 
-    int colorMap[MAP_LENGTH][MAP_WIDTH];
+    auto& colorMap = mogicTower.colorMap;
     memset(colorMap, 0, sizeof(colorMap));
-
-    int colorCount = traverseMap(mogicTower, colorMap) + 1;
+    int colorCount = traverseMap(mogicTower) + 1;
 
     Status stat;
     stat.nodeContainer.resize(colorCount);
 
-    stat.cur = buildGraph(mogicTower, curPos, colorCount, colorMap, stat.nodeContainer);
+    stat.cur = buildGraph(mogicTower, curPos, colorCount, stat.nodeContainer);
     stat.player = mogicTower.player;
 
 #ifdef DEBUG
     assert(stat.cur->getType() == safeBlock);
 #endif
 
-    stat.cur->empty = true;
-    stat.blockCount += stat.cur->blockCount;
-    stat.player.acquire(stat.cur->obj);
+    return stat;
+}
+
+Status initStatus(Tower& mogicTower)
+{
+    Status stat = getStatus(mogicTower);
+    stat.player.blockCount = 0;
+    moveTo(stat.cur, stat);
 
     return stat;
 }

@@ -2,8 +2,9 @@
 #include "helpers.h"
 
 
-static void colorize(const Tower& mogicTower, int x, int y, const int color, int colorMap[MAP_LENGTH][MAP_WIDTH])
+static void colorize(Tower& mogicTower, int x, int y, const int color)
 {
+    auto& colorMap = mogicTower.colorMap;
     if (colorMap[x][y] != 0)
         return;
     auto& map = mogicTower.mapContent;
@@ -20,13 +21,14 @@ static void colorize(const Tower& mogicTower, int x, int y, const int color, int
             continue;
         if (isDoor(mogicTower, nx, ny))
             continue;
-        colorize(mogicTower, nx, ny, color, colorMap);
+        colorize(mogicTower, nx, ny, color);
     }
 }
 
-int traverseMap(const Tower& mogicTower, int colorMap[MAP_LENGTH][MAP_WIDTH])
+int traverseMap(Tower& mogicTower)
 {
     int color = 0;
+    auto& colorMap = mogicTower.colorMap;
     auto& map = mogicTower.mapContent;
     for (int i = 0; i < MAP_LENGTH; ++i)
         for (int j = 0; j < MAP_WIDTH; ++j)
@@ -40,15 +42,16 @@ int traverseMap(const Tower& mogicTower, int colorMap[MAP_LENGTH][MAP_WIDTH])
                 colorMap[i][j] = ++color;
                 continue;
             }
-            colorize(mogicTower, i, j, ++color, colorMap);
+            colorize(mogicTower, i, j, ++color);
         }
     return color;
 }
 
-GraphNode *buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount, int colorMap[MAP_LENGTH][MAP_WIDTH], vector<GraphNode>& nodeContainer)
+GraphNode *buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount, vector<GraphNode>& nodeContainer)
 {
     vector<GraphNode *> nodes(colorCount);
     auto& map = mogicTower.mapContent;
+    auto& colorMap = mogicTower.colorMap;
 
     for (int i = 0; i < colorCount; ++i)
         nodes[i] = nullptr;

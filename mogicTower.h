@@ -7,6 +7,9 @@
 #include <set>
 #include <vector>
 
+class GraphNode;
+struct Tower;
+
 /* 记录地图信息的枚举结构 */
 enum MapObj
 {
@@ -83,7 +86,9 @@ private:
     Position pos;   /* 位置 */
 
 public:
-    PlayerInfo() { hp = atk = def = mdef = keys[0] = keys[1] = keys[2] = pos.x = pos.y = 0; }
+    int blockCount; /* 当前总的连通块计数 */
+
+    PlayerInfo() { hp = atk = def = mdef = keys[0] = keys[1] = keys[2] = pos.x = pos.y = blockCount = 0; }
     friend istream& operator >> (istream& in, PlayerInfo& m)
     {
         in >> m.hp >> m.atk >> m.def >> m.mdef >> m.pos.x >> m.pos.y;
@@ -95,11 +100,13 @@ public:
     int getDEF() const { return def; }
     int getMDEF() const { return mdef; }
     int getHP() const { return hp; }
-    int getKeyCount(MapObj o)const { return keys[o - yellowKey]; }
     const Position& getPos() const { return pos; }
+    int getKeyCount(MapObj o) const;
+    bool PlayerInfo::fight(MapObj monster);
+    //bool PlayerInfo::fight1(const GraphNode* monster);
     void acquire(const vector<MapObj>& objList);
-    bool fight(MapObj monsterType);
     void moveTo(const Position& _pos) { pos = _pos; }
+    void useKey(MapObj keyType);
 };
 
 /* 记录怪物信息的数据结构 */
@@ -139,6 +146,8 @@ struct Tower
 
     /* 用枚举记录地图内容 */
     MapObj mapContent[MAP_LENGTH][MAP_WIDTH];
+    /* 当前的染色图，方便地图重构 */
+    int colorMap[MAP_LENGTH][MAP_WIDTH]; 
 
     /* 记录各加成值 */
     int buff[5];
@@ -148,6 +157,9 @@ struct Tower
 
     /* 记录初始玩家数据 */
     PlayerInfo player;
+#ifdef DEBUG
+    void dbg_print();
+#endif
 };
 
 /* 魔塔重构图节点结构 */
@@ -177,8 +189,6 @@ struct Status
 {
     GraphNode* cur;
     PlayerInfo player;
-
-    int blockCount;
 
     vector<GraphNode> nodeContainer;
 };

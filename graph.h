@@ -3,10 +3,10 @@
 
 #include "mogicTower.h"
 
-int traverseMap(const Tower& mogicTower, int colorMap[MAP_LENGTH][MAP_WIDTH]);
+int traverseMap(Tower& mogicTower);
 
 GraphNode *buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount,
-                      int colorMap[MAP_LENGTH][MAP_WIDTH], vector<GraphNode>& nodeContainer);
+                      vector<GraphNode>& nodeContainer);
 
 
 #endif

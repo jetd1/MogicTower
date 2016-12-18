@@ -31,6 +31,10 @@ inline bool isItem(MapObj type)
     return type >= yellowKey &&
         type <= largeBottle;
 }
+inline bool isKey(MapObj o)
+{
+    return o >= yellowKey && o <= redKey;
+}
 
 inline MapObj doorType(MapObj keyType)
 {

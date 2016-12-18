@@ -8,7 +8,7 @@ bool isEnd(const Status& stat);
 
 string getRoute(const Status& stat, GraphNode* choice);
 
-void moveTo(const GraphNode* target, Status& mogicTower);
+void moveTo(const GraphNode* target, Status& stat, bool update = true);
 
 #endif
 
