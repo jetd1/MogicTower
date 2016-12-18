@@ -2,6 +2,7 @@
 #include "mogicTower.h"
 #include <iomanip>
 
+#ifdef DEBUG
 void dbg_compareStatus(const Status& a, const Status& b)
 {
     size_t sizeA = a.nodeContainer.size();
@@ -31,6 +32,7 @@ void dbg_printSize()
     cout << "sizeof Status " << sizeof(Status) << endl;
 }
 
+
 void Tower::dbg_print()
 {
     for (int i = 0; i < MAP_LENGTH; ++i)
@@ -47,3 +49,4 @@ void Tower::dbg_print()
     cout << "BK:\t" << player.getKeyCount(blueKey) << endl;
     cout << "RK:\t" << player.getKeyCount(redKey) << endl;
 }
+#endif
