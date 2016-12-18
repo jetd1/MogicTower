@@ -43,21 +43,43 @@
 
 ```cpp
 /* 魔塔重构图节点结构 */
-struct GraphNode
+class GraphNode
 {
-    bool valid;         /* 访问该节点后将valid设为false */
-    Position pos;       /* 该节点的坐标 */
-    MapObj type;        /* 该节点类型（门或怪物） */
-    vector<GraphNode*> next; /* 子节点列表 */
-    vector<MapObj> obj; /* 节点物品列表 */
-    int blockCount;     /* 该节点增加的连通块计数 */
-};
+private:
+    int index;              /* 该节点索引值（最初被染的颜色） */
+    Position pos;           /* 该节点的坐标 */
+    MapObj type;            /* 该节点类型 */
+    
+public:
+    bool empty;             /* 访问该节点后将empty设为true */
+    int blockCount;         /* 该节点增加的连通块计数 */
+    set<int> adj;           /* 邻接节点索引列表 */
+    vector<MapObj> obj;     /* 节点物品列表 */
+    Status* fatherStat;
 
+    //GraphNode() { empty = true; }
+    GraphNode(Status* father = nullptr): empty(true), fatherStat(father) {}
+    GraphNode(Status* father, int _idx, int _x, int _y, MapObj _type):
+    fatherStat(father), index(_idx),  pos(_x, _y), type(_type), empty(false), blockCount(1) {}
+    MapObj getType()const { return type; }
+    int getIndex()const { return index; }
+    const Position& getPos()const { return pos; }
+    bool operator==(const GraphNode& o)const;
+};
 /* 状态转移结构 */
 struct Status
 {
-    GraphNode* head;
+    int curIdx;
     PlayerInfo player;
+
+    vector<GraphNode> nodeContainer;
+
+    Status(): curIdx(0), player(), nodeContainer() {}
+    Status(const Status& other);
+    const Status& operator=(const Status& other);
+    GraphNode& getNode(int index = 0) { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
+    const GraphNode& getNode(int index = 0)const { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
+    GraphNode* getNodePtr(int index = 0) { return index ? &nodeContainer[index] : &nodeContainer[curIdx]; }
 };
 ```
 
@@ -189,7 +211,7 @@ AI设计大作业的完成是一项相互合作，各取所长的过程，同时
 
 ### 严谨的调试
 
-为了提高调试的效率，尽可能缩短达到理想效果的时间，我们单独定义了一系列供调试使用的宏、函数，加入了一系列异常处理，也使用了诸如`assert`
+为了提高调试的效率，尽可能缩短达到理想效果的时间，我们单独定义了一系列供调试使用的宏、函数，加入了一系列异常处理，从而更好的处理了一些可能出现的偶然错误。
 
 
 
