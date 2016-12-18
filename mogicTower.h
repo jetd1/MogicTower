@@ -208,6 +208,7 @@ public:
     int getIndex()const { return index; }
     const Position& getPos()const { return pos; }
     bool operator==(const GraphNode& o)const;
+	friend Status initStatus(Tower& mogicTower);
 };
 
 

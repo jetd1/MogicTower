@@ -20,6 +20,11 @@ int main()
     ofstream fout("output.txt");
     if (!fout)
         throw runtime_error("Cannot create output.txt");
+	string s = getRoute(mainStatus, mainStatus.curIdx);
+	fout << s;
+#ifdef DEBUG
+	cout << s << endl;
+#endif
 
     while (!isEnd(mainStatus))
     {

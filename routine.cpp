@@ -47,7 +47,6 @@ string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到de
 		cur = q.front();
 		q.pop();
 		if (cur == dest) { // cur是目标位置，根据preDir回溯出路径
-//			if (globalMogicTower.mapContent)
 			if (isMonster(globalMogicTower.mapContent[dest.x][dest.y])) {
 				int k = preDir.find(cur)->second;
 				route = dir[k] + route;
@@ -83,7 +82,7 @@ string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到de
 string getRoute(Status& stat, int idx) // 返回遍历连通块、到达choice的路径
 {
 #ifdef DEBUG
-	assert(stat.getNode().adj.find(idx) != stat.getNode().adj.end());
+//	assert(stat.getNode().adj.find(idx) != stat.getNode().adj.end());
 #endif
 
 	string route = "";
