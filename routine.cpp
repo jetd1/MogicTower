@@ -3,11 +3,33 @@
 #include <cassert>
 #include "init.h"
 #include "helpers.h"
+#include "damage.h"
 
 
-bool isEnd(const Status &stat)
+bool isEnd(const Status &stat) //判断结束，在搜索完之后调用
 {
-	return false;
+	//有boss且boss已被访问或再也不能访问任何一个邻接怪或邻接门
+	auto next = stat.cur->next;
+	for(auto itr = next.begin(); itr != next.end(); ++itr)
+	{
+		//if((*itr)->getType() == boss && (*itr)->empty)
+		//{
+		//	ret = true;
+		//	break;
+		//}
+		if(isMonster((*itr)->getType()))
+		{
+			int damage = getDamage(stat.player, globalMogicTower.monsterInfo[(*itr)->getType()]);
+			if (damage != 999999999 && damage > 0)
+				return false;
+		}
+		if(isKey((*itr)->getType()))
+		{
+			if (stat.player.getKeyCount((*itr)->getType()) > 0)
+				return false;
+		}
+	}
+	return true;
 }
 
 string getRoute(const Status& stat, GraphNode* choice)
