@@ -137,6 +137,7 @@ void moveTo(int targetIdx, Status& stat, bool update)
 		for (auto itr = target.adj.begin(); itr != target.adj.end(); ++itr)
 			if (stat.getNode(*itr).getType() == safeBlock && !target.empty)
 				moveTo(*itr, stat, false);
+		player.moveTo(tPos);
 	}
 	else if (isDoor(type))
 	{
@@ -148,6 +149,7 @@ void moveTo(int targetIdx, Status& stat, bool update)
 		for (auto itr = target.adj.begin(); itr != target.adj.end(); ++itr)
 			if (stat.getNode(*itr).getType() == safeBlock && !target.empty)
 				moveTo(*itr, stat, false);
+        player.moveTo(tPos);
 	}
 	else
 		throw runtime_error("Invalid Target!");
