@@ -52,7 +52,7 @@ Status getStatus(Tower& mogicTower)
     int colorCount = traverseMap(mogicTower) + 1;
 
     Status stat;
-    stat.nodeContainer.resize(colorCount);
+    stat.nodeContainer.resize(size_t(colorCount));
 
     stat.curIdx = buildGraph(mogicTower, curPos, colorCount, &stat);
     for (int i = 0; i < colorCount; i++)

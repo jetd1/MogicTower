@@ -3,6 +3,8 @@ project(MogicTower)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast")
+#set(CMAKE_BUILD_TYPE Profile)
+#set(CMAKE_CXX_FLAGS_PROFILE "-pg")
 
 set(SOURCE_FILES
     damage.cpp
@@ -20,12 +22,10 @@ set(SOURCE_FILES
     mogic.h
     mogicTower.cpp
     mogicTower.h
-    README.md
     routine.cpp
     routine.h
     search.cpp
     search.h
-    trans.cpp
-    trans.h)
+        )
 
 add_executable(MogicTower ${SOURCE_FILES})

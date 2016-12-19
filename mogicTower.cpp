@@ -48,6 +48,8 @@ void PlayerInfo::acquire(const vector<MapObj>& objList)
             case largeBottle:
                 hp += globalMogicTower.buff[4];
                 break;
+            default:
+                throw invalid_argument("Invalid obj type!");
         }
     }
 }
@@ -60,23 +62,6 @@ void PlayerInfo::useKey(MapObj keyType)
 #endif
     keys[keyType - yellowKey]--;
 }
-
-//bool PlayerInfo::fight1(const GraphNode* monster)
-//{
-//#ifdef DEBUG
-//    assert(isMonster(monster->getType()));
-//    assert(monster->next.size() <= 4);
-//#endif
-//    int dmg = getDamage(*this, globalMogicTower.monsterInfo.at(monster->getType()));
-//    if (hp > dmg)
-//    {
-//        for (auto itr = monster->next.begin(); itr != monster->next.end(); ++itr)
-//            acquire((*itr)->obj), (*itr)->empty = true;
-//        hp -= dmg;
-//        return true;
-//    }
-//    return false;
-//}
 
 bool PlayerInfo::fight(MapObj monster)
 {
@@ -108,7 +93,6 @@ bool GraphNode::operator==(const GraphNode& o) const
 
 Status::Status(const Status& other)
 {
-    //assert(false);
     player = other.player;
     nodeContainer = other.nodeContainer;
     curIdx = other.curIdx;
@@ -120,7 +104,6 @@ Status::Status(const Status& other)
 
 const Status& Status::operator=(const Status& other)
 {
-    //assert(false);
     player = other.player;
     nodeContainer = other.nodeContainer;
     curIdx = other.curIdx;

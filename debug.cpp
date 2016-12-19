@@ -1,8 +1,8 @@
+#ifdef DEBUG
 #include "debug.h"
 #include "mogicTower.h"
 #include <iomanip>
 
-#ifdef DEBUG
 void dbg_compareStatus(const Status& a, const Status& b)
 {
     size_t sizeA = a.nodeContainer.size();

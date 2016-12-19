@@ -38,12 +38,12 @@ inline bool isKey(MapObj o)
 
 inline MapObj doorType(MapObj keyType)
 {
-    return  MapObj(MapObj(keyType) + 10);
+    return  MapObj(keyType + 10);
 }
 
 inline MapObj keyType(MapObj doorType)
 {
-    return  MapObj(MapObj(doorType) - 10);
+    return  MapObj(doorType - 10);
 }
 
 inline bool isItem(const Tower& mogicTower, int x, int y)

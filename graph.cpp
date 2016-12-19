@@ -49,7 +49,7 @@ int traverseMap(Tower& mogicTower)
 
 int buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount, Status* statp)
 {
-    vector<GraphNode *> nodes(colorCount);
+    vector<GraphNode *> nodes((size_t)colorCount);
     auto& map = mogicTower.mapContent;
     auto& colorMap = mogicTower.colorMap;
     auto& container = statp->nodeContainer;

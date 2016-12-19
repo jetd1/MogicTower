@@ -1,21 +1,34 @@
 #include "mogic.h"
 #include "mogicTower.h"
 #include "search.h"
-#include "trans.h"
 #include "eval.h"
 #include "routine.h"
+#include "helpers.h"
 #include <climits>
-#include "trans.h"
-#include <vector>
+
+static bool canTrans(const Status& stat, int targetIdx)
+{
+#ifdef DEBUG
+    assert(!stat.getNode(targetIdx).empty);
+    assert(stat.getNode().adj.find(targetIdx) != stat.getNode().adj.end());
+#endif
+    const GraphNode& target = stat.getNode(targetIdx);
+
+    MapObj type = target.getType();
+
+    if (isMonster(type))
+        return stat.player.canBeat(type);
+
+    if (isDoor(type))
+        return stat.player.getKeyCount(keyType(type)) > 0;
 
 
-//static void restore(Status& stat, bool isEmpty, PlayerInfo backupPlayer, int originalIdx)
-//{
-//    stat.player = backupPlayer;
-//    stat.getNodePtr()->empty = isEmpty;
-//    stat.curIdx = originalIdx;
-//}
+#ifdef DEBUG
+    assert(type == safeBlock);
+#endif
 
+    return true;
+}
 
 int search(Status& stat, int depth, int &bestChoice)
 {
