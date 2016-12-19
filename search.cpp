@@ -5,6 +5,8 @@
 #include "routine.h"
 #include "helpers.h"
 #include <climits>
+#include <cassert>
+#include "AI.h"
 
 static bool canTrans(const Status& stat, int targetIdx)
 {
@@ -30,44 +32,29 @@ static bool canTrans(const Status& stat, int targetIdx)
     return true;
 }
 
-int search(Status& stat, int depth, int &bestChoice)
+int search(const Status& stat, int depth, const set<int>& choiceList, int &bestChoice, int &ret)
 {
     if (depth == MAX_DEPTH || isEnd(stat))
-        return eval(stat);
+        return eval(stat) - depth;
 
-    //PlayerInfo backupPlayer = stat.player;
-    //GraphNode* originalPos = stat.cur;
     int maxVal = INT_MIN;
 
-    const Tower backUpTower = globalMogicTower;
-    const Status backUpStatus = stat;
-
-    auto& adj = stat.getNodePtr()->adj;
-    vector<int> adjVector;
-    for (auto itr = adj.begin(); itr != adj.end(); ++itr)
-        adjVector.push_back(*itr);
-    size_t adjCount = adjVector.size();
-
-    for (size_t i = 0; i < adjCount; ++i)
+    for (auto p: choiceList)
     {
-        int p = adjVector[i];
-        //bool isEmpty = (*itr)->empty;
-
         if (canTrans(stat, p))
         {
-            moveTo(p, stat);
-            int curVal = search(stat, depth + 1, p);
-			if (maxVal < curVal) {
+            Status tmpStatus = stat;
+            moveTo(p, tmpStatus);
+            int curVal = search(tmpStatus, depth + 1, tmpStatus.getNode().adj, p, ret);
+			if (maxVal < curVal) 
+            {
                 maxVal = curVal;
                 if (depth == 0)
-                bestChoice = p;
+                    bestChoice = p;
             }
-            globalMogicTower = backUpTower;
-            stat = backUpStatus;
-            //restore(stat, isEmpty, backupPlayer, originalPos);
         }
 
     }
 
-    return maxVal;
+    return ret = maxVal;
 }

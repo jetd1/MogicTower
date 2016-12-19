@@ -34,19 +34,19 @@ void PlayerInfo::acquire(const vector<MapObj>& objList)
                 ++keys[cur - yellowKey];
                 break;
             case redDiamond:
-                atk += globalMogicTower.buff[0];
+                atk += Tower::buff[0];
                 break;
             case blueDiamond:
-                def += globalMogicTower.buff[1];
+                def += Tower::buff[1];
                 break;
             case greenDiamond:
-                mdef += globalMogicTower.buff[2];
+                mdef += Tower::buff[2];
                 break;
             case smallBottle:
-                hp += globalMogicTower.buff[3];
+                hp += Tower::buff[3];
                 break;
             case largeBottle:
-                hp += globalMogicTower.buff[4];
+                hp += Tower::buff[4];
                 break;
             default:
                 throw invalid_argument("Invalid obj type!");
@@ -68,7 +68,7 @@ bool PlayerInfo::fight(MapObj monster)
 #ifdef DEBUG
     assert(isMonster(monster));
 #endif
-    int dmg = getDamage(*this, globalMogicTower.monsterInfo.at(monster));
+    int dmg = getDamage(*this, Tower::monsterInfo.at(monster));
     if (hp > dmg)
     {
         hp -= dmg;
@@ -82,9 +82,13 @@ bool PlayerInfo::canBeat(MapObj monster)const
 #ifdef DEBUG
     assert(isMonster(monster));
 #endif
-    int dmg = getDamage(*this, globalMogicTower.monsterInfo.at(monster));
+    int dmg = getDamage(*this, Tower::monsterInfo.at(monster));
     return hp > dmg;
 }
+
+int Tower::buff[5];
+
+map<MapObj, Monster> Tower::monsterInfo;
 
 bool GraphNode::operator==(const GraphNode& o) const
 {
@@ -97,6 +101,7 @@ Status::Status(const Status& other)
     nodeContainer = other.nodeContainer;
     curIdx = other.curIdx;
     bossIdx = other.bossIdx;
+    mogicTower = other.mogicTower;
     size_t nodeCount = nodeContainer.size();
     for (size_t i = 0; i < nodeCount; ++i)
         nodeContainer[i].fatherStat = this;
@@ -108,6 +113,7 @@ const Status& Status::operator=(const Status& other)
     nodeContainer = other.nodeContainer;
     curIdx = other.curIdx;
     bossIdx = other.bossIdx;
+    mogicTower = other.mogicTower;
     size_t nodeCount = nodeContainer.size();
     for (size_t i = 0; i < nodeCount; ++i)
         nodeContainer[i].fatherStat = this;
@@ -118,6 +124,12 @@ const Status& Status::operator=(const Status& other)
 bool Status::bossDead()const
 {
     return bossIdx == 0;
+}
+
+void Status::print() const
+{
+    cout << "Boss Dead: \t" << bossDead() << endl;
+    cout << "ATK: \t\t" << player.getATK() << endl;
 }
 
 int Status::getRemainDoorCount(MapObj doorType) const

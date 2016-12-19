@@ -2,20 +2,17 @@
 #include <string>
 #include "init.h"
 #include "routine.h"
-#include "search.h"
+#include "AI.h"
 #include <cassert>
 #include <fstream>
+#include <ctime>
 
 using namespace std;
 
-Tower globalMogicTower;
-
-
 int main()
 {
-    readTower(globalMogicTower);
-
-    Status mainStatus = initStatus(globalMogicTower);
+    Status mainStatus;
+    initStatus(mainStatus);
 
     ofstream fout("output.txt");
     if (!fout)
@@ -32,8 +29,9 @@ int main()
         Status ori = mainStatus;
 #endif
 
-        int choiceIdx = 0;
-        int ret = search(mainStatus, 0, choiceIdx);
+        int choiceIdx = Achilles(mainStatus);
+        if (choiceIdx == 0)
+            break;
 
 #ifdef DEBUG
         if (choiceIdx == 0)
@@ -41,10 +39,8 @@ int main()
         auto choice = mainStatus.getNodePtr(choiceIdx);
         cout << "choice: " << choice->getPos().x <<
             " " << choice->getPos().y << endl;
-        cout << "eval: " << ret << endl;
-        dbg_compareStatus(ori, mainStatus);
 #endif
-        string s = getRoute(mainStatus, choiceIdx);
+        s = getRoute(mainStatus, choiceIdx);
 
 #ifdef DEBUG
         cout << s << endl;
@@ -57,11 +53,18 @@ int main()
         //globalMogicTower.dbg_print();
 #endif
 
-//        PAUSE;
+        //PAUSE;
     }
     fout << endl;
+    fout.close();
+
+    cout << "Time Cost: \t" << double(clock()) / CLOCKS_PER_SEC << endl;
+    mainStatus.print();
     cout << endl << "Quiting" << endl;
     PAUSE;
+    
+
+    system("mota.exe");
 }
 
 

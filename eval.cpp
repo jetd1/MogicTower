@@ -5,13 +5,14 @@
 
 inline int cmpMonster(const Status& stat)
 {
-    auto map = globalMogicTower.mapContent;
+    auto& map = stat.mogicTower.mapContent;
+    auto& monsterInfo = stat.mogicTower.monsterInfo;
     int sumDamage = 0;
     for (int i = 0; i < MAP_LENGTH; i++)
         for (int j = 0; j < MAP_WIDTH; j++)
             if (isMonster(map[i][j]))
             {
-                int temp = getDamage(stat.player, globalMogicTower.monsterInfo[map[i][j]]);
+                int temp = getDamage(stat.player, monsterInfo[map[i][j]]);
                 if (temp == 999999999)
                     temp = 10000;
                 sumDamage += temp;
@@ -22,7 +23,7 @@ inline int cmpMonster(const Status& stat)
 int eval(const Status& stat)
 {
     if (stat.bossDead())
-        return INT_MAX;
+        return INT_MAX / 2 + stat.player.getHP() * 20;
     int result = 0;
     int blood = stat.player.getHP();
     int attack = stat.player.getATK();

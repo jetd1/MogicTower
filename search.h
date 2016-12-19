@@ -3,8 +3,7 @@
 
 #include "mogicTower.h"
 
-
-int search(Status& stat, int depth, int &bestChoice);
+int search(const Status& stat, int depth, const set<int>& choiceList, int &bestChoice, int &ret);
 
 #endif
 

@@ -12,10 +12,14 @@
 bool isEnd(const Status &stat)
 {
 	auto& adj = stat.getNode().adj;
+    if (stat.bossDead())
+        return true;
 	for (auto itr = adj.begin(); itr != adj.end(); ++itr)
 	{
 		MapObj type = stat.getNode(*itr).getType();
+#ifdef DEBUG
 		assert(type != safeBlock);
+#endif
 		if (isMonster(type))
 			if (stat.player.canBeat(type))
 				return false;
@@ -28,7 +32,7 @@ bool isEnd(const Status &stat)
 }
 
 static int vis[MAP_LENGTH][MAP_WIDTH];
-string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到dest的路径
+static string getRouteFromSrcToDest(const Status& stat, Position src, Position dest) { // 返回从src到dest的路径
 	const int dx[4] = { 0,-1,1,0 };
 	const int dy[4] = { 1,0,0,-1 };
 	const char dir[4] = { 'd', 'w', 's', 'a' };
@@ -38,8 +42,8 @@ string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到de
 	queue<Position> q;
 	Position cur;
 
-	int colorSrc = globalMogicTower.colorMap[src.x][src.y];
-	int colorDest = globalMogicTower.colorMap[dest.x][dest.y];
+	int colorSrc = stat.mogicTower.colorMap[src.x][src.y];
+	int colorDest = stat.mogicTower.colorMap[dest.x][dest.y];
 
 	q.push(src);
 
@@ -47,7 +51,7 @@ string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到de
 		cur = q.front();
 		q.pop();
 		if (cur == dest) { // cur是目标位置，根据preDir回溯出路径
-			if (isMonster(globalMogicTower.mapContent[dest.x][dest.y])) {
+			if (isMonster(stat.mogicTower.mapContent[dest.x][dest.y])) {
 				int k = preDir.find(cur)->second;
 				route = dir[k] + route;
 			}
@@ -65,7 +69,7 @@ string getRouteFromSrcToDest(Position src, Position dest) { // 返回从src到de
 			int ny = cur.y + dy[k];
 			Position newPos = Position(nx, ny);
 			if (isInRange(nx, ny)
-				&& (globalMogicTower.colorMap[nx][ny] == colorSrc || globalMogicTower.colorMap[nx][ny] == colorDest)
+				&& (stat.mogicTower.colorMap[nx][ny] == colorSrc || stat.mogicTower.colorMap[nx][ny] == colorDest)
 				&& preDir.find(newPos) == preDir.end()) {
 				preDir.insert(pair<Position, int>(newPos, k));
 				q.push(newPos);
@@ -88,18 +92,18 @@ string getRoute(Status& stat, int idx) // 返回遍历连通块、到达choice�
 	string route = "";
 
 	Position playerPos = stat.player.getPos();
-	int curColor = globalMogicTower.colorMap[playerPos.x][playerPos.y];
+	int curColor = stat.mogicTower.colorMap[playerPos.x][playerPos.y];
 
 	for (int i = 0; i < MAP_LENGTH; ++i) 
 		for (int j = 0; j < MAP_WIDTH; ++j) 
-			if (globalMogicTower.colorMap[i][j] == curColor && !vis[i][j]) {
+			if (stat.mogicTower.colorMap[i][j] == curColor && !vis[i][j]) {
 				Position tmpPos(i, j);
-				route += getRouteFromSrcToDest(playerPos, tmpPos); 
+				route += getRouteFromSrcToDest(stat, playerPos, tmpPos); 
 				playerPos = tmpPos;
 			}
 
 
-	route += getRouteFromSrcToDest(playerPos, stat.getNodePtr(idx)->getPos());
+	route += getRouteFromSrcToDest(stat, playerPos, stat.getNodePtr(idx)->getPos());
 
 	return route;
 }
@@ -112,15 +116,16 @@ void moveTo(int targetIdx, Status& stat, bool update)
 #endif
 
 	MapObj type = target.getType();
+    auto& player = stat.player;
+    auto& map = stat.mogicTower.mapContent;
+
 	if (type == safeBlock)
 	{
-		auto& player = globalMogicTower.player;
 		Position tPos = target.getPos();
 		player.acquire(target.obj);
 		player.moveTo(tPos);
 
-		auto& colorMap = globalMogicTower.colorMap;
-		auto& map = globalMogicTower.mapContent;
+		auto& colorMap = stat.mogicTower.colorMap;
 		int tColor = colorMap[tPos.x][tPos.y];
 		for (int i = 0; i < MAP_LENGTH; ++i)
 			for (int j = 0; j < MAP_WIDTH; ++j)
@@ -129,11 +134,10 @@ void moveTo(int targetIdx, Status& stat, bool update)
 	}
 	else if (isMonster(type))
 	{
-		auto& player = globalMogicTower.player;
 		Position tPos = target.getPos();
 		assert(player.fight(type));
 		player.moveTo(tPos);
-		globalMogicTower.mapContent[tPos.x][tPos.y] = road;
+        map[tPos.x][tPos.y] = road;
 		for (auto itr = target.adj.begin(); itr != target.adj.end(); ++itr)
 			if (stat.getNode(*itr).getType() == safeBlock && !target.empty)
 				moveTo(*itr, stat, false);
@@ -141,11 +145,10 @@ void moveTo(int targetIdx, Status& stat, bool update)
 	}
 	else if (isDoor(type))
 	{
-		auto& player = globalMogicTower.player;
 		Position tPos = target.getPos();
 		player.useKey(keyType(type));
 		player.moveTo(tPos);
-		globalMogicTower.mapContent[tPos.x][tPos.y] = road;
+        map[tPos.x][tPos.y] = road;
 		for (auto itr = target.adj.begin(); itr != target.adj.end(); ++itr)
 			if (stat.getNode(*itr).getType() == safeBlock && !target.empty)
 				moveTo(*itr, stat, false);
@@ -155,5 +158,5 @@ void moveTo(int targetIdx, Status& stat, bool update)
 		throw runtime_error("Invalid Target!");
 
 	if (update)
-		stat = getStatus(globalMogicTower);
+		updateStatus(stat);
 }

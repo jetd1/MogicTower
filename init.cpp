@@ -8,7 +8,7 @@
 #include <cassert>
 #include "routine.h"
 
-const Tower& readTower(Tower& mogicTower)
+static const Status& readInitStatus(Status& stat)
 {
     ifstream fin("input.txt");
     if (!fin)
@@ -22,10 +22,10 @@ const Tower& readTower(Tower& mogicTower)
 
     for (size_t i = 0; i < MAP_LENGTH; ++i)
         for (size_t j = 0; j < MAP_LENGTH; ++j)
-            fin >> mogicTower.mapContent[i][j];
+            fin >> stat.mogicTower.mapContent[i][j];
 
     for (size_t i = 0; i < 5; i++)
-        fin >> mogicTower.buff[i];
+        fin >> stat.mogicTower.buff[i];
 
     int monsterTypeCount;
     fin >> monsterTypeCount;
@@ -34,34 +34,37 @@ const Tower& readTower(Tower& mogicTower)
         MapObj key;
         Monster tmpMon;
         fin >> key >> tmpMon;
-        mogicTower.monsterInfo[key] = tmpMon;
+        stat.mogicTower.monsterInfo[key] = tmpMon;
     }
 
-    fin >> mogicTower.player;
+    fin >> stat.player;
 
-    return mogicTower;
+    return stat;
 }
 
 
-Status getStatus(Tower& mogicTower)
+const Status& updateStatus(Status& stat)
 {
-    Position curPos = mogicTower.player.getPos();
+    Position curPos = stat.player.getPos();
 
-    auto& colorMap = mogicTower.colorMap;
+    auto& colorMap = stat.mogicTower.colorMap;
     memset(colorMap, 0, sizeof(colorMap));
-    int colorCount = traverseMap(mogicTower) + 1;
+    int colorCount = traverseMap(stat.mogicTower) + 1;
 
-    Status stat;
     stat.nodeContainer.resize(size_t(colorCount));
 
-    stat.curIdx = buildGraph(mogicTower, curPos, colorCount, &stat);
-    for (int i = 0; i < colorCount; i++)
+    stat.curIdx = buildGraph(stat.mogicTower, curPos, colorCount, &stat);
+
+    bool flag = false;
+    for (int i = 1; i < colorCount; i++)
         if (stat.nodeContainer[i].getType() == boss)
         {
-            stat.bossIdx = i;
-            continue;
+            stat.bossIdx = i, flag = true;
+            break;
         }
-    stat.player = mogicTower.player;
+    if (!flag)
+        stat.bossIdx = 0;
+    stat.player = stat.player;
 
 #ifdef DEBUG
     assert(stat.getNodePtr()->getType() == safeBlock);
@@ -70,9 +73,10 @@ Status getStatus(Tower& mogicTower)
     return stat;
 }
 
-Status initStatus(Tower& mogicTower)
+const Status& initStatus(Status& stat)
 {
-    Status&& stat = getStatus(mogicTower);
+    readInitStatus(stat);
+    updateStatus(stat);
     stat.player.blockCount = 0;
     Position originalPositon =stat.player.getPos();
     moveTo(stat.curIdx, stat);

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -134,6 +134,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AI.cpp" />
     <ClCompile Include="damage.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="eval.cpp" />
@@ -143,9 +144,9 @@
     <ClCompile Include="mogicTower.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="search.cpp" />
-    <ClCompile Include="trans.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AI.h" />
     <ClInclude Include="damage.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="eval.h" />
@@ -156,7 +157,6 @@
     <ClInclude Include="mogicTower.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="search.h" />
-    <ClInclude Include="trans.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

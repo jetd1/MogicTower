@@ -6,6 +6,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <unordered_set>
 
 class GraphNode;
 struct Tower;
@@ -152,16 +153,10 @@ struct Tower
     int colorMap[MAP_LENGTH][MAP_WIDTH]; 
 
     /* 记录各加成值 */
-    int buff[5];
+    static int buff[5];
 
     /* 记录怪物数据 */
-    map<MapObj, Monster> monsterInfo;
-
-    /* 记录玩家数据 */
-    PlayerInfo player;
-#ifdef DEBUG
-    void dbg_print();
-#endif
+    static map<MapObj, Monster> monsterInfo;
 };
 
 
@@ -173,16 +168,21 @@ struct Status
 	PlayerInfo player;
 
 	vector<GraphNode> nodeContainer;
+    Tower mogicTower;
 
-	Status() : curIdx(0), bossIdx(0), player(), nodeContainer() {}
+	Status() : curIdx(0), bossIdx(0), player(), nodeContainer(), mogicTower() {}
 	Status(const Status& other);
 	const Status& operator=(const Status& other);
 	GraphNode& getNode(int index = 0) { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
 	const GraphNode& getNode(int index = 0)const { return index ? nodeContainer[index] : nodeContainer[curIdx]; }
 	GraphNode* getNodePtr(int index = 0) { return index ? &nodeContainer[index] : &nodeContainer[curIdx]; }
 	bool bossDead()const;
+    void print()const;
 	int getRemainDoorCount(MapObj doorType)const;
 	int getRemainKeyCount(MapObj keyType)const;
+#ifdef DEBUG
+    void dbg_print();
+#endif
 };
 
 /* 魔塔重构图节点结构 */
@@ -208,13 +208,9 @@ public:
     int getIndex()const { return index; }
     const Position& getPos()const { return pos; }
     bool operator==(const GraphNode& o)const;
-	friend Status initStatus(Tower& mogicTower);
+    
+    friend const Status& initStatus(Status& stat);
 };
-
-
-
-
-extern Tower globalMogicTower;
 
 #endif
 
