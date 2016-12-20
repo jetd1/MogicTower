@@ -139,10 +139,9 @@
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="eval.cpp" />
     <ClCompile Include="graph.cpp" />
-    <ClCompile Include="init.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mogicTower.cpp" />
-    <ClCompile Include="routine.cpp" />
+    <ClCompile Include="route.cpp" />
     <ClCompile Include="search.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,10 +151,9 @@
     <ClInclude Include="eval.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="helpers.h" />
-    <ClInclude Include="init.h" />
     <ClInclude Include="mogic.h" />
     <ClInclude Include="mogicTower.h" />
-    <ClInclude Include="routine.h" />
+    <ClInclude Include="route.h" />
     <ClInclude Include="search.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -24,13 +24,7 @@
     <ClCompile Include="search.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="init.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="mogicTower.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="routine.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="graph.cpp">
@@ -43,6 +37,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="eval.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="route.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,13 +59,7 @@
     <ClInclude Include="helpers.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="init.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="eval.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="routine.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="graph.h">
@@ -78,6 +69,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AI.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="route.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
