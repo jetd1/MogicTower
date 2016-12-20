@@ -2,9 +2,17 @@
 #define __AI_H
 #include "mogicTower.h"
 
-int Achilles(Status& stat);
+int Achilles(const Status& stat, int depth);
 
-extern int MAX_DEPTH;
+void initDefaultDepth(const Status& stat);
+
+namespace AIprof
+{
+    extern int DEFAULT_DEPTH;
+    extern double lastSearchTime;
+    extern bool lastSearchTrivial;
+    extern int MAX_DEPTH;
+}
 
 #endif
 

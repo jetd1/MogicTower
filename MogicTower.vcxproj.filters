@@ -30,9 +30,6 @@
     <ClCompile Include="mogicTower.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="eval.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="routine.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -43,6 +40,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="AI.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="eval.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

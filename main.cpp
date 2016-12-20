@@ -17,34 +17,41 @@ int main()
     ofstream fout("output.txt");
     if (!fout)
         throw runtime_error("Cannot create output.txt");
+
 	string s = getRoute(mainStatus, mainStatus.curIdx);
 	fout << s;
-#ifdef DEBUG
-	cout << s << endl;
-#endif
+
+    initDefaultDepth(mainStatus);
+
+    cout << "Initial Node Count: \t" << mainStatus.nodeContainer.size() - 1 << endl;
+	cout << "Init Path: \t" << s << endl;
+
 
     while (!isEnd(mainStatus))
     {
-#ifdef DEBUG
-        Status ori = mainStatus;
-#endif
+        cout << "Posible Choices Count:\t" << mainStatus.getNode().adj.size() << endl;
 
-        int choiceIdx = Achilles(mainStatus);
+        int depth = AIprof::DEFAULT_DEPTH;
+        int choiceIdx = Achilles(mainStatus, depth);
         if (choiceIdx == 0)
             break;
+
+        while (AIprof::lastSearchTime < 4 && depth < AIprof::DEFAULT_DEPTH + 5)
+            choiceIdx = Achilles(mainStatus, ++depth);
+
 
 #ifdef DEBUG
         if (choiceIdx == 0)
             throw runtime_error("Search returns no choice!");
-        auto choice = mainStatus.getNodePtr(choiceIdx);
-        cout << "choice: " << choice->getPos().x <<
-            " " << choice->getPos().y << endl;
 #endif
+        auto choice = mainStatus.getNodePtr(choiceIdx);
+        cout << "Choice: \t" << choice->getPos().x <<
+            " " << choice->getPos().y << endl;
+
         s = getRoute(mainStatus, choiceIdx);
 
-#ifdef DEBUG
-        cout << s << endl;
-#endif
+        cout << "Path: \t" << s << endl << endl;
+
         fout << s;
 
         moveTo(choiceIdx, mainStatus);
@@ -63,7 +70,6 @@ int main()
     cout << endl << "Quiting" << endl;
     PAUSE;
     
-
     system("mota.exe");
 }
 

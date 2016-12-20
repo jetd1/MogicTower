@@ -13,31 +13,53 @@ static const Status& readInitStatus(Status& stat)
     ifstream fin("input.txt");
     if (!fin)
     {
-        cout << "无法打开input.txt，正在退出..." << endl;
-        exit(-1);
+        cout << "无法打开input.txt，将从stdin读入..." << endl;
+        int ign;
+        cin >> ign >> ign >> ign;
+
+        for (size_t i = 0; i < MAP_LENGTH; ++i)
+            for (size_t j = 0; j < MAP_LENGTH; ++j)
+                cin >> stat.mogicTower.mapContent[i][j];
+
+        for (size_t i = 0; i < 5; i++)
+            cin >> stat.mogicTower.buff[i];
+
+        int monsterTypeCount;
+        cin >> monsterTypeCount;
+        while (monsterTypeCount--)
+        {
+            MapObj key;
+            Monster tmpMon;
+            cin >> key >> tmpMon;
+            stat.mogicTower.monsterInfo[key] = tmpMon;
+        }
+
+        cin >> stat.player;
     }
-
-    int ign;
-    fin >> ign >> ign >> ign;
-
-    for (size_t i = 0; i < MAP_LENGTH; ++i)
-        for (size_t j = 0; j < MAP_LENGTH; ++j)
-            fin >> stat.mogicTower.mapContent[i][j];
-
-    for (size_t i = 0; i < 5; i++)
-        fin >> stat.mogicTower.buff[i];
-
-    int monsterTypeCount;
-    fin >> monsterTypeCount;
-    while (monsterTypeCount--)
+    else
     {
-        MapObj key;
-        Monster tmpMon;
-        fin >> key >> tmpMon;
-        stat.mogicTower.monsterInfo[key] = tmpMon;
-    }
+        int ign;
+        fin >> ign >> ign >> ign;
 
-    fin >> stat.player;
+        for (size_t i = 0; i < MAP_LENGTH; ++i)
+            for (size_t j = 0; j < MAP_LENGTH; ++j)
+                fin >> stat.mogicTower.mapContent[i][j];
+
+        for (size_t i = 0; i < 5; i++)
+            fin >> stat.mogicTower.buff[i];
+
+        int monsterTypeCount;
+        fin >> monsterTypeCount;
+        while (monsterTypeCount--)
+        {
+            MapObj key;
+            Monster tmpMon;
+            fin >> key >> tmpMon;
+            stat.mogicTower.monsterInfo[key] = tmpMon;
+        }
+
+        fin >> stat.player;
+    }
 
     return stat;
 }
@@ -56,10 +78,10 @@ const Status& updateStatus(Status& stat)
     stat.curIdx = buildGraph(stat.mogicTower, curPos, colorCount, &stat);
 
     bool flag = false;
-    for (int i = 1; i < colorCount; i++)
-        if (stat.nodeContainer[i].getType() == boss)
+    for (const auto& node: stat.nodeContainer)
+        if (node.getType() == boss)
         {
-            stat.bossIdx = i, flag = true;
+            stat.bossIdx = node.getIndex(), flag = true;
             break;
         }
     if (!flag)

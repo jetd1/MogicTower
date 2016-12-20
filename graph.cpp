@@ -69,7 +69,7 @@ int buildGraph(const Tower& mogicTower, const Position& curPos, int colorCount, 
                     type = safeBlock; // road和物品都是safeBlock
                 else
                     type = map[i][j]; // 门,怪物
-                container[colorMap[i][j]] = GraphNode(statp, colorMap[i][j], i, j, type);
+                container[colorMap[i][j]] = GraphNode(colorMap[i][j], i, j, type);
                 nodes[colorMap[i][j]] = &container[colorMap[i][j]];
             }
             else

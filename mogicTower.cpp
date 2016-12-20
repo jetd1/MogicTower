@@ -21,11 +21,7 @@ int PlayerInfo::getKeyCount(MapObj o) const
 
 void PlayerInfo::acquire(const vector<MapObj>& objList)
 {
-    size_t objCount = objList.size();
-    for (size_t i = 0; i < objCount; ++i)
-    {
-        MapObj cur = objList[i];
-
+    for (auto cur: objList)
         switch (cur)
         {
             case yellowKey:
@@ -51,7 +47,6 @@ void PlayerInfo::acquire(const vector<MapObj>& objList)
             default:
                 throw invalid_argument("Invalid obj type!");
         }
-    }
 }
 
 void PlayerInfo::useKey(MapObj keyType)
@@ -103,8 +98,6 @@ Status::Status(const Status& other)
     bossIdx = other.bossIdx;
     mogicTower = other.mogicTower;
     size_t nodeCount = nodeContainer.size();
-    for (size_t i = 0; i < nodeCount; ++i)
-        nodeContainer[i].fatherStat = this;
 }
 
 const Status& Status::operator=(const Status& other)
@@ -115,8 +108,6 @@ const Status& Status::operator=(const Status& other)
     bossIdx = other.bossIdx;
     mogicTower = other.mogicTower;
     size_t nodeCount = nodeContainer.size();
-    for (size_t i = 0; i < nodeCount; ++i)
-        nodeContainer[i].fatherStat = this;
 
     return *this;
 }
@@ -128,8 +119,14 @@ bool Status::bossDead()const
 
 void Status::print() const
 {
-    cout << "Boss Dead: \t" << bossDead() << endl;
-    cout << "ATK: \t\t" << player.getATK() << endl;
+    cout << "Boss Dead: \t" << boolalpha << bossDead() << endl;
+    cout << "HP: \t" << player.getHP() << endl;
+    cout << "ATK:\t" << player.getATK() << endl;
+    cout << "DEF:\t" << player.getDEF() << endl;
+    cout << "MDEF:\t" << player.getMDEF() << endl;
+    cout << "YK: \t" << player.getKeyCount(yellowKey) << endl;
+    cout << "BK: \t" << player.getKeyCount(blueKey) << endl;
+    cout << "RK: \t" << player.getKeyCount(redKey) << endl;
 }
 
 int Status::getRemainDoorCount(MapObj doorType) const
@@ -138,9 +135,8 @@ int Status::getRemainDoorCount(MapObj doorType) const
     assert(isDoor(doorType));
 #endif
     int cnt = 0;
-    size_t nodeCount = nodeContainer.size();
-    for (size_t i = 1; i < nodeCount; ++i)
-        cnt += nodeContainer[i].getType() == doorType;
+    for (const auto& node: nodeContainer)
+        cnt += node.getType() == doorType;
     return cnt;
 }
 
@@ -150,8 +146,7 @@ int Status::getRemainKeyCount(MapObj keyType) const
     assert(isKey(keyType));
 #endif
     int cnt = 0;
-    size_t nodeCount = nodeContainer.size();
-    for (size_t i = 1; i < nodeCount; ++i)
-        cnt += nodeContainer[i].getType() == keyType;
+    for (const auto& node : nodeContainer)
+        cnt += node.getType() == keyType;
     return cnt;
 }

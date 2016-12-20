@@ -11,24 +11,24 @@
 
 bool isEnd(const Status &stat)
 {
-	auto& adj = stat.getNode().adj;
+    const auto& adj = stat.getNode().adj;
     if (stat.bossDead())
         return true;
-	for (auto itr = adj.begin(); itr != adj.end(); ++itr)
-	{
-		MapObj type = stat.getNode(*itr).getType();
+    for (auto idx : adj)
+    {
+        MapObj type = stat.getNode(idx).getType();
 #ifdef DEBUG
-		assert(type != safeBlock);
+        assert(type != safeBlock);
 #endif
-		if (isMonster(type))
-			if (stat.player.canBeat(type))
-				return false;
+        if (isMonster(type))
+            if (stat.player.canBeat(type))
+                return false;
 
-		if (isDoor(type))
-			if (stat.player.getKeyCount(keyType(type)) > 0)
-				return false;
-	}
-	return true;
+        if (isDoor(type))
+            if (stat.player.getKeyCount(keyType(type)) > 0)
+                return false;
+    }
+    return true;
 }
 
 static int vis[MAP_LENGTH][MAP_WIDTH];
@@ -82,14 +82,13 @@ static string getRouteFromSrcToDest(const Status& stat, Position src, Position d
 }
 
 
-
 string getRoute(Status& stat, int idx) // 返回遍历连通块、到达choice的路径
 {
 #ifdef DEBUG
 //	assert(stat.getNode().adj.find(idx) != stat.getNode().adj.end());
 #endif
 
-	string route = "";
+	string route;
 
 	Position playerPos = stat.player.getPos();
 	int curColor = stat.mogicTower.colorMap[playerPos.x][playerPos.y];
@@ -138,9 +137,10 @@ void moveTo(int targetIdx, Status& stat, bool update)
 		assert(player.fight(type));
 		player.moveTo(tPos);
         map[tPos.x][tPos.y] = road;
-		for (auto itr = target.adj.begin(); itr != target.adj.end(); ++itr)
-			if (stat.getNode(*itr).getType() == safeBlock && !target.empty)
-				moveTo(*itr, stat, false);
+		if (type != boss)
+            for (auto itr = target.adj.begin(); itr != target.adj.end(); ++itr)
+                if (stat.getNode(*itr).getType() == safeBlock && !target.empty)
+                    moveTo(*itr, stat, false);
 		player.moveTo(tPos);
 	}
 	else if (isDoor(type))

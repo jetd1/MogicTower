@@ -5,25 +5,27 @@
 
 inline int cmpMonster(const Status& stat)
 {
-    auto& map = stat.mogicTower.mapContent;
-    auto& monsterInfo = stat.mogicTower.monsterInfo;
-    int sumDamage = 0;
-    for (int i = 0; i < MAP_LENGTH; i++)
-        for (int j = 0; j < MAP_WIDTH; j++)
-            if (isMonster(map[i][j]))
-            {
-                int temp = getDamage(stat.player, monsterInfo[map[i][j]]);
-                if (temp == 999999999)
-                    temp = 10000;
-                sumDamage += temp;
-            }
-    return sumDamage;
+    auto& monsterInfo = Tower::monsterInfo;
+    int damageSum = 0;
+    for (const auto& node: stat.nodeContainer)
+    {
+        auto type = node.getType();
+        if (isMonster(type))
+        {
+            int temp = getDamage(stat.player, monsterInfo.at(type));
+            if (temp == 999999999)
+                temp = 10000;
+            damageSum += temp;
+        }
+    }
+    return damageSum;
 }
 
 int eval(const Status& stat)
 {
     if (stat.bossDead())
         return INT_MAX / 2 + stat.player.getHP() * 20;
+
     int result = 0;
     int blood = stat.player.getHP();
     int attack = stat.player.getATK();
@@ -38,6 +40,7 @@ int eval(const Status& stat)
     int remain_yellow_key = stat.getRemainKeyCount(yellowKey);
     int remain_blue_key = stat.getRemainKeyCount(blueKey);
     int remain_red_key = stat.getRemainKeyCount(redKey);
+
     result -= cmpMonster(stat) * 1000 / blood;
     result -= (remain_yellow_door - (remain_yellow_key / 2 + yellow_key)) * 5000;
     result -= (remain_blue_door - (remain_blue_key / 2 + blue_key)) * 10000;
@@ -45,5 +48,6 @@ int eval(const Status& stat)
     result += defend_m * 2000;
     result += defend * 2500;
     result += attack * 1500;
+
     return result;
 }

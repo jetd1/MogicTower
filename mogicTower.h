@@ -6,7 +6,6 @@
 #include <map>
 #include <set>
 #include <vector>
-#include <unordered_set>
 
 class GraphNode;
 struct Tower;
@@ -53,7 +52,9 @@ enum MapObj
     monster69,
     monster70,
 
-    boss = 99
+    boss = 99,
+
+    invalid = 100
 };
 
 /* 方便直接读入枚举值的函数 */
@@ -75,7 +76,7 @@ struct Position
 };
 
 /* 记录玩家信息的数据结构 */
-struct PlayerInfo
+class PlayerInfo
 {
 private:
     int hp;         /* 血量 */
@@ -106,7 +107,6 @@ public:
     int getKeyCount(MapObj o) const;
     bool fight(MapObj monster);
     bool canBeat(MapObj monster)const;
-    //bool PlayerInfo::fight1(const GraphNode* monster);
     void acquire(const vector<MapObj>& objList);
     void moveTo(const Position& _pos) { pos = _pos; }
     void useKey(MapObj keyType);
@@ -198,12 +198,10 @@ public:
     int blockCount;         /* 该节点增加的连通块计数 */
     set<int> adj;           /* 邻接节点索引列表 */
     vector<MapObj> obj;     /* 节点物品列表 */
-    Status* fatherStat;
 
-    //GraphNode() { empty = true; }
-    GraphNode(Status* father = nullptr): empty(true), fatherStat(father) {}
-    GraphNode(Status* father, int _idx, int _x, int _y, MapObj _type):
-    fatherStat(father), index(_idx),  pos(_x, _y), type(_type), empty(false), blockCount(1) {}
+    GraphNode(): empty(true), type(invalid) {}
+    GraphNode(int _idx, int _x, int _y, MapObj _type):
+    index(_idx),  pos(_x, _y), type(_type), empty(false), blockCount(1) {}
     MapObj getType()const { return type; }
     int getIndex()const { return index; }
     const Position& getPos()const { return pos; }

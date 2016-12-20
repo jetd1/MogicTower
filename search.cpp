@@ -34,7 +34,7 @@ static bool canTrans(const Status& stat, int targetIdx)
 
 int search(const Status& stat, int depth, const set<int>& choiceList, int &bestChoice, int &ret)
 {
-    if (depth == MAX_DEPTH || isEnd(stat))
+    if (depth == AIprof::MAX_DEPTH || isEnd(stat))
         return eval(stat) - depth;
 
     int maxVal = INT_MIN;
