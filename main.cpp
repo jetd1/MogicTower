@@ -69,8 +69,12 @@ int main()
     mainStatus.print();
     cout << endl << "Quiting" << endl;
     PAUSE;
-    
-    system("mota.exe");
+
+#ifndef __linux__
+    (void) system("mota.exe");
+#else
+    (void) system("wine ../mota.exe");
+#endif
 }
 
 

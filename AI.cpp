@@ -39,8 +39,8 @@ int Achilles(const Status& stat, int depth)
 
         cout << "Searching, depth = " << MAX_DEPTH << endl;
 
-        thread t1(search, ref(stat), 0, ref(s1), ref(t1Choice), ref(ret1));
-        thread t2(search, ref(stat), 0, ref(s2), ref(t2Choice), ref(ret2));
+        thread t1(::search, ref(stat), 0, ref(s1), ref(t1Choice), ref(ret1));
+        thread t2(::search, ref(stat), 0, ref(s2), ref(t2Choice), ref(ret2));
         t1.join(), t2.join();
         choice = ret1 > ret2 ? t1Choice : t2Choice;
         lastSearchTrivial = false;
@@ -59,9 +59,9 @@ int Achilles(const Status& stat, int depth)
 
         cout << "Searching, depth = " << MAX_DEPTH << endl;
 
-        thread t1(search, ref(stat), 0, ref(s1), ref(t1Choice), ref(ret1));
-        thread t2(search, ref(stat), 0, ref(s2), ref(t2Choice), ref(ret2));
-        thread t3(search, ref(stat), 0, ref(s3), ref(t3Choice), ref(ret3));
+        thread t1(::search, ref(stat), 0, ref(s1), ref(t1Choice), ref(ret1));
+        thread t2(::search, ref(stat), 0, ref(s2), ref(t2Choice), ref(ret2));
+        thread t3(::search, ref(stat), 0, ref(s3), ref(t3Choice), ref(ret3));
         t1.join(), t2.join(), t3.join();
         int ma = max(ret1, max(ret2, ret3));
 
@@ -94,10 +94,10 @@ int Achilles(const Status& stat, int depth)
 
         cout << "Searching, Depth = " << MAX_DEPTH << endl;
 
-        thread t1(search, ref(stat), 0, ref(s1), ref(t1Choice), ref(ret1));
-        thread t2(search, ref(stat), 0, ref(s2), ref(t2Choice), ref(ret2));
-        thread t3(search, ref(stat), 0, ref(s3), ref(t3Choice), ref(ret3));
-        thread t4(search, ref(stat), 0, ref(s4), ref(t4Choice), ref(ret4));
+        thread t1(::search, ref(stat), 0, ref(s1), ref(t1Choice), ref(ret1));
+        thread t2(::search, ref(stat), 0, ref(s2), ref(t2Choice), ref(ret2));
+        thread t3(::search, ref(stat), 0, ref(s3), ref(t3Choice), ref(ret3));
+        thread t4(::search, ref(stat), 0, ref(s4), ref(t4Choice), ref(ret4));
         t1.join(), t2.join(), t3.join(), t4.join();
         int ma = max(ret1, max(ret2, max(ret3, ret4)));
         if (ma == ret4)
@@ -135,7 +135,7 @@ void initDefaultDepth(const Status& stat)
     //else if (averageAdjCount < 2.2)
     //    DEFAULT_DEPTH = 9;
     //else
-        DEFAULT_DEPTH = 7;
+        DEFAULT_DEPTH = 1;
 
     MAX_DEPTH = DEFAULT_DEPTH;
 }
