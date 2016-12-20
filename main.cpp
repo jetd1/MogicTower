@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
-#include "init.h"
-#include "routine.h"
+#include "route.h"
 #include "AI.h"
 #include <cassert>
 #include <fstream>
@@ -12,9 +11,10 @@ using namespace std;
 int main()
 {
     Status mainStatus;
-    initStatus(mainStatus);
+    mainStatus.init();
 
     ofstream fout("output.txt");
+
     if (!fout)
         throw runtime_error("Cannot create output.txt");
 
@@ -24,10 +24,10 @@ int main()
     initDefaultDepth(mainStatus);
 
     cout << "Initial Node Count: \t" << mainStatus.nodeContainer.size() - 1 << endl;
-	cout << "Init Path: \t" << s << endl;
+	cout << "Init Path: \t\t" << s << endl << endl;
 
 
-    while (!isEnd(mainStatus))
+    while (mainStatus.hasNext())
     {
         cout << "Posible Choices Count:\t" << mainStatus.getNode().adj.size() << endl;
 
@@ -54,7 +54,7 @@ int main()
 
         fout << s;
 
-        moveTo(choiceIdx, mainStatus);
+        mainStatus.moveTo(choiceIdx);
 
 #ifdef DEBUG
         //globalMogicTower.dbg_print();

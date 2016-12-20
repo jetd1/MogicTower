@@ -161,8 +161,11 @@ struct Tower
 
 
 /* 状态转移结构 */
-struct Status
+class Status
 {
+private:
+    const Status& readInitStatus();
+public:
 	int curIdx;
 	int bossIdx;
 	PlayerInfo player;
@@ -180,6 +183,12 @@ struct Status
     void print()const;
 	int getRemainDoorCount(MapObj doorType)const;
 	int getRemainKeyCount(MapObj keyType)const;
+    bool hasNext()const;
+    void moveTo(int targetIdx, bool updateFlag = true);
+    const Status& update();
+    const Status& init();
+
+
 #ifdef DEBUG
     void dbg_print();
 #endif
@@ -207,7 +216,7 @@ public:
     const Position& getPos()const { return pos; }
     bool operator==(const GraphNode& o)const;
     
-    friend const Status& initStatus(Status& stat);
+    friend class Status;
 };
 
 #endif

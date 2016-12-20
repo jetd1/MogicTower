@@ -1,6 +1,7 @@
 #include "eval.h"
 #include "helpers.h"
 #include "damage.h"
+#include "route.h"
 #include <climits>
 
 inline int cmpMonster(const Status& stat)
@@ -27,6 +28,16 @@ int eval(const Status& stat)
         return INT_MAX / 2 + stat.player.getHP() * 20;
 
     int result = 0;
+
+    if (!stat.hasNext())
+    {
+        int monsterCount = 0;
+        for (const auto& node: stat.nodeContainer)
+            monsterCount += isMonster(node.getType());
+        result -= monsterCount * 10000;
+    }
+
+
     int blood = stat.player.getHP();
     int attack = stat.player.getATK();
     int defend = stat.player.getDEF();

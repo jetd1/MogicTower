@@ -2,7 +2,6 @@
 #include "mogicTower.h"
 #include "search.h"
 #include "eval.h"
-#include "routine.h"
 #include "helpers.h"
 #include <climits>
 #include <cassert>
@@ -34,7 +33,7 @@ static bool canTrans(const Status& stat, int targetIdx)
 
 int search(const Status& stat, int depth, const set<int>& choiceList, int &bestChoice, int &ret)
 {
-    if (depth == AIprof::MAX_DEPTH || isEnd(stat))
+    if (depth == AIprof::MAX_DEPTH || !stat.hasNext())
         return eval(stat) - depth;
 
     int maxVal = INT_MIN;
@@ -44,7 +43,7 @@ int search(const Status& stat, int depth, const set<int>& choiceList, int &bestC
         if (canTrans(stat, p))
         {
             Status tmpStatus = stat;
-            moveTo(p, tmpStatus);
+            tmpStatus.moveTo(p);
             int curVal = search(tmpStatus, depth + 1, tmpStatus.getNode().adj, p, ret);
 			if (maxVal < curVal) 
             {

@@ -1,7 +1,10 @@
 #include "mogicTower.h"
 #include "damage.h"
 #include <cassert>
+#include <cstring>
+#include <fstream>
 #include "helpers.h"
+#include "graph.h"
 
 bool PlayerInfo::operator==(const PlayerInfo& o) const
 {
@@ -97,7 +100,6 @@ Status::Status(const Status& other)
     curIdx = other.curIdx;
     bossIdx = other.bossIdx;
     mogicTower = other.mogicTower;
-    size_t nodeCount = nodeContainer.size();
 }
 
 const Status& Status::operator=(const Status& other)
@@ -107,7 +109,6 @@ const Status& Status::operator=(const Status& other)
     curIdx = other.curIdx;
     bossIdx = other.bossIdx;
     mogicTower = other.mogicTower;
-    size_t nodeCount = nodeContainer.size();
 
     return *this;
 }
@@ -150,3 +151,177 @@ int Status::getRemainKeyCount(MapObj keyType) const
         cnt += node.getType() == keyType;
     return cnt;
 }
+
+bool Status::hasNext()const
+{
+    const auto& adj = getNode().adj;
+    if (bossDead())
+        return false;
+    for (auto idx : adj)
+    {
+        MapObj type = nodeContainer[idx].getType();
+#ifdef DEBUG
+        assert(type != safeBlock);
+#endif
+        if (isMonster(type))
+            if (player.canBeat(type))
+                return true;
+
+        if (isDoor(type))
+            if (player.getKeyCount(keyType(type)) > 0)
+                return true;
+    }
+    return false;
+}
+
+void Status::moveTo(int targetIdx, bool updateFlag)
+{
+    GraphNode& target = nodeContainer[targetIdx];
+#ifdef DEBUG
+    assert(!target.empty);
+#endif
+
+    MapObj type = target.getType();
+    auto& map = mogicTower.mapContent;
+
+    if (type == safeBlock)
+    {
+        Position tPos = target.getPos();
+        player.acquire(target.obj);
+        player.moveTo(tPos);
+
+        auto& colorMap = mogicTower.colorMap;
+        int tColor = colorMap[tPos.x][tPos.y];
+        for (int i = 0; i < MAP_LENGTH; ++i)
+            for (int j = 0; j < MAP_WIDTH; ++j)
+                if (colorMap[i][j] == tColor)
+                    map[i][j] = road;
+    }
+    else if (isMonster(type))
+    {
+        Position tPos = target.getPos();
+        assert(player.fight(type));
+        player.moveTo(tPos);
+        map[tPos.x][tPos.y] = road;
+        if (type != boss)
+            for (auto itr = target.adj.begin(); itr != target.adj.end(); ++itr)
+                if (getNode(*itr).getType() == safeBlock && !target.empty)
+                    moveTo(*itr, false);
+        player.moveTo(tPos);
+    }
+    else if (isDoor(type))
+    {
+        Position tPos = target.getPos();
+        player.useKey(keyType(type));
+        player.moveTo(tPos);
+        map[tPos.x][tPos.y] = road;
+        for (auto itr = target.adj.begin(); itr != target.adj.end(); ++itr)
+            if (getNode(*itr).getType() == safeBlock && !target.empty)
+                moveTo(*itr, false);
+        player.moveTo(tPos);
+    }
+    else
+        throw runtime_error("Invalid Target!");
+
+    if (updateFlag)
+        update();
+}
+
+const Status& Status::update()
+{
+    Position curPos = player.getPos();
+
+    auto& colorMap = mogicTower.colorMap;
+    memset(colorMap, 0, sizeof(colorMap));
+    int colorCount = traverseMap(mogicTower) + 1;
+
+    nodeContainer.resize(size_t(colorCount));
+
+    curIdx = buildGraph(mogicTower, curPos, colorCount, this);
+
+    bool flag = false;
+    for (const auto& node: nodeContainer)
+        if (node.getType() == boss)
+        {
+            bossIdx = node.getIndex(), flag = true;
+            break;
+        }
+    if (!flag)
+        bossIdx = 0;
+
+#ifdef DEBUG
+    assert(getNodePtr()->getType() == safeBlock);
+#endif
+
+    return *this;
+}
+
+const Status& Status::init()
+{
+    readInitStatus();
+    update();
+    player.blockCount = 0;
+    Position originalPositon = player.getPos();
+    moveTo(curIdx);
+    player.moveTo(originalPositon);
+    getNode().pos = originalPositon;
+
+    return *this;
+}
+
+const Status& Status::readInitStatus()
+{
+    ifstream fin("input.txt");
+    if (!fin)
+    {
+        cout << "无法打开input.txt，将从stdin读入..." << endl;
+        int ign;
+        cin >> ign >> ign >> ign;
+
+        for (size_t i = 0; i < MAP_LENGTH; ++i)
+            for (size_t j = 0; j < MAP_LENGTH; ++j)
+                cin >> mogicTower.mapContent[i][j];
+
+        for (size_t i = 0; i < 5; i++)
+            cin >> mogicTower.buff[i];
+
+        int monsterTypeCount;
+        cin >> monsterTypeCount;
+        while (monsterTypeCount--)
+        {
+            MapObj key;
+            Monster tmpMon;
+            cin >> key >> tmpMon;
+            mogicTower.monsterInfo[key] = tmpMon;
+        }
+
+        cin >> player;
+    }
+    else
+    {
+        int ign;
+        fin >> ign >> ign >> ign;
+
+        for (size_t i = 0; i < MAP_LENGTH; ++i)
+            for (size_t j = 0; j < MAP_LENGTH; ++j)
+                fin >> mogicTower.mapContent[i][j];
+
+        for (size_t i = 0; i < 5; i++)
+            fin >> mogicTower.buff[i];
+
+        int monsterTypeCount;
+        fin >> monsterTypeCount;
+        while (monsterTypeCount--)
+        {
+            MapObj key;
+            Monster tmpMon;
+            fin >> key >> tmpMon;
+            mogicTower.monsterInfo[key] = tmpMon;
+        }
+
+        fin >> player;
+    }
+
+    return *this;
+}
+

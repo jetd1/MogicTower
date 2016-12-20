@@ -126,16 +126,42 @@ void initDefaultDepth(const Status& stat)
     double averageAdjCount = double(total) / nodeCount;
 
     cout << "Average Adjacency: \t" << averageAdjCount << endl;
-    cout << "Max Adjacency: \t" << ma << endl;
+    cout << "Max Adjacency: \t\t" << ma << endl;
 
-    //if (averageAdjCount < 2)
-    //    DEFAULT_DEPTH = 11;
-    //else if (averageAdjCount < 2.1)
-    //    DEFAULT_DEPTH = 10;
-    //else if (averageAdjCount < 2.2)
-    //    DEFAULT_DEPTH = 9;
-    //else
-        DEFAULT_DEPTH = 1;
+    DEFAULT_DEPTH = 6;
+
+    if (ma <= 3)
+    {
+        if (averageAdjCount <= 1.955)
+            DEFAULT_DEPTH = 14;
+        else if (averageAdjCount <= 1.980)
+            DEFAULT_DEPTH = 10;
+        else if (averageAdjCount <= 2.000)
+            DEFAULT_DEPTH = 8;
+    }
+    else if (ma == 4)
+    {
+        if (averageAdjCount <= 2)
+        {
+            if (nodeCount <= 33)
+                DEFAULT_DEPTH = 11;
+            else if (nodeCount <= 36)
+                DEFAULT_DEPTH = 10;
+            else if (nodeCount <= 40)
+                DEFAULT_DEPTH = 9;
+            else if (nodeCount <= 49)
+                DEFAULT_DEPTH = 8;
+        }
+    }
+    else if (ma == 5)
+    {
+        if (averageAdjCount < 2.20 || nodeCount <= 49)
+            DEFAULT_DEPTH = 7;
+    }
+    else if (stat.getRemainDoorCount(yellowDoor) > stat.getRemainKeyCount(yellowKey) ||
+        stat.getRemainDoorCount(blueDoor) > stat.getRemainKeyCount(blueKey) ||
+        stat.getRemainDoorCount(redDoor) > stat.getRemainKeyCount(redKey))
+        DEFAULT_DEPTH = 10;
 
     MAX_DEPTH = DEFAULT_DEPTH;
 }

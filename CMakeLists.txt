@@ -16,14 +16,12 @@ set(SOURCE_FILES
         graph.cpp
         graph.h
         helpers.h
-        init.cpp
-        init.h
         main.cpp
         mogic.h
         mogicTower.cpp
         mogicTower.h
-        routine.cpp
-        routine.h
+        route.cpp
+        route.h
         search.cpp
         search.h
         AI.h
