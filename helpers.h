@@ -29,7 +29,7 @@ inline bool isDoor(const Tower& mogicTower, int x, int y)
 inline bool isItem(MapObj type)
 {
     return type >= yellowKey &&
-        type <= largeBottle;
+        type <= greenBottle;
 }
 inline bool isKey(MapObj o)
 {

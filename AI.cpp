@@ -113,7 +113,7 @@ int Achilles(const Status& stat, int depth)
         lastSearchTrivial = false;
     }
 
-    cout << "Search finished, " << searchCallTimes << "calls" << endl;
+    cout << "Search finished, " << searchCallTimes << " calls" << endl;
     lastSearchTime = double(clock() - startTime) / CLOCKS_PER_SEC;
     return choice;
 }

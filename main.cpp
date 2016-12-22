@@ -67,7 +67,7 @@ int main()
 
     cout << "Time Cost: \t" << double(clock()) / CLOCKS_PER_SEC << endl;
     mainStatus.print();
-    cout << endl << "Quiting" << endl;
+    cout << endl << "output.txt successfully created, press any key to auto-simulate..." << endl;
     PAUSE;
 
 #ifndef __linux__

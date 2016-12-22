@@ -312,7 +312,7 @@ const Status& Status::readInitStatus()
             for (size_t j = 0; j < MAP_LENGTH; ++j)
                 fin >> mogicTower.mapContent[i][j];
 
-        for (size_t i = 0; i < 5; i++)
+        for (size_t i = 0; i < 7; i++)
             fin >> mogicTower.buff[i];
 
         int monsterTypeCount;
