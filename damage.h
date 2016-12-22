@@ -1,6 +1,8 @@
 #ifndef __DAMAGE_H
 #define __DAMAGE_H
 
+#include "mogicTower.h"
+
 /*
 此函数计算一个怪物对勇士造成的伤害
 参数说明：

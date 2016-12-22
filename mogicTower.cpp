@@ -9,9 +9,9 @@
 bool PlayerInfo::operator==(const PlayerInfo& o) const
 {
     return hp == o.hp && atk == o.atk && def == o.def &&
-        mdef == o.mdef && keys[0] == o.keys[0] &&
-        keys[1] == o.keys[1] && pos == o.pos && 
-        blockCount == o.blockCount;
+           mdef == o.mdef && keys[0] == o.keys[0] &&
+           keys[1] == o.keys[1] && pos == o.pos &&
+           blockCount == o.blockCount;
 }
 
 int PlayerInfo::getKeyCount(MapObj o) const
@@ -47,6 +47,12 @@ void PlayerInfo::acquire(const vector<MapObj>& objList)
             case largeBottle:
                 hp += Tower::buff[4];
                 break;
+            case yellowBottle:
+                hp += Tower::buff[5];
+                break;
+            case greenBottle:
+                hp += Tower::buff[6];
+                break;
             default:
                 throw invalid_argument("Invalid obj type!");
         }
@@ -75,7 +81,7 @@ bool PlayerInfo::fight(MapObj monster)
     return false;
 }
 
-bool PlayerInfo::canBeat(MapObj monster)const
+bool PlayerInfo::canBeat(MapObj monster) const
 {
 #ifdef DEBUG
     assert(isMonster(monster));
@@ -84,7 +90,7 @@ bool PlayerInfo::canBeat(MapObj monster)const
     return hp > dmg;
 }
 
-int Tower::buff[5];
+int Tower::buff[7];
 
 map<MapObj, Monster> Tower::monsterInfo;
 
@@ -113,7 +119,7 @@ const Status& Status::operator=(const Status& other)
     return *this;
 }
 
-bool Status::bossDead()const
+bool Status::bossDead() const
 {
     return bossIdx == 0;
 }
@@ -152,7 +158,7 @@ int Status::getRemainKeyCount(MapObj keyType) const
     return cnt;
 }
 
-bool Status::hasNext()const
+bool Status::hasNext() const
 {
     const auto& adj = getNode().adj;
     if (bossDead())
@@ -282,7 +288,7 @@ const Status& Status::readInitStatus()
             for (size_t j = 0; j < MAP_LENGTH; ++j)
                 cin >> mogicTower.mapContent[i][j];
 
-        for (size_t i = 0; i < 5; i++)
+        for (size_t i = 0; i < 7; i++)
             cin >> mogicTower.buff[i];
 
         int monsterTypeCount;

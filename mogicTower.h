@@ -26,6 +26,8 @@ enum MapObj
     greenDiamond,
     smallBottle,
     largeBottle,
+    yellowBottle,
+    greenBottle,
 
     yellowDoor = 31,
     blueDoor,
@@ -153,7 +155,7 @@ struct Tower
     int colorMap[MAP_LENGTH][MAP_WIDTH]; 
 
     /* 记录各加成值 */
-    static int buff[5];
+    static int buff[7];
 
     /* 记录怪物数据 */
     static map<MapObj, Monster> monsterInfo;

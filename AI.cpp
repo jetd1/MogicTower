@@ -156,14 +156,18 @@ void initDefaultDepth(const Status& stat)
                 DEFAULT_DEPTH = 8;
         }
     }
-    else if (ma == 5)
+    else if (ma >= 5)
     {
         if (averageAdjCount < 2.20 || nodeCount <= 49)
             DEFAULT_DEPTH = 7;
+        else if (averageAdjCount < 2.5)
+            DEFAULT_DEPTH = 6;
+        else
+            DEFAULT_DEPTH = 5;
     }
     else if (stat.getRemainDoorCount(yellowDoor) > stat.getRemainKeyCount(yellowKey) ||
-        stat.getRemainDoorCount(blueDoor) > stat.getRemainKeyCount(blueKey) ||
-        stat.getRemainDoorCount(redDoor) > stat.getRemainKeyCount(redKey))
+             stat.getRemainDoorCount(blueDoor) > stat.getRemainKeyCount(blueKey) ||
+             stat.getRemainDoorCount(redDoor) > stat.getRemainKeyCount(redKey))
         DEFAULT_DEPTH = 10;
 
     MAX_DEPTH = DEFAULT_DEPTH;
