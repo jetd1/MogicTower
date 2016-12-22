@@ -198,8 +198,8 @@ public:
 class GraphNode
 {
 private:
-    int index;              /* 该节点索引值（最初被染的颜色） */
     Position pos;           /* 该节点的坐标 */
+    int index;              /* 该节点索引值（最初被染的颜色） */
     MapObj type;            /* 该节点类型 */
     
 public:
