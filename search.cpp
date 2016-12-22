@@ -33,6 +33,7 @@ static bool canTrans(const Status& stat, int targetIdx)
 
 int search(const Status& stat, int depth, const set<int>& choiceList, int &bestChoice, int &ret)
 {
+    ++AIprof::searchCallTimes;
     if (depth == AIprof::MAX_DEPTH || !stat.hasNext())
         return eval(stat) - depth;
 

@@ -10,6 +10,7 @@ int AIprof::DEFAULT_DEPTH;
 int AIprof::MAX_DEPTH;
 double AIprof::lastSearchTime = 0;
 bool AIprof::lastSearchTrivial = true;
+atomic_int AIprof::searchCallTimes(0);
 
 
 int Achilles(const Status& stat, int depth)
@@ -17,6 +18,7 @@ int Achilles(const Status& stat, int depth)
     clock_t startTime = clock();
 
     MAX_DEPTH = depth;
+    searchCallTimes = 0;
 
     const auto& adjList = stat.getNode().adj;
     auto adjCount = adjList.size();
@@ -111,6 +113,7 @@ int Achilles(const Status& stat, int depth)
         lastSearchTrivial = false;
     }
 
+    cout << "Search finished, " << searchCallTimes << "calls" << endl;
     lastSearchTime = double(clock() - startTime) / CLOCKS_PER_SEC;
     return choice;
 }
